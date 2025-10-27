@@ -14,12 +14,20 @@ const APP_STATE = {
     formData: {},
     progress: 0,
     valuesCards: [
-        'Authenticity', 'Compassion', 'Connection', 'Courage', 'Creativity',
-        'Curiosity', 'Faith', 'Freedom', 'Generosity', 'Gratitude',
-        'Growth', 'Honesty', 'Hope', 'Humility', 'Integrity',
-        'Joy', 'Justice', 'Kindness', 'Love', 'Peace',
-        'Perseverance', 'Purpose', 'Resilience', 'Respect', 'Responsibility',
-        'Self-Care', 'Service', 'Spirituality', 'Trust', 'Wisdom'
+        'Achievement', 'Adventure', 'Authenticity', 'Authority', 'Autonomy',
+        'Balance', 'Beauty', 'Boldness', 'Challenge', 'Citizenship',
+        'Compassion', 'Community', 'Competency', 'Connection', 'Contribution',
+        'Courage', 'Creativity', 'Curiosity', 'Determination', 'Fairness',
+        'Faith', 'Fame', 'Freedom', 'Friendships', 'Fun',
+        'Generosity', 'Gratitude', 'Growth', 'Happiness', 'Honesty',
+        'Hope', 'Humility', 'Integrity', 'Joy', 'Justice',
+        'Kindness', 'Knowledge', 'Love', 'Loyalty', 'Meaningful Work',
+        'Openness', 'Optimism', 'Peace', 'Perseverance', 'Pleasure',
+        'Poise', 'Popularity', 'Purpose', 'Recognition', 'Religion',
+        'Reputation', 'Resilience', 'Respect', 'Responsibility', 'Security',
+        'Self-Care', 'Self-Respect', 'Service', 'Spirituality', 'Stability',
+        'Status', 'Success', 'Trust', 'Trustworthiness', 'Wealth',
+        'Wisdom'
     ]
 };
 
@@ -145,8 +153,30 @@ function initializeValuesCards() {
     APP_STATE.valuesCards.forEach(value => {
         const card = document.createElement('div');
         card.className = 'value-card';
-        card.textContent = value;
         card.setAttribute('data-value', value);
+
+        // Create image element
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'value-card-image';
+
+        const img = document.createElement('img');
+        // Convert value name to filename (lowercase, hyphenated)
+        const filename = value.toLowerCase().replace(/\s+/g, '-');
+        img.src = `images/values/${filename}.png`;
+        img.alt = value;
+        img.onerror = function() {
+            // Fallback: hide image if not found
+            this.style.display = 'none';
+        };
+
+        imageContainer.appendChild(img);
+        card.appendChild(imageContainer);
+
+        // Create text element
+        const text = document.createElement('div');
+        text.className = 'value-card-text';
+        text.textContent = value;
+        card.appendChild(text);
 
         card.addEventListener('click', function() {
             selectValueCard(this);
