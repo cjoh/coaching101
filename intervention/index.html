@@ -194,27 +194,28 @@
                 <button class="sub-nav-btn" data-subsection="day1-reflection">Reflection</button>
             </div>
 
-            <!-- Session 1: Welcome & Foundations -->
+            <!-- Session 1: Welcome & Orientation -->
             <div id="day1-session1" class="subsection active">
                 <div class="content-card">
-                    <h3>Session 1: Welcome & Foundations (90 minutes)</h3>
+                    <h3>Session 1.1: Welcome & Orientation (9:00-9:30 AM)</h3>
+                    <p><strong>Focus:</strong> Connection, safety, and shared agreements</p>
 
-                    <h4>My Recovery Story (Notes)</h4>
-                    <p class="instruction">Use this space to reflect on what you might share in the opening circle:</p>
+                    <h4>My "Why" for Becoming an Interventionist</h4>
+                    <p class="instruction">Reflect on your calling to this work. Use this space to clarify your purpose:</p>
 
                     <div class="form-group">
-                        <label>What brought me to recovery:</label>
-                        <textarea id="recovery-story-brought" rows="4" placeholder="Reflect on your journey..."></textarea>
+                        <label>My connection to intervention work (personal or professional):</label>
+                        <textarea id="recovery-story-brought" rows="4" placeholder="What experiences led you here..."></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>What recovery has given me:</label>
-                        <textarea id="recovery-story-given" rows="4" placeholder="What gifts has recovery brought..."></textarea>
+                        <label>What I hope to bring to families in crisis:</label>
+                        <textarea id="recovery-story-given" rows="4" placeholder="Skills, presence, compassion..."></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Why I'm called to coaching:</label>
-                        <textarea id="recovery-story-calling" rows="4" placeholder="What draws you to this work..."></textarea>
+                        <label>Why intervention feels like a calling to me:</label>
+                        <textarea id="recovery-story-calling" rows="4" placeholder="What draws you to guide families from crisis to connection..."></textarea>
                     </div>
                 </div>
 
@@ -243,15 +244,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label>How this value might inform my coaching:</label>
+                            <label>How this value might inform my work as an interventionist:</label>
                             <textarea id="value-in-coaching" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <h4>Personal Introductions - Key Connections</h4>
-                    <p class="instruction">Jot down names and interesting things you learned about your fellow participants:</p>
+                    <h4>Cohort Connections</h4>
+                    <p class="instruction">Build relationships with your training cohort. Note fellow interventionists-in-training:</p>
 
                     <div class="connections-table">
                         <div class="table-row table-header">
@@ -282,30 +283,73 @@
                 </div>
             </div>
 
-            <!-- Session 2: What is Recovery Coaching? -->
+            <!-- Session 2: What Is an Intervention -->
             <div id="day1-session2" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2: What is Recovery Coaching? (90 minutes)</h3>
+                    <h3>Session 1.2: What Is an Intervention (9:30-10:30 AM)</h3>
+                    <p><strong>Focus:</strong> Defining intervention as a process of connection</p>
 
-                    <h4>Coaching vs. Other Roles</h4>
-                    <p class="instruction">Fill in what makes each role unique:</p>
+                    <h4>Core Definition: What Is Intervention?</h4>
+                    <blockquote>
+                        "Intervention is a guided process of connection—bringing together the people, information, resources, and actions needed to help someone move from crisis to recovery. The outcome of intervention is connection, honesty, and hope."
+                    </blockquote>
+
+                    <div class="form-group">
+                        <label>In my own words, intervention is:</label>
+                        <textarea id="intervention-definition" rows="3" placeholder="Define intervention in your own words..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>The difference between treatment and intervention:</label>
+                        <textarea id="treatment-vs-intervention" rows="3" placeholder="How are they different?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Why "connection" is central to intervention:</label>
+                        <textarea id="connection-central" rows="3" placeholder="Reflect on the role of connection..."></textarea>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h4>Interventionist vs. Other Roles</h4>
+                    <p class="instruction">Understand how interventionists differ from and collaborate with other helpers:</p>
 
                     <div class="roles-table">
-                        <div class="role-row">
+                        <div class="role-row highlighted">
                             <div class="role-header">
-                                <h5>Sponsor</h5>
+                                <h5>🧭 Interventionist</h5>
                             </div>
                             <div class="role-content">
                                 <div class="form-group">
                                     <label>Primary Focus:</label>
-                                    <input type="text" id="role-sponsor-focus">
+                                    <input type="text" id="role-coach-focus" value="Crisis to connection, family systems" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label>Key Question They Ask:</label>
-                                    <input type="text" id="role-sponsor-question">
+                                    <label>Key Role:</label>
+                                    <input type="text" id="role-coach-question" value="Guide families through intervention process" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label>Example:</label>
+                                    <label>My notes:</label>
+                                    <textarea id="role-coach-example" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="role-row">
+                            <div class="role-header">
+                                <h5>Coach</h5>
+                            </div>
+                            <div class="role-content">
+                                <div class="form-group">
+                                    <label>Primary Focus:</label>
+                                    <input type="text" id="role-sponsor-focus" placeholder="Ongoing support, accountability">
+                                </div>
+                                <div class="form-group">
+                                    <label>Distinction from Interventionist:</label>
+                                    <input type="text" id="role-sponsor-question" placeholder="How does coaching differ?">
+                                </div>
+                                <div class="form-group">
+                                    <label>Notes:</label>
                                     <textarea id="role-sponsor-example" rows="2"></textarea>
                                 </div>
                             </div>
@@ -318,14 +362,14 @@
                             <div class="role-content">
                                 <div class="form-group">
                                     <label>Primary Focus:</label>
-                                    <input type="text" id="role-therapist-focus">
+                                    <input type="text" id="role-therapist-focus" placeholder="Clinical treatment, diagnosis">
                                 </div>
                                 <div class="form-group">
-                                    <label>Key Question They Ask:</label>
-                                    <input type="text" id="role-therapist-question">
+                                    <label>Distinction from Interventionist:</label>
+                                    <input type="text" id="role-therapist-question" placeholder="How does therapy differ?">
                                 </div>
                                 <div class="form-group">
-                                    <label>Example:</label>
+                                    <label>Notes:</label>
                                     <textarea id="role-therapist-example" rows="2"></textarea>
                                 </div>
                             </div>
@@ -333,67 +377,74 @@
 
                         <div class="role-row">
                             <div class="role-header">
-                                <h5>Case Manager</h5>
+                                <h5>Sponsor / Peer Professional</h5>
                             </div>
                             <div class="role-content">
                                 <div class="form-group">
                                     <label>Primary Focus:</label>
-                                    <input type="text" id="role-casemanager-focus">
+                                    <input type="text" id="role-casemanager-focus" placeholder="12-step guidance, peer support">
                                 </div>
                                 <div class="form-group">
-                                    <label>Key Question They Ask:</label>
-                                    <input type="text" id="role-casemanager-question">
+                                    <label>Distinction from Interventionist:</label>
+                                    <input type="text" id="role-casemanager-question" placeholder="How does sponsorship differ?">
                                 </div>
                                 <div class="form-group">
-                                    <label>Example:</label>
+                                    <label>Notes:</label>
                                     <textarea id="role-casemanager-example" rows="2"></textarea>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="role-row highlighted">
-                            <div class="role-header">
-                                <h5>🧭 Coach</h5>
-                            </div>
-                            <div class="role-content">
-                                <div class="form-group">
-                                    <label>Primary Focus:</label>
-                                    <input type="text" id="role-coach-focus" value="Values & action">
-                                </div>
-                                <div class="form-group">
-                                    <label>Key Question They Ask:</label>
-                                    <input type="text" id="role-coach-question" value="What matters most to you?">
-                                </div>
-                                <div class="form-group">
-                                    <label>Example:</label>
-                                    <textarea id="role-coach-example" rows="2"></textarea>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <h4>My Coaching Identity Reflection</h4>
+                    <h4>My Interventionist Identity Reflection</h4>
 
                     <div class="form-group">
-                        <label>What excites me about coaching:</label>
+                        <label>What excites me about intervention work:</label>
                         <textarea id="identity-excites" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>What concerns me about coaching:</label>
+                        <label>What concerns or scares me about intervention work:</label>
                         <textarea id="identity-concerns" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>My biggest question about being a coach:</label>
+                        <label>My biggest question about being an interventionist:</label>
                         <textarea id="identity-question" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session 3: The Nature of Recovery -->
+            <div id="day1-session3" class="subsection">
+                <div class="content-card">
+                    <h3>Session 1.3: The Nature of Recovery (10:45 AM-12:00 PM)</h3>
+                    <p><strong>Focus:</strong> Recovery as lifelong process, values reclamation</p>
+
+                    <h4>Recovery Is Not a One-Time Event</h4>
+                    <p class="instruction">Reflect on recovery as an ongoing, lifelong process:</p>
+
+                    <div class="form-group">
+                        <label>How I understand "recovery is lifelong":</label>
+                        <textarea id="recovery-lifelong" rows="3" placeholder="What does this mean to you?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>The difference between sobriety and recovery:</label>
+                        <textarea id="sobriety-vs-recovery" rows="3" placeholder="How are they different?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>What recovery reclaims (beyond sobriety):</label>
+                        <textarea id="recovery-reclaims" rows="3" placeholder="Values, purpose, relationships, meaning..."></textarea>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <h4>Scripts & Blocks Exercise</h4>
+                    <h4>Systemic Recovery</h4>
+                    <p><strong>Key Insight:</strong> "Recovery belongs to the whole system, not just the Pivot Person."</p>
 
                     <div class="form-group">
                         <label>Scripts I've heard in recovery (helpful or harmful):</label>
