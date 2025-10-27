@@ -449,7 +449,6 @@ h5 { font-size: 1.25rem; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 220px;
 }
 
 .value-card:hover {
@@ -471,7 +470,7 @@ h5 { font-size: 1.25rem; }
 
 .value-card-image {
     width: 100%;
-    height: 140px;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -480,9 +479,10 @@ h5 { font-size: 1.25rem; }
 }
 
 .value-card-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .value-card-text {
@@ -711,11 +711,7 @@ h5 { font-size: 1.25rem; }
     }
 
     .value-card {
-        min-height: 180px;
-    }
-
-    .value-card-image {
-        height: 100px;
+        padding: 0.75rem;
     }
 
     .table-row {
@@ -746,12 +742,10 @@ h5 { font-size: 1.25rem; }
     }
 
     .value-card {
-        min-height: 160px;
-        padding: 0.75rem;
+        padding: 0.5rem;
     }
 
     .value-card-image {
-        height: 80px;
         margin-bottom: 0.5rem;
     }
 
