@@ -980,8 +980,46 @@
                     <h3>Session 2.5: Family Case Study Setup (3:15-4:30 PM)</h3>
                     <p><strong>Focus:</strong> Preparing for tomorrow's case simulations and role-plays</p>
 
+                    <div class="info-box" style="background-color: #f8f9fa; border-left: 4px solid #1D4486;">
+                        <h4 style="margin-top: 0; color: #1D4486;">🎲 AI Scenario Generator (Optional Enhancement)</h4>
+                        <p class="small">Generate fresh, unique family scenarios on the fly. Even the trainer won't know what's coming, creating authentic discovery for the whole group.</p>
+
+                        <div class="form-group">
+                            <label>Scenario Complexity:</label>
+                            <select id="scenario-complexity" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                                <option value="moderate">Moderate - Clear situation, 1-2 complications</option>
+                                <option value="complex">Complex - Multiple dynamics, ambiguous best choice</option>
+                                <option value="crisis">Crisis - Safety concerns, urgent decisions needed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Anthropic API Key (optional - for AI generation):</label>
+                            <input type="password" id="anthropic-api-key" placeholder="sk-ant-..." style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                            <p class="small" style="margin-top: 5px;">Your API key is stored only in your browser and never sent anywhere except Anthropic. Get one at <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></p>
+                        </div>
+
+                        <button onclick="generateScenario()" style="background-color: #1D4486; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; margin-bottom: 10px;">
+                            ✨ Generate New Scenario
+                        </button>
+
+                        <div id="generated-scenario" style="margin-top: 20px; display: none;">
+                            <h5 style="color: #1D4486;">Generated Scenario:</h5>
+                            <div id="scenario-content" style="background: white; padding: 15px; border-radius: 4px; margin: 10px 0;"></div>
+
+                            <h5 style="color: #1D4486; margin-top: 20px;">Micro-Decisions:</h5>
+                            <div id="scenario-decisions" style="background: white; padding: 15px; border-radius: 4px; margin: 10px 0;"></div>
+
+                            <button onclick="generateFollowUp()" style="background-color: #D4AA4C; color: #1D4486; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">
+                                🔄 Generate "What If" Follow-Up
+                            </button>
+                        </div>
+
+                        <div id="scenario-error" style="color: #dc3545; margin-top: 10px; display: none;"></div>
+                    </div>
+
                     <h4>Case Study Overview</h4>
-                    <p class="instruction">You'll work with this fictional family case through Day 3 role-plays:</p>
+                    <p class="instruction">Pre-written case for traditional training approach:</p>
 
                     <div class="info-box">
                         <h5>The Martinez Family</h5>
