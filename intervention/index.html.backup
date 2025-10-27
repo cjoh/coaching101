@@ -283,11 +283,11 @@
                 </div>
             </div>
 
-            <!-- Session 2: What Is an Intervention & The Interventionist Role -->
+            <!-- Session 2: What Is an Intervention -->
             <div id="day1-session2" class="subsection">
                 <div class="content-card">
-                    <h3>Session 1.2: Intervention & The Interventionist Role (9:30-11:00 AM)</h3>
-                    <p><strong>Focus:</strong> Defining intervention and the professional role of the interventionist</p>
+                    <h3>Session 1.2: What Is an Intervention (9:30-10:30 AM)</h3>
+                    <p><strong>Focus:</strong> Defining intervention as a process of connection</p>
 
                     <h4>Core Definition: What Is Intervention?</h4>
                     <blockquote>
@@ -397,31 +397,6 @@
                     </div>
                 </div>
 
-                <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                    <p><strong>⏸️ MICRO-BREAK (5 minutes - ~10:15 AM)</strong></p>
-                    <p class="small">Stand, stretch, pair discussion: "Which role distinction surprised you most?"</p>
-                </div>
-
-                <div class="content-card">
-                    <h4>When to Refer (Not Intervene Yourself)</h4>
-                    <p class="instruction">Interventionists must know when to step back and refer to other professionals:</p>
-
-                    <div class="form-group">
-                        <label>Situations requiring immediate referral:</label>
-                        <textarea id="when-refer-immediate" rows="3" placeholder="Medical crisis, active psychosis, imminent danger, violence..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Signs the situation is outside my scope:</label>
-                        <textarea id="when-refer-scope" rows="3" placeholder="What indicates this needs a different professional?"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>No financial interest principle - Why it matters:</label>
-                        <textarea id="financial-interest" rows="2" placeholder="Why interventionists shouldn't benefit financially from treatment placement..."></textarea>
-                    </div>
-                </div>
-
                 <div class="content-card">
                     <h4>My Interventionist Identity Reflection</h4>
 
@@ -442,15 +417,10 @@
                 </div>
             </div>
 
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>☕ BREAK (11:00-11:15 AM - 15 minutes)</strong></p>
-                <p class="small">Biological reset, networking</p>
-            </div>
-
             <!-- Session 3: The Nature of Recovery -->
             <div id="day1-session3" class="subsection">
                 <div class="content-card">
-                    <h3>Session 1.3: The Nature of Recovery (11:15 AM-12:30 PM)</h3>
+                    <h3>Session 1.3: The Nature of Recovery (10:45 AM-12:00 PM)</h3>
                     <p><strong>Focus:</strong> Recovery as lifelong process, values reclamation</p>
 
                     <h4>Recovery Is Not a One-Time Event</h4>
@@ -493,15 +463,10 @@
                 </div>
             </div>
 
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>🍽️ LUNCH BREAK (12:30-1:30 PM - 60 minutes)</strong></p>
-                <p class="small">Time to eat, digest, decompress, and network</p>
-            </div>
-
             <!-- Session 4: Systems Thinking in Recovery -->
             <div id="day1-session4" class="subsection">
                 <div class="content-card">
-                    <h3>Session 1.4: Systems Thinking in Recovery (1:30-2:45 PM)</h3>
+                    <h3>Session 1.4: Systems Thinking in Recovery (1:00-2:30 PM)</h3>
                     <p><strong>Focus:</strong> Family systems mapping and understanding addiction as a family disease</p>
 
                     <h4>Family Systems Mapping Exercise</h4>
@@ -533,11 +498,6 @@
                     </div>
                 </div>
 
-                <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                    <p><strong>⏸️ MICRO-BREAK (5 minutes)</strong></p>
-                    <p class="small">Stand up, stretch, turn to someone nearby and share: "What's one system dynamic you're noticing in the mapping exercise?"</p>
-                </div>
-
                 <div class="content-card">
                     <h4>The Pivot Person Concept</h4>
                     <p><strong>Core Values Language:</strong> We use "Pivot Person" instead of "addict" or "identified patient"</p>
@@ -562,7 +522,7 @@
             <!-- Session 5: Language Workshop -->
             <div id="day1-session5" class="subsection">
                 <div class="content-card">
-                    <h3>Session 1.5: Language Workshop (3:00-4:15 PM)</h3>
+                    <h3>Session 1.5: Language Workshop (2:45-4:00 PM)</h3>
                     <p><strong>Focus:</strong> Core Values language - "Healthy Choices," "Pivot Person," reframing blame</p>
 
                     <h4>Language Reframing Exercise</h4>
@@ -584,35 +544,6 @@
                         <label>"Enabling" → "Supporting in a way that may not help"</label>
                         <textarea id="language-enabling" rows="2" placeholder="Write your own reframe..."></textarea>
                     </div>
-                </div>
-
-                <div class="content-card">
-                    <h4>Active Practice (Stand & Practice)</h4>
-                    <p class="instruction">Find a partner. Stand and practice these language shifts out loud:</p>
-
-                    <div class="form-group">
-                        <label>Partner A: Say a stigmatizing phrase</label>
-                        <p class="small">Example: "My brother is an addict who needs to hit bottom."</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Partner B: Reframe using Core Values language</label>
-                        <p class="small">Example: "Your brother is a Pivot Person experiencing substance use disorder. A crisis point might create an opportunity for intervention."</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Switch roles and practice 3-4 more scenarios</label>
-                        <textarea id="language-practice-notes" rows="3" placeholder="What felt natural? What was challenging?"></textarea>
-                    </div>
-                </div>
-
-                <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                    <p><strong>⏸️ MICRO-BREAK (5 minutes)</strong></p>
-                    <p class="small">Remain standing. Stretch. Share with your partner: "Which language shift feels most important for you to practice?"</p>
-                </div>
-
-                <div class="content-card">
-                    <h4>Additional Language Reframes</h4>
 
                     <div class="form-group">
                         <label>"Hitting bottom" → "Crisis point" / "Moment of clarity"</label>
@@ -646,11 +577,11 @@
                 </div>
             </div>
 
-            <!-- Session 6: Integration & Community Building -->
+            <!-- Session 6: Reflection & Integration -->
             <div id="day1-session6" class="subsection">
                 <div class="content-card">
-                    <h3>Session 1.6: Integration & Community Building (4:30-5:30 PM)</h3>
-                    <p><strong>Focus:</strong> Personal reflection (30m) + Community connection (30m)</p>
+                    <h3>Session 1.6: Reflection & Integration (4:00-5:00 PM)</h3>
+                    <p><strong>Focus:</strong> Journaling, debrief, integration of Day 1 learning</p>
 
                     <h4>Day 1 Integration: Awareness</h4>
                     <p class="instruction">Reflect on what you've learned about awareness as the foundation of intervention work:</p>
@@ -692,26 +623,6 @@
                     <div class="form-group">
                         <label>My intention for Day 2 (Coordination):</label>
                         <textarea id="day2-intention" rows="3" placeholder="What do you hope to gain tomorrow?"></textarea>
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <h4>Community Q&A & Connection (30 minutes)</h4>
-                    <p class="instruction">Now we move from individual reflection to community connection.</p>
-
-                    <div class="form-group">
-                        <label>Questions I want to ask the group or trainer:</label>
-                        <textarea id="community-questions" rows="3" placeholder="What are you curious about?"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Someone I'd like to connect with before tomorrow:</label>
-                        <input type="text" id="connect-with" placeholder="Name and why you want to connect...">
-                    </div>
-
-                    <div class="info-box">
-                        <p><strong>Parking Lot</strong></p>
-                        <p class="small">Questions we didn't get to today will be addressed tomorrow morning or during breaks.</p>
                     </div>
                 </div>
             </div>
@@ -758,13 +669,12 @@
 
             <!-- Day 2 Sub-navigation -->
             <div class="sub-nav">
-                <button class="sub-nav-btn active" data-subsection="day2-session1">2.1 Check-In</button>
-                <button class="sub-nav-btn" data-subsection="day2-session2">2.2 Professional Foundations</button>
-                <button class="sub-nav-btn" data-subsection="day2-session3a">2.3A Continuum (1-3)</button>
-                <button class="sub-nav-btn" data-subsection="day2-session3b">2.3B Continuum (4-5)</button>
-                <button class="sub-nav-btn" data-subsection="day2-session4">2.4 Core Tools</button>
-                <button class="sub-nav-btn" data-subsection="day2-session5">2.5 Case Study</button>
-                <button class="sub-nav-btn" data-subsection="day2-session6">2.6 Closing</button>
+                <button class="sub-nav-btn active" data-subsection="day2-session1">Session 1</button>
+                <button class="sub-nav-btn" data-subsection="day2-session2">Session 2</button>
+                <button class="sub-nav-btn" data-subsection="day2-session3">Session 3</button>
+                <button class="sub-nav-btn" data-subsection="day2-session4">Session 4</button>
+                <button class="sub-nav-btn" data-subsection="day2-session5">Session 5</button>
+                <button class="sub-nav-btn" data-subsection="day2-session6">Session 6</button>
                 <button class="sub-nav-btn" data-subsection="day2-reflection">Reflection</button>
             </div>
 
@@ -794,12 +704,42 @@
                 </div>
             </div>
 
-            <!-- Session 2: Boundaries & Ethics Deep Dive -->
+            <!-- Session 2: Roles & Boundaries -->
             <div id="day2-session2" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2.2: Boundaries & Ethics Deep Dive (9:30-11:00 AM)</h3>
-                    <p><strong>Focus:</strong> Professional boundaries and navigating complex ethical dilemmas</p>
+                    <h3>Session 2.2: Roles & Boundaries in Intervention Work (9:30-11:00 AM)</h3>
+                    <p><strong>Focus:</strong> Clarify the interventionist's role, establish boundaries, define team member responsibilities</p>
 
+                    <h4>Role Distinctions</h4>
+                    <p class="instruction">Understanding who does what in the intervention ecosystem:</p>
+
+                    <div class="form-group">
+                        <label>Interventionist role (my role):</label>
+                        <textarea id="role-interventionist" rows="3" placeholder="Guide families through crisis to connection, coordinate care network, no financial interest..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How interventionist differs from therapist:</label>
+                        <textarea id="role-vs-therapist" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How interventionist differs from coach:</label>
+                        <textarea id="role-vs-coach" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How interventionist differs from sponsor:</label>
+                        <textarea id="role-vs-sponsor" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>When I should refer (not intervene myself):</label>
+                        <textarea id="when-refer" rows="3" placeholder="Medical crisis, active psychosis, imminent danger..."></textarea>
+                    </div>
+                </div>
+
+                <div class="content-card">
                     <h4>Professional Boundaries</h4>
 
                     <div class="form-group">
@@ -817,89 +757,13 @@
                         <textarea id="boundaries-violations" rows="3"></textarea>
                     </div>
                 </div>
-
-                <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                    <p><strong>⏸️ MICRO-BREAK (5 minutes - ~10:15 AM)</strong></p>
-                    <p class="small">Stand, stretch, find a partner and discuss: "What's one boundary you're committed to maintaining as an interventionist?"</p>
-                </div>
-
-                <div class="content-card">
-                    <h4>Complex Ethics Scenarios</h4>
-                    <p class="instruction">Practice navigating gray-area dilemmas:</p>
-
-                    <div class="form-group">
-                        <label>Scenario discussed:</label>
-                        <textarea id="ethics-scenario" rows="2" placeholder="Describe the ethical dilemma..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Competing values or principles:</label>
-                        <textarea id="ethics-values" rows="3" placeholder="What values are in tension (e.g., autonomy vs. safety)..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>My initial response:</label>
-                        <textarea id="ethics-response" rows="2" placeholder="What would I do..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Other perspectives I heard:</label>
-                        <textarea id="ethics-perspectives" rows="3" placeholder="Alternative approaches discussed..."></textarea>
-                    </div>
-
-                    <h4>My Ethical Framework</h4>
-
-                    <div class="form-group">
-                        <label>Core ethical commitments as an interventionist:</label>
-                        <textarea id="ethics-commitments" rows="4" placeholder="Non-negotiable principles that guide my practice..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Gray areas I'm still navigating:</label>
-                        <textarea id="ethics-gray-areas" rows="3" placeholder="Questions I'm still working through..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>How I'll make ethical decisions in real time:</label>
-                        <textarea id="ethics-decision-process" rows="3" placeholder="My decision-making process, who I'll consult..."></textarea>
-                    </div>
-
-                    <h4>Mode 4 Tools: Crisis Intervention</h4>
-                    <p class="instruction">When immediate safety concerns require urgent action:</p>
-                    <p class="small"><em>Note: Crisis intervention requires specialized training and often involves emergency services coordination.</em></p>
-
-                    <div class="form-group">
-                        <label>Emergency response protocol (when to call 911, crisis hotlines, emergency services):</label>
-                        <textarea id="mode4-emergency-protocol" rows="3" placeholder="Steps to take when safety is at immediate risk..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Safety assessment checklist:</label>
-                        <textarea id="mode4-safety-assessment" rows="3" placeholder="Suicidal ideation, overdose risk, violence potential, medical emergency signs..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>De-escalation techniques:</label>
-                        <textarea id="mode4-deescalation" rows="3" placeholder="Staying calm, creating space, validating emotions, reducing threats..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rapid coordination with emergency services:</label>
-                        <textarea id="mode4-rapid-coordination" rows="3" placeholder="Police, hospitals, crisis teams, mobile crisis units..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>When I would activate Mode 4 (Crisis) intervention:</label>
-                        <textarea id="mode4-activation" rows="2" placeholder="Scenarios that require immediate crisis response..."></textarea>
-                    </div>
-                </div>
             </div>
 
-            <!-- Session 3A: 5-Mode Continuum (Part 1) -->
-            <div id="day2-session3a" class="subsection">
+            <!-- Session 3: Intervention Continuum Module -->
+            <div id="day2-session3" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2.3A: 5-Mode Continuum - Part 1 (11:15 AM-12:15 PM)</h3>
-                    <p><strong>Focus:</strong> Modes 1-3 (Collaborative, Structured, Planned)</p>
+                    <h3>Session 2.3: Intervention Continuum Module (11:00 AM-1:00 PM)</h3>
+                    <p><strong>Focus:</strong> Master the 5-mode Intervention Continuum and assessment framework</p>
 
                     <h4>The 5-Mode Intervention Continuum</h4>
                     <p class="instruction">Understanding which intervention mode fits each unique family situation:</p>
@@ -907,7 +771,6 @@
                     <div class="info-box">
                         <h5>Mode 1: Collaborative Intervention</h5>
                         <p>Pivot Person is willing and ready; family is engaged</p>
-                        <p class="small"><strong>Tools you'll learn:</strong> Planning meetings, resource coordination, collaborative goal-setting, family communication agreements</p>
                         <div class="form-group">
                             <label>Key characteristics and when to use:</label>
                             <textarea id="mode1-notes" rows="3" placeholder="Notes on Mode 1..."></textarea>
@@ -917,7 +780,6 @@
                     <div class="info-box">
                         <h5>Mode 2: Structured Intervention</h5>
                         <p>Pivot Person is ambivalent; family needs guidance</p>
-                        <p class="small"><strong>Tools you'll learn:</strong> Family meetings, Impact Letters, treatment options research, intervention scripts, handling resistance strategies</p>
                         <div class="form-group">
                             <label>Key characteristics and when to use:</label>
                             <textarea id="mode2-notes" rows="3" placeholder="Notes on Mode 2..."></textarea>
@@ -927,35 +789,15 @@
                     <div class="info-box">
                         <h5>Mode 3: Planned Intervention</h5>
                         <p>Pivot Person is resistant; formal gathering needed</p>
-                        <p class="small"><strong>Tools you'll learn:</strong> Full intervention planning, rehearsal process, professional support coordination, treatment transition logistics</p>
                         <div class="form-group">
                             <label>Key characteristics and when to use:</label>
                             <textarea id="mode3-notes" rows="3" placeholder="Notes on Mode 3..."></textarea>
                         </div>
                     </div>
-                </div>
-
-                <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                    <p><strong>⏸️ MICRO-BREAK (5 minutes - built into session)</strong></p>
-                    <p class="small">Stand, stretch, pair discussion: "Which mode do you think you'll use most often and why?"</p>
-                </div>
-            </div>
-
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>☕ BREAK (12:15-12:30 PM - 15 minutes)</strong></p>
-                <p class="small">Movement, biological reset, quick networking</p>
-            </div>
-
-            <!-- Session 3B: 5-Mode Continuum (Part 2) -->
-            <div id="day2-session3b" class="subsection">
-                <div class="content-card">
-                    <h3>Session 2.3B: 5-Mode Continuum - Part 2 (12:30-1:15 PM)</h3>
-                    <p><strong>Focus:</strong> Modes 4-5 (Crisis, Individual) + Assessment Framework (45 minutes)</p>
 
                     <div class="info-box">
                         <h5>Mode 4: Crisis Intervention</h5>
                         <p>Immediate safety concern; urgent action required</p>
-                        <p class="small"><strong>Tools you'll learn:</strong> Emergency response protocol, safety assessment checklist, de-escalation techniques, rapid coordination with emergency services</p>
                         <div class="form-group">
                             <label>Key characteristics and when to use:</label>
                             <textarea id="mode4-notes" rows="3" placeholder="Notes on Mode 4..."></textarea>
@@ -965,7 +807,6 @@
                     <div class="info-box">
                         <h5>Mode 5: Individual Intervention</h5>
                         <p>Pivot Person wants help; family not available/willing</p>
-                        <p class="small"><strong>Tools you'll learn:</strong> One-on-one engagement, treatment navigation, resource connection, individual support planning, follow-up coordination</p>
                         <div class="form-group">
                             <label>Key characteristics and when to use:</label>
                             <textarea id="mode5-notes" rows="3" placeholder="Notes on Mode 5..."></textarea>
@@ -974,8 +815,7 @@
                 </div>
 
                 <div class="content-card">
-                    <h4>Assessment Framework</h4>
-                    <p class="instruction">How to choose the right mode for each family:</p>
+                    <h4>Assessment Practice</h4>
 
                     <div class="form-group">
                         <label>Key assessment factors (Safety, Urgency, Readiness, Relational Capacity):</label>
@@ -989,170 +829,69 @@
                 </div>
             </div>
 
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>🍽️ LUNCH BREAK (1:15-2:15 PM - 60 minutes)</strong></p>
-                <p class="small">Time to eat, digest, decompress, and network. Biological needs matter!</p>
-            </div>
-
             <!-- Session 4: Tools of Intervention -->
             <div id="day2-session4" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2.4: Core Intervention Tools Deep Dive (2:15-3:45 PM)</h3>
-                    <p><strong>Focus:</strong> Master 5 essential intervention tools with hands-on practice</p>
-                    <p class="instruction">Today you'll practice the 5 most essential tools. Other tools will be introduced during mentorship.</p>
+                    <h3>Session 2.4: Tools of Intervention (1:30-3:00 PM)</h3>
+                    <p><strong>Focus:</strong> Communication tools, Impact Letters, scripts, and logistics planning</p>
 
-                    <div class="info-box">
-                        <h5>Tool 1: Impact Letters (18 minutes)</h5>
-                        <p class="small">Written statements from family describing impact of substance use</p>
+                    <h4>Impact Letters & Communication Tools</h4>
 
-                        <div class="form-group">
-                            <label>6-Step Structure:</label>
-                            <p class="small">1. Love statement | 2. Specific observations | 3. Impact on me | 4. Concern for them | 5. Hope for future | 6. Request</p>
-                            <textarea id="impact-letter-structure" rows="2" placeholder="Notes on Impact Letter structure..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>✍️ PRACTICE: Write an opening line + first observation for an Impact Letter</label>
-                            <p class="small">Example: "I'm writing this because I love you. Last Tuesday, I found empty bottles hidden in the garage..."</p>
-                            <textarea id="impact-letter-practice" rows="3" placeholder="Your opening line and first observation..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Pair Share Debrief: What felt natural? What was challenging?</label>
-                            <textarea id="impact-letter-debrief" rows="2" placeholder="Reflections from pair discussion..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Key elements of an effective Impact Letter:</label>
+                        <textarea id="impact-letter-elements" rows="3" placeholder="What makes an Impact Letter effective..."></textarea>
                     </div>
 
-                    <div class="info-box">
-                        <h5>Tool 2: Safety Planning (18 minutes)</h5>
-                        <p class="small">Creating comprehensive safety plans for Pivot Person and family</p>
-
-                        <div class="form-group">
-                            <label>Safety Assessment Checklist:</label>
-                            <p class="small">Medical risks | Suicide risk | Violence potential | Overdose risk | Withdrawal dangers</p>
-                            <textarea id="safety-assessment-notes" rows="2" placeholder="Key safety factors to assess..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>✍️ PRACTICE: Create a safety plan for Martinez family case</label>
-                            <p class="small">Consider: What immediate safety concerns exist? What protocols should be in place?</p>
-                            <textarea id="safety-plan-practice" rows="3" placeholder="Safety plan elements for Martinez family..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Group Debrief: What did you prioritize and why?</label>
-                            <textarea id="safety-plan-debrief" rows="2" placeholder="Key priorities from group discussion..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Practice: Draft an opening line for an Impact Letter</label>
+                        <p class="small">Example: "I'm writing this because I love you and I've been afraid to tell you what I've been seeing..."</p>
+                        <textarea id="impact-letter-draft" rows="2" placeholder="Your opening line..."></textarea>
                     </div>
 
-                    <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                        <p><strong>⏸️ MICRO-BREAK (5 minutes - ~2:45 PM)</strong></p>
-                        <p class="small">Stand, stretch. Share with someone nearby: "Which tool resonates most with your experience?"</p>
+                    <h4>Intervention Scripts & Language</h4>
+
+                    <div class="form-group">
+                        <label>Opening script: How to start the intervention conversation</label>
+                        <textarea id="intervention-opening" rows="3" placeholder="Key phrases and approach..."></textarea>
                     </div>
 
-                    <div class="info-box">
-                        <h5>Tool 3: Motivational Interviewing (18 minutes)</h5>
-                        <p class="small">Conversation skills that increase intrinsic motivation for change</p>
-
-                        <div class="form-group">
-                            <label>OARS Framework:</label>
-                            <p class="small">Open questions | Affirmations | Reflections | Summaries</p>
-                            <textarea id="mi-oars-notes" rows="2" placeholder="Notes on OARS framework..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>✍️ PRACTICE: Paired MI practice (8 minutes)</label>
-                            <p class="small">Partner A: Play resistant family member. Partner B: Use OARS to explore ambivalence. Switch roles.</p>
-                            <textarea id="mi-practice" rows="3" placeholder="What worked? What was difficult?"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Debrief: What felt challenging about MI?</label>
-                            <textarea id="mi-debrief" rows="2" placeholder="Insights from MI practice..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Handling resistance: What to say when Pivot Person is defensive</label>
+                        <textarea id="handling-resistance" rows="3" placeholder="Your strategies and phrases..."></textarea>
                     </div>
 
-                    <div class="info-box">
-                        <h5>Tool 4: Family Meeting Facilitation (18 minutes)</h5>
-                        <p class="small">Facilitated family conversations to address concerns and coordinate care</p>
+                    <h4>Logistics Planning</h4>
 
-                        <div class="form-group">
-                            <label>Meeting Structure:</label>
-                            <p class="small">Opening (safety, ground rules) | Managing conflict | Keeping focus | Closing with action steps</p>
-                            <textarea id="family-meeting-structure" rows="2" placeholder="Notes on meeting structure..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>✍️ PRACTICE: Role-play opening a family meeting (8 minutes)</label>
-                            <p class="small">Groups of 3: Facilitator, 2 family members. Practice establishing safety and ground rules.</p>
-                            <textarea id="family-meeting-practice" rows="3" placeholder="How did you establish safety? What worked?"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Debrief: What creates safety in family meetings?</label>
-                            <textarea id="family-meeting-debrief" rows="2" placeholder="Key insights on creating safety..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Pre-intervention checklist (location, timing, participants):</label>
+                        <textarea id="logistics-checklist" rows="4" placeholder="Key logistics considerations..."></textarea>
                     </div>
 
-                    <div class="info-box">
-                        <h5>Tool 5: Treatment Options Research (18 minutes)</h5>
-                        <p class="small">Research and present appropriate treatment levels and facilities</p>
-
-                        <div class="form-group">
-                            <label>Levels of Care:</label>
-                            <p class="small">Detox | Residential | PHP (Partial Hospitalization) | IOP (Intensive Outpatient) | Outpatient | Sober Living</p>
-                            <textarea id="treatment-levels-notes" rows="2" placeholder="Notes on levels of care..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>✍️ PRACTICE: Research treatment options for hypothetical client (8 minutes)</label>
-                            <p class="small">Scenario: 28-year-old, opioid use disorder, willing to go to treatment, family support, insurance coverage. What would you recommend?</p>
-                            <textarea id="treatment-research-practice" rows="3" placeholder="Treatment recommendations and rationale..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Debrief: How to present options to families?</label>
-                            <textarea id="treatment-presentation-debrief" rows="2" placeholder="Best practices for presenting treatment options..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Treatment arrangements (who coordinates, when to contact):</label>
+                        <textarea id="treatment-arrangements" rows="3" placeholder="Planning treatment transitions..."></textarea>
                     </div>
 
-                    <div class="content-card">
-                        <h4>My Toolkit Summary</h4>
-                        <p class="instruction">Reflecting on today's 5 essential tools:</p>
+                    <h4>My Intervention Toolkit</h4>
+                    <p class="instruction">Tools and resources I'll use in intervention work:</p>
 
-                        <div class="info-box">
-                            <p class="small"><strong>Note:</strong> 8 additional tools are available in the Resources section. You'll practice these during the 40-week mentorship program:</p>
-                            <p class="small">• Planning Meetings • Intervention Rehearsals • Aftercare Support • Core Values Recovery Model • Recovery Meetings (12-step, etc) • Accountability Monitoring (breathalyzer, drug testing) • Emergency Response • One-on-One Support</p>
-                        </div>
+                    <div class="form-group">
+                        <label>Communication tools I'll practice:</label>
+                        <textarea id="toolkit-communication" rows="2" placeholder="Impact Letters, scripts, de-escalation techniques..."></textarea>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Which tool do I feel most confident about?</label>
-                            <textarea id="toolkit-confident" rows="2" placeholder="Tool that feels natural or resonates with my experience..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Which tool do I most need to practice?</label>
-                            <textarea id="toolkit-practice" rows="2" placeholder="Tool that feels challenging or I want to develop..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>How will I use these 5 tools in my first intervention?</label>
-                            <textarea id="toolkit-application" rows="3" placeholder="Practical application plan..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label>Logistics resources I need to develop:</label>
+                        <textarea id="toolkit-logistics" rows="2" placeholder="Checklists, templates, contact lists..."></textarea>
                     </div>
                 </div>
-            </div>
-
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>☕ BREAK (3:45-4:00 PM - 15 minutes)</strong></p>
-                <p class="small">Movement, refresh, networking</p>
             </div>
 
             <!-- Session 5: Family Case Study Setup -->
             <div id="day2-session5" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2.5: Case Study Application (4:00-5:00 PM)</h3>
-                    <p><strong>Focus:</strong> Apply intervention tools to Martinez family case and prepare for Day 3 practice</p>
+                    <h3>Session 2.5: Family Case Study Setup (3:15-4:30 PM)</h3>
+                    <p><strong>Focus:</strong> Preparing for tomorrow's case simulations and role-plays</p>
 
                     <h4>Case Study Overview</h4>
                     <p class="instruction">You'll work with this fictional family case through Day 3 role-plays:</p>
@@ -1211,8 +950,8 @@
             <!-- Session 6: Day 2 Reflection & Closing -->
             <div id="day2-session6" class="subsection">
                 <div class="content-card">
-                    <h3>Session 2.6: Day 2 Closing (5:00-5:15 PM)</h3>
-                    <p><strong>Focus:</strong> Quick reflection and homework prep for Day 3</p>
+                    <h3>Session 2.6: Day 2 Reflection & Closing (4:30-5:00 PM)</h3>
+                    <p><strong>Focus:</strong> Integrating Day 2 learning and preparing for Day 3 practice</p>
 
                     <h4>Today's Key Insights</h4>
 
@@ -1311,12 +1050,12 @@
             <!-- Day 3 Sub-navigation -->
             <div class="sub-nav">
                 <button class="sub-nav-btn active" data-subsection="day3-session1">3.1 Check-In</button>
-                <button class="sub-nav-btn" data-subsection="day3-session2">3.2 Trauma & Prep</button>
-                <button class="sub-nav-btn" data-subsection="day3-session3a">3.3A Role-Plays 1</button>
-                <button class="sub-nav-btn" data-subsection="day3-session3b">3.3B Role-Plays 2</button>
+                <button class="sub-nav-btn" data-subsection="day3-session2">3.2 Prep</button>
+                <button class="sub-nav-btn" data-subsection="day3-session3">3.3 Role-Plays</button>
                 <button class="sub-nav-btn" data-subsection="day3-session4">3.4 Debrief</button>
-                <button class="sub-nav-btn" data-subsection="day3-session5">3.5 Mentorship</button>
-                <button class="sub-nav-btn" data-subsection="day3-session6">3.6 Closing</button>
+                <button class="sub-nav-btn" data-subsection="day3-session5">3.5 Ethics</button>
+                <button class="sub-nav-btn" data-subsection="day3-session6">3.6 Mentorship</button>
+                <button class="sub-nav-btn" data-subsection="day3-session7">3.7 Closing</button>
                 <button class="sub-nav-btn" data-subsection="day3-reflection">Reflection</button>
             </div>
 
@@ -1353,33 +1092,13 @@
                 </div>
             </div>
 
-            <!-- Session 2: Trauma-Informed Practice & Case Prep -->
+            <!-- Session 2: Case Study Preparation & Rehearsal -->
             <div id="day3-session2" class="subsection">
                 <div class="content-card">
-                    <h3>Session 3.2: Trauma-Informed Practice & Case Prep (9:30-10:15 AM)</h3>
-                    <p><strong>Focus:</strong> Trauma framework BEFORE roleplays + scenario preparation</p>
+                    <h3>Session 3.2: Case Study Preparation & Rehearsal (9:30-10:00 AM)</h3>
+                    <p><strong>Focus:</strong> Final preparation before role-play simulations</p>
 
-                    <h4>Trauma-Informed Framework</h4>
-                    <p class="instruction">Understanding trauma before we practice intervention work:</p>
-
-                    <div class="form-group">
-                        <label>5 Principles of Trauma-Informed Care:</label>
-                        <p class="small">Safety | Trustworthiness | Choice | Collaboration | Empowerment</p>
-                        <textarea id="trauma-principles" rows="2" placeholder="How these principles apply to intervention work..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Signs of trauma I might see during interventions:</label>
-                        <textarea id="trauma-signs-prep" rows="3" placeholder="Behavioral cues, emotional reactions, resistance patterns..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>How I'll create safety in today's roleplays:</label>
-                        <textarea id="trauma-safety-prep" rows="3" placeholder="Language, pacing, choice, control, checking in..."></textarea>
-                    </div>
-
-                    <h4>Case Study Preparation</h4>
-                    <p class="instruction">Final preparation before role-play simulations:</p>
+                    <h4>Step 1: Review Your Plan</h4>
 
                     <div class="form-group">
                         <label>Confirmed intervention mode for our case:</label>
@@ -1391,14 +1110,28 @@
                         <textarea id="prep-speakers" rows="3" placeholder="Who speaks when and what they'll say..."></textarea>
                     </div>
 
+                    <h4>Step 2: Rehearse Key Moments</h4>
+
                     <div class="form-group">
                         <label>Facilitator's opening script (practice notes):</label>
                         <textarea id="prep-opening" rows="3" placeholder="How you'll start the intervention..."></textarea>
                     </div>
 
                     <div class="form-group">
+                        <label>One challenging moment we rehearsed:</label>
+                        <textarea id="prep-challenge" rows="2" placeholder="e.g., Pivot Person getting defensive..."></textarea>
+                    </div>
+
+                    <h4>Step 3: Final Logistics</h4>
+
+                    <div class="form-group">
                         <label>My role in the simulation:</label>
                         <input type="text" id="prep-my-role" placeholder="e.g., Interventionist, Mother, Pivot Person...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Space setup and props needed:</label>
+                        <textarea id="prep-logistics" rows="2" placeholder="Seating arrangement, materials..."></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1408,215 +1141,357 @@
                 </div>
             </div>
 
-<!-- Session 3A: Role-Play Round 1 -->
-            <div id="day3-session3a" class="subsection">
+            <!-- Session 3: Coaching Triads Practice -->
+            <div id="day3-session3" class="subsection">
                 <div class="content-card">
-                    <h3>Session 3.3A: Role-Play Round 1 (10:15-11:30 AM)</h3>
-                    <p><strong>Focus:</strong> First two intervention scenarios with immediate feedback</p>
-                    <p class="instruction">Two groups present their intervention simulations (30 minutes each + 15-minute debrief)</p>
+                    <h3>Coaching Triads Practice (180 minutes)</h3>
+                    <p class="instruction">Complete all three rounds, rotating through each role.</p>
+                </div>
 
-                    <h4>Observation Notes - Scenario 1</h4>
-                    <p class="small">Take notes while observing the first simulation:</p>
+                <!-- Round 1 -->
+                <div class="content-card">
+                    <h4>Round 1</h4>
 
                     <div class="form-group">
-                        <label>What the interventionist did well:</label>
-                        <textarea id="roleplay1-strengths" rows="3" placeholder="Opening, pacing, managing process, handling resistance..."></textarea>
+                        <label>My role:</label>
+                        <select id="round1-role">
+                            <option value="">Select role...</option>
+                            <option value="coach">Coach</option>
+                            <option value="client">Client</option>
+                            <option value="observer">Observer</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Effective moments (what worked):</label>
-                        <textarea id="roleplay1-effective" rows="2" placeholder="Specific interventions that landed well..."></textarea>
+                        <label>If Coach - What I focused on:</label>
+                        <textarea id="round1-coach-focus" rows="2"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Growth opportunities (constructive feedback):</label>
-                        <textarea id="roleplay1-growth" rows="2" placeholder="What could be improved or tried differently..."></textarea>
-                    </div>
-
-                    <h4>Observation Notes - Scenario 2</h4>
-
-                    <div class="form-group">
-                        <label>What the interventionist did well:</label>
-                        <textarea id="roleplay2-strengths" rows="3" placeholder="Opening, pacing, managing process, handling resistance..."></textarea>
+                        <label>If Coach - What worked well:</label>
+                        <textarea id="round1-coach-worked" rows="2"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Effective moments (what worked):</label>
-                        <textarea id="roleplay2-effective" rows="2" placeholder="Specific interventions that landed well..."></textarea>
+                        <label>If Coach - What was challenging:</label>
+                        <textarea id="round1-coach-challenge" rows="2"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Growth opportunities (constructive feedback):</label>
-                        <textarea id="roleplay2-growth" rows="2" placeholder="What could be improved or tried differently..."></textarea>
+                        <label>If Coach - Feedback I received:</label>
+                        <textarea id="round1-coach-feedback" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What I'll adjust:</label>
+                        <textarea id="round1-coach-adjust" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - My topic:</label>
+                        <textarea id="round1-client-topic" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - How the coach helped:</label>
+                        <textarea id="round1-client-helped" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - What I wished for:</label>
+                        <textarea id="round1-client-wished" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - Insights I gained:</label>
+                        <textarea id="round1-client-insights" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Coach Name:</label>
+                        <input type="text" id="round1-observer-coach">
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - What coach did well:</label>
+                        <textarea id="round1-observer-well" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - One area for growth:</label>
+                        <textarea id="round1-observer-growth" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Overall presence/energy:</label>
+                        <textarea id="round1-observer-presence" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <!-- Round 2 -->
+                <div class="content-card">
+                    <h4>Round 2</h4>
+
+                    <div class="form-group">
+                        <label>My role:</label>
+                        <select id="round2-role">
+                            <option value="">Select role...</option>
+                            <option value="coach">Coach</option>
+                            <option value="client">Client</option>
+                            <option value="observer">Observer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What I focused on:</label>
+                        <textarea id="round2-coach-focus" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What worked well:</label>
+                        <textarea id="round2-coach-worked" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What was challenging:</label>
+                        <textarea id="round2-coach-challenge" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - Feedback I received:</label>
+                        <textarea id="round2-coach-feedback" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What I'll adjust:</label>
+                        <textarea id="round2-coach-adjust" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - My topic:</label>
+                        <textarea id="round2-client-topic" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - How the coach helped:</label>
+                        <textarea id="round2-client-helped" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - What I wished for:</label>
+                        <textarea id="round2-client-wished" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - Insights I gained:</label>
+                        <textarea id="round2-client-insights" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Coach Name:</label>
+                        <input type="text" id="round2-observer-coach">
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - What coach did well:</label>
+                        <textarea id="round2-observer-well" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - One area for growth:</label>
+                        <textarea id="round2-observer-growth" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Overall presence/energy:</label>
+                        <textarea id="round2-observer-presence" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <!-- Round 3 -->
+                <div class="content-card">
+                    <h4>Round 3</h4>
+
+                    <div class="form-group">
+                        <label>My role:</label>
+                        <select id="round3-role">
+                            <option value="">Select role...</option>
+                            <option value="coach">Coach</option>
+                            <option value="client">Client</option>
+                            <option value="observer">Observer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What I focused on:</label>
+                        <textarea id="round3-coach-focus" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What worked well:</label>
+                        <textarea id="round3-coach-worked" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What was challenging:</label>
+                        <textarea id="round3-coach-challenge" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - Feedback I received:</label>
+                        <textarea id="round3-coach-feedback" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Coach - What I'll carry forward:</label>
+                        <textarea id="round3-coach-carry" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - My topic:</label>
+                        <textarea id="round3-client-topic" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - How the coach helped:</label>
+                        <textarea id="round3-client-helped" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - What I wished for:</label>
+                        <textarea id="round3-client-wished" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Client - Insights I gained:</label>
+                        <textarea id="round3-client-insights" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Coach Name:</label>
+                        <input type="text" id="round3-observer-coach">
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - What coach did well:</label>
+                        <textarea id="round3-observer-well" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - One area for growth:</label>
+                        <textarea id="round3-observer-growth" rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>If Observer - Overall presence/energy:</label>
+                        <textarea id="round3-observer-presence" rows="2"></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>☕ BREAK (11:30-11:45 AM - 15 minutes)</strong></p>
-                <p class="small">Biological reset, emotional processing, networking. Roleplay work is intense!</p>
-            </div>
-
-            <!-- Session 3B: Role-Play Round 2 -->
-            <div id="day3-session3b" class="subsection">
-                <div class="content-card">
-                    <h3>Session 3.3B: Role-Play Round 2 (11:45 AM-12:45 PM)</h3>
-                    <p><strong>Focus:</strong> Additional scenarios and integration</p>
-                    <p class="instruction">Final scenarios (25 minutes each + 10-minute integration)</p>
-
-                    <h4>Observation Notes - Additional Scenarios</h4>
-
-                    <div class="form-group">
-                        <label>Patterns I'm noticing across all scenarios:</label>
-                        <textarea id="roleplay-patterns" rows="3" placeholder="Common challenges, effective strategies, recurring themes..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Most powerful intervention moment I witnessed:</label>
-                        <textarea id="roleplay-powerful" rows="2" placeholder="What moment really landed and why..."></textarea>
-                    </div>
-
-                    <h4>My Personal Role-Play Experience</h4>
-
-                    <div class="form-group">
-                        <label>My role in the simulation:</label>
-                        <input type="text" id="roleplay-my-role" placeholder="e.g., Interventionist, family member...">
-                    </div>
-
-                    <div class="form-group">
-                        <label>What felt most challenging:</label>
-                        <textarea id="roleplay-challenge" rows="3" placeholder="Difficult moments, uncertainties..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>What surprised me (insights or breakthroughs):</label>
-                        <textarea id="roleplay-surprise" rows="3" placeholder="Unexpected realizations or learnings..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Feedback I received from observers:</label>
-                        <textarea id="roleplay-feedback-received" rows="3" placeholder="Constructive feedback from the group..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Key takeaway from all simulations:</label>
-                        <textarea id="roleplay-takeaway" rows="3" placeholder="What I'm taking forward from this practice..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>🍽️ LUNCH BREAK (12:45-1:45 PM - 60 minutes)</strong></p>
-                <p class="small">Time to eat, digest, decompress after intense roleplay work</p>
-            </div>
-
-            <!-- Session 4: Trauma-Informed Debrief -->
+            <!-- Session 4: Integration & Next Steps -->
             <div id="day3-session4" class="subsection">
                 <div class="content-card">
-                    <h3>Session 3.4: Trauma-Informed Debrief (1:45-2:45 PM)</h3>
-                    <p><strong>Focus:</strong> Processing the simulations with trauma-informed care lens</p>
+                    <h3>Session 4: Integration & Next Steps (90 minutes)</h3>
 
-                    <h4>TiPS Framework (Trauma-informed Practice Strategies)</h4>
-                    <p class="instruction">Processing what came up during role-plays:</p>
+                    <h4>My Coaching Strengths</h4>
 
                     <div class="form-group">
-                        <label>What feelings or reactions came up for me:</label>
-                        <textarea id="debrief-feelings" rows="3" placeholder="Emotional responses, triggers, body sensations..."></textarea>
+                        <label>What came naturally:</label>
+                        <div class="numbered-inputs">
+                            <input type="text" id="strength-natural-1" placeholder="1.">
+                            <input type="text" id="strength-natural-2" placeholder="2.">
+                            <input type="text" id="strength-natural-3" placeholder="3.">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Connections to my own story (if any):</label>
-                        <textarea id="debrief-personal" rows="3" placeholder="Personal experiences that resonated..."></textarea>
+                        <label>What I'm proud of:</label>
+                        <textarea id="strength-proud" rows="2"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>How I'll care for myself after intense practice:</label>
-                        <textarea id="debrief-selfcare" rows="3" placeholder="Self-care strategies, boundaries, support..."></textarea>
+                        <label>Where I felt most present:</label>
+                        <textarea id="strength-present" rows="2"></textarea>
                     </div>
+                </div>
 
-                    <h4>Trauma-Informed Interventionist Practice</h4>
+                <div class="content-card">
+                    <h4>My Growth Edges</h4>
 
                     <div class="form-group">
-                        <label>Signs of trauma I might see in intervention work:</label>
-                        <textarea id="trauma-signs" rows="3" placeholder="Behavioral cues, emotional reactions..."></textarea>
+                        <label>Skills I want to develop:</label>
+                        <div class="numbered-inputs">
+                            <input type="text" id="growth-skill-1" placeholder="1.">
+                            <input type="text" id="growth-skill-2" placeholder="2.">
+                            <input type="text" id="growth-skill-3" placeholder="3.">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label>How I'll create safety in intervention settings:</label>
-                        <textarea id="trauma-safety" rows="3" placeholder="Language, pacing, choice, control..."></textarea>
+                        <label>Fears I'm working with:</label>
+                        <textarea id="growth-fears" rows="2"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>When I'll seek consultation or supervision:</label>
-                        <textarea id="trauma-consultation" rows="3" placeholder="Red flags, complex cases, personal triggers..."></textarea>
+                        <label>Support I need:</label>
+                        <textarea id="growth-support" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h4>Personal Development Plan</h4>
+
+                    <div class="form-group">
+                        <label>In the next 30 days, I will:</label>
+                        <textarea id="dev-plan-30days" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Practice opportunities:</label>
+                        <div class="numbered-inputs">
+                            <input type="text" id="dev-practice-1" placeholder="1.">
+                            <input type="text" id="dev-practice-2" placeholder="2.">
+                            <input type="text" id="dev-practice-3" placeholder="3.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Learning resources I'll explore:</label>
+                        <div class="numbered-inputs">
+                            <input type="text" id="dev-resource-1" placeholder="1.">
+                            <input type="text" id="dev-resource-2" placeholder="2.">
+                            <input type="text" id="dev-resource-3" placeholder="3.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>People I'll connect with:</label>
+                        <div class="numbered-inputs">
+                            <input type="text" id="dev-connect-1" placeholder="1.">
+                            <input type="text" id="dev-connect-2" placeholder="2.">
+                            <input type="text" id="dev-connect-3" placeholder="3.">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How I'll measure my growth:</label>
+                        <textarea id="dev-measure" rows="3"></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="info-box" style="background-color: #e8f4f8; border-left: 4px solid #1d4486;">
-                <p><strong>☕ BREAK (2:45-3:05 PM - 20 minutes)</strong></p>
-                <p class="small">Extended break after emotionally heavy content. Participants need reset time.</p>
-            </div>
-
-            <!-- Session 5: Mentorship Program Overview -->
+            <!-- Session 5: Closing Circle & Commitments -->
             <div id="day3-session5" class="subsection">
                 <div class="content-card">
-                    <h3>Session 3.5: Mentorship Program Overview (3:05-3:35 PM)</h3>
-                    <p><strong>Focus:</strong> Understanding the 40-week mentorship structure and next steps</p>
-
-                    <h4>40-Week Mentorship Structure</h4>
-
-                    <div class="info-box">
-                        <p><strong>Phase 1 (Weeks 1-12):</strong> Foundation Building</p>
-                        <p class="small">Weekly supervision calls, case observation, skill development</p>
-                    </div>
-
-                    <div class="info-box">
-                        <p><strong>Phase 2 (Weeks 13-28):</strong> Guided Practice</p>
-                        <p class="small">Co-facilitated interventions, case consultation, peer learning</p>
-                    </div>
-
-                    <div class="info-box">
-                        <p><strong>Phase 3 (Weeks 29-40):</strong> Independent Practice</p>
-                        <p class="small">Lead interventions with supervision, final case review, certification</p>
-                    </div>
-
-                    <h4>Mentorship Commitment</h4>
-
-                    <div class="form-group">
-                        <label>My availability for mentorship (weekly commitment):</label>
-                        <textarea id="mentorship-availability" rows="2" placeholder="Days/times I can commit to calls and practice..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Learning goals for mentorship:</label>
-                        <textarea id="mentorship-goals" rows="3" placeholder="What I want to develop during the 40 weeks..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Questions about mentorship program:</label>
-                        <textarea id="mentorship-questions" rows="2" placeholder="Clarifications I need..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Support I'll need to complete mentorship:</label>
-                        <textarea id="mentorship-support" rows="2" placeholder="Resources, accountability, barriers to address..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Session 6: Integration & Closing Ceremony -->
-            <div id="day3-session6" class="subsection">
-                <div class="content-card">
-                    <h3>Session 3.6: Integration & Closing Ceremony (3:35-4:45 PM)</h3>
-                    <p><strong>Focus:</strong> Learning synthesis, commitments, and celebration (70 minutes)</p>
+                    <h3>Session 5: Closing Circle & Commitments (60 minutes)</h3>
 
                     <h4>Letter to My Future Self</h4>
-                    <p class="instruction">Write to yourself 6 months from now, at the midpoint of mentorship:</p>
+                    <p class="instruction">Write a letter to yourself 6 months from now. What do you hope you'll remember? What commitments are you making?</p>
 
                     <div class="form-group">
                         <label>Dear Future Me,</label>
-                        <textarea id="future-letter" rows="6" placeholder="What do you want to remember from these 3 days? What commitments are you making? What hopes do you have for your development as an interventionist?"></textarea>
+                        <textarea id="future-letter" rows="10" placeholder="Write your letter here..."></textarea>
                     </div>
 
                     <div class="form-group">
@@ -1628,115 +1503,41 @@
                         <label>Today's date:</label>
                         <input type="date" id="future-date">
                     </div>
+                </div>
 
-                    <h4>Circle Closing Reflections</h4>
+                <div class="content-card">
+                    <h4>Circle Reflections</h4>
 
                     <div class="form-group">
                         <label>What I'm taking with me from this training:</label>
-                        <textarea id="closing-taking" rows="3" placeholder="Skills, insights, connections..."></textarea>
+                        <textarea id="closing-taking" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>My commitment to the families I'll serve:</label>
-                        <textarea id="closing-commitment" rows="3" placeholder="How I'll show up as an interventionist..."></textarea>
+                        <label>My commitment to the people I'll serve:</label>
+                        <textarea id="closing-commitment" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>How I'll honor this calling:</label>
-                        <textarea id="closing-honor" rows="3" placeholder="Daily practices, ongoing learning, self-care..."></textarea>
-                    </div>
-
-                    <div class="info-box" style="background-color: #fff3cd; border-left: 4px solid #D4AA4C;">
-                        <p><strong>⏸️ MICRO-BREAK (5 minutes - ~4:15 PM)</strong></p>
-                        <p class="small">Stand, stretch. Transition from reflection to celebration.</p>
+                        <label>How I'll honor the coach in me:</label>
+                        <textarea id="closing-honor" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Gratitude:</label>
-                        <textarea id="closing-gratitude" rows="3" placeholder="Appreciation for the group, facilitators, this experience..."></textarea>
+                        <textarea id="closing-gratitude" rows="3"></textarea>
                     </div>
                 </div>
 
                 <div class="content-card" style="text-align: center; background: linear-gradient(135deg, #1D4486 0%, #2a5ba8 100%); color: white;">
                     <h3 style="color: white;">🎓 Congratulations!</h3>
-                    <p style="font-size: 1.2rem;">You've completed the Core Values Interventionist Training</p>
-                    <p style="color: #D4AA4C; font-weight: 700; font-size: 1.3rem; margin-top: 2rem;">Thank you for your commitment to serving families in crisis.</p>
-                    <p style="font-size: 1.1rem; margin-top: 1.5rem;">May you intervene with compassion, guide with humility, and trust the process of connection.</p>
+                    <p style="font-size: 1.2rem;">You've completed Coaching 101: Core Values Foundations for Recovery Coaches</p>
+                    <p style="color: #D4AA4C; font-weight: 700; font-size: 1.3rem; margin-top: 2rem;">Thank you for your commitment to serving others in recovery.</p>
+                    <p style="font-size: 1.1rem; margin-top: 1.5rem;">May you coach from your values, trust the process, and honor the guide within you.</p>
                     <div style="margin-top: 2rem; font-size: 2rem;">
                         🪞 🧭 🗼 🌳
                     </div>
                     <p style="margin-top: 2rem; font-weight: 700; letter-spacing: 1px;">CORE VALUES RECOVERY</p>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">Begin your 40-week mentorship journey</p>
-                </div>
-
-                <div class="content-card">
-                    <h4>Final Goodbyes & Logistics (4:45-5:00 PM)</h4>
-                    <p class="instruction">Wrapping up the 3-day training with practical next steps:</p>
-
-                    <div class="info-box">
-                        <p><strong>✓ Certificates</strong> - Completion certificates distributed</p>
-                        <p><strong>✓ Contact Exchange</strong> - Connect with cohort members</p>
-                        <p><strong>✓ Next Steps</strong> - Mentorship program begins, first call scheduling</p>
-                        <p><strong>✓ Resources</strong> - Access to digital workbook, tools reference, community</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Action items before first mentorship call:</label>
-                        <textarea id="closing-action-items" rows="3" placeholder="Schedule first call, review tools, prepare first case..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Day 3 Reflection -->
-            <div id="day3-reflection" class="subsection">
-                <div class="content-card">
-                    <h3>Day 3: Care - Final Reflection</h3>
-                    <p class="instruction">Integrating the full 3-day training experience</p>
-
-                    <div class="form-group">
-                        <label>Most powerful moment from Day 3:</label>
-                        <textarea id="day3-powerful-moment" rows="3" placeholder="What moved me or shifted my understanding..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>What the role-plays taught me about myself:</label>
-                        <textarea id="day3-self-learning" rows="3" placeholder="Strengths, growing edges, patterns..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>One skill I'm confident in:</label>
-                        <textarea id="day3-confidence" rows="2" placeholder="What I know I can do well..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>One skill I'll prioritize developing:</label>
-                        <textarea id="day3-develop" rows="2" placeholder="What I most need to practice..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>How I'll integrate trauma-informed care:</label>
-                        <textarea id="day3-trauma-care" rows="3" placeholder="Practices I'll bring to intervention work..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>My ethical "north star" as an interventionist:</label>
-                        <textarea id="day3-ethics" rows="3" placeholder="Core principles that will guide me..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>What I'm looking forward to in mentorship:</label>
-                        <textarea id="day3-mentorship-forward" rows="3" placeholder="Opportunities, challenges, growth..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>My biggest learning from the full 3-day training:</label>
-                        <textarea id="day3-biggest-learning" rows="4" placeholder="What will stay with me from this experience..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>One word that captures my journey:</label>
-                        <input type="text" id="day3-one-word" placeholder="Your word...">
-                    </div>
                 </div>
             </div>
         </section>
@@ -1745,237 +1546,110 @@
         <section id="resources" class="section">
             <div class="section-header">
                 <h2>Resources & Quick Reference</h2>
-                <p class="subtitle">Essential tools and guides for your interventionist practice</p>
+                <p class="subtitle">Essential tools and guides for your coaching practice</p>
             </div>
 
             <div class="content-card">
-                <h3>13 Core Intervention Tools</h3>
-                <p class="subtitle">5 Essential Tools (Day 2 practice) + 8 Additional Tools (Mentorship practice)</p>
+                <h3>GROW Model Quick Guide</h3>
 
-                <h4 style="color: #1D4486; margin-top: 20px;">5 ESSENTIAL TOOLS</h4>
-                <p class="small"><strong>Practiced with hands-on exercises during Day 2, Session 2.4</strong></p>
-                <div class="foundations-grid">
-                    <div class="foundation-card" style="border-left: 4px solid #D4AA4C;">
-                        <h5>1. Impact Letters</h5>
-                        <p class="small">Written statements from family describing impact of substance use</p>
-                        <p class="small"><em>6-step structure: Love, Observation, Impact, Concern, Hope, Request</em></p>
-                    </div>
-
-                    <div class="foundation-card" style="border-left: 4px solid #D4AA4C;">
-                        <h5>2. Safety Planning</h5>
-                        <p class="small">Create comprehensive safety plans for Pivot Person and family</p>
-                        <p class="small"><em>Assessment checklist: Medical, suicide, violence, overdose, withdrawal</em></p>
-                    </div>
-
-                    <div class="foundation-card" style="border-left: 4px solid #D4AA4C;">
-                        <h5>3. Motivational Interviewing</h5>
-                        <p class="small">Conversation skills that increase intrinsic motivation for change</p>
-                        <p class="small"><em>OARS framework: Open questions, Affirmations, Reflections, Summaries</em></p>
-                    </div>
-
-                    <div class="foundation-card" style="border-left: 4px solid #D4AA4C;">
-                        <h5>4. Family Meeting Facilitation</h5>
-                        <p class="small">Facilitated family conversations to address concerns and coordinate care</p>
-                        <p class="small"><em>Structure: Opening, managing conflict, keeping focus, closing with action</em></p>
-                    </div>
-
-                    <div class="foundation-card" style="border-left: 4px solid #D4AA4C;">
-                        <h5>5. Treatment Options Research</h5>
-                        <p class="small">Research and present appropriate treatment levels and facilities</p>
-                        <p class="small"><em>Levels of care: Detox, Residential, PHP, IOP, Outpatient, Sober Living</em></p>
-                    </div>
-                </div>
-
-                <h4 style="color: #1D4486; margin-top: 30px;">8 ADDITIONAL TOOLS</h4>
-                <p class="small"><strong>Introduced during 40-week mentorship program with supervised practice</strong></p>
                 <div class="foundations-grid">
                     <div class="foundation-card">
-                        <h5>6. Planning & Running Meetings</h5>
-                        <p class="small">Structure effective intervention planning meetings with families</p>
+                        <h5 style="color: #1D4486;">G - Goal</h5>
+                        <p>"What do you want?"</p>
+                        <p>"What would success look like?"</p>
+                        <p>"What's important about this to you?"</p>
                     </div>
 
                     <div class="foundation-card">
-                        <h5>7. Intervention Rehearsals</h5>
-                        <p class="small">Practice sessions with family before the actual intervention</p>
+                        <h5 style="color: #1D4486;">R - Reality</h5>
+                        <p>"What's happening now?"</p>
+                        <p>"What have you tried?"</p>
+                        <p>"What's getting in the way?"</p>
                     </div>
 
                     <div class="foundation-card">
-                        <h5>8. Aftercare Support</h5>
-                        <p class="small">Planning for ongoing recovery support after initial treatment</p>
+                        <h5 style="color: #1D4486;">O - Options</h5>
+                        <p>"What could you do?"</p>
+                        <p>"What else?"</p>
+                        <p>"If anything were possible...?"</p>
                     </div>
 
                     <div class="foundation-card">
-                        <h5>9. Core Values Recovery Model</h5>
-                        <p class="small">Family coaching, individual coaching, and case management as integrated support</p>
+                        <h5 style="color: #1D4486;">W - Will</h5>
+                        <p>"What will you do?"</p>
+                        <p>"When will you do it?"</p>
+                        <p>"How will I know?"</p>
                     </div>
-
-                    <div class="foundation-card">
-                        <h5>10. Recovery Meetings (12-Step, etc)</h5>
-                        <p class="small">Connecting families and Pivot Person to recovery community support (AA, NA, Al-Anon, etc)</p>
-                    </div>
-
-                    <div class="foundation-card">
-                        <h5>11. Accountability Monitoring</h5>
-                        <p class="small">Breathalyzer, drug testing, and other accountability measures as part of recovery plan</p>
-                    </div>
-
-                    <div class="foundation-card">
-                        <h5>12. Emergency Response</h5>
-                        <p class="small">Protocols for crisis situations requiring immediate intervention</p>
-                    </div>
-
-                    <div class="foundation-card">
-                        <h5>13. One-on-One Support</h5>
-                        <p class="small">Direct engagement with Pivot Person when family is unavailable</p>
-                    </div>
-                </div>
-
-                <div class="info-box" style="margin-top: 20px;">
-                    <p><strong>5-Mode Intervention Continuum</strong></p>
-                    <p class="small">These 13 tools are applied flexibly across 5 intervention modes based on situation:</p>
-                    <p class="small"><strong>Mode 1: Collaborative</strong> - Pivot Person willing | <strong>Mode 2: Structured</strong> - Ambivalent | <strong>Mode 3: Planned</strong> - Resistant | <strong>Mode 4: Crisis</strong> - Immediate safety concern | <strong>Mode 5: Individual</strong> - Family unavailable</p>
                 </div>
             </div>
 
             <div class="content-card">
-                <h3>Core Values Language Reference</h3>
-                <p class="instruction">Language that honors dignity and reduces stigma:</p>
-
-                <div class="info-box">
-                    <p><strong>"Pivot Person"</strong> instead of "addict" or "identified patient"</p>
-                    <p class="small">Centers the person at the heart of intervention without labeling</p>
-                </div>
-
-                <div class="info-box">
-                    <p><strong>"Healthy Choices"</strong> instead of "boundaries"</p>
-                    <p class="small">Reframes as positive actions rather than defensive limits</p>
-                </div>
-
-                <div class="info-box">
-                    <p><strong>"Person with substance use disorder"</strong> instead of diagnostic labels</p>
-                    <p class="small">Person-first language that respects humanity</p>
-                </div>
-
-                <div class="info-box">
-                    <p><strong>"Recovery is a Team Sport"</strong></p>
-                    <p class="small">Emphasizes family system and collaborative healing</p>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h3>Family Systems Assessment Guide</h3>
-
-                <h4>Key Assessment Factors:</h4>
-                <ul>
-                    <li><strong>Safety:</strong> Immediate risks to Pivot Person or family members</li>
-                    <li><strong>Urgency:</strong> Timeline for intervention (crisis vs. planned)</li>
-                    <li><strong>Readiness:</strong> Pivot Person's awareness and willingness to accept help</li>
-                    <li><strong>Relational Capacity:</strong> Family's ability to engage constructively</li>
-                </ul>
-
-                <h4>System Dynamics to Observe:</h4>
-                <ul>
-                    <li>Who enables? Who confronts? Who avoids?</li>
-                    <li>What roles do family members play?</li>
-                    <li>What is the family's communication style?</li>
-                    <li>What cultural factors shape the family system?</li>
-                    <li>What strengths does the family possess?</li>
+                <h3>ETHICS Framework Quick Guide</h3>
+                <ul class="no-bullet">
+                    <li><strong>E</strong> - Examine: What are the facts?</li>
+                    <li><strong>T</strong> - Think: Which principles apply?</li>
+                    <li><strong>H</strong> - Hear: What perspectives matter?</li>
+                    <li><strong>I</strong> - Identify: What are the options?</li>
+                    <li><strong>C</strong> - Consult: Who can help?</li>
+                    <li><strong>S</strong> - Select: What's your decision?</li>
                 </ul>
             </div>
 
             <div class="content-card">
-                <h3>Impact Letters Guide</h3>
+                <h3>Powerful Questions Bank</h3>
 
-                <h4>Structure of an Effective Impact Letter:</h4>
-                <ol>
-                    <li><strong>Opening:</strong> "I love you and I'm writing this because..."</li>
-                    <li><strong>Specific Observations:</strong> "I've noticed..." (concrete behaviors, not judgments)</li>
-                    <li><strong>Personal Impact:</strong> "This has affected me by..." (emotional impact without blame)</li>
-                    <li><strong>Concern:</strong> "I'm worried that..." (genuine care and fear)</li>
-                    <li><strong>Hope:</strong> "I believe you can..." (optimism about their capacity)</li>
-                    <li><strong>Request:</strong> "I'm asking you to consider..." (invitation, not demand)</li>
-                </ol>
-
-                <h4>Key Principles:</h4>
+                <h4>Values Exploration:</h4>
                 <ul>
-                    <li>Use "I" statements, not "you" accusations</li>
-                    <li>Be specific with examples and dates</li>
-                    <li>Balance honesty with compassion</li>
-                    <li>Focus on impact, not judgment</li>
-                    <li>End with love and hope</li>
+                    <li>"What matters most to you about this?"</li>
+                    <li>"How does this connect to your values?"</li>
+                    <li>"What kind of person do you want to be in this situation?"</li>
+                </ul>
+
+                <h4>Deepening Awareness:</h4>
+                <ul>
+                    <li>"What are you noticing right now?"</li>
+                    <li>"What's underneath that?"</li>
+                    <li>"What's the real question here?"</li>
+                </ul>
+
+                <h4>Building Commitment:</h4>
+                <ul>
+                    <li>"On a scale of 1-10, how committed are you?"</li>
+                    <li>"What would make it a 10?"</li>
+                    <li>"What's one small step you could take?"</li>
+                </ul>
+
+                <h4>Exploring Possibilities:</h4>
+                <ul>
+                    <li>"What would you do if you couldn't fail?"</li>
+                    <li>"Who do you know who's handled this well?"</li>
+                    <li>"What resources do you already have?"</li>
                 </ul>
             </div>
 
             <div class="content-card">
-                <h3>40-Week Mentorship Program</h3>
+                <h3>State Certification Pathways</h3>
 
                 <div class="info-box">
-                    <h4>Phase 1: Foundation Building (Weeks 1-12)</h4>
-                    <ul>
-                        <li>Weekly individual supervision calls</li>
-                        <li>Observe 2-3 interventions led by mentor</li>
-                        <li>Complete 3 family system assessments</li>
-                        <li>Study case scenarios and ethical dilemmas</li>
-                    </ul>
+                    <h4>Utah CPSS (Certified Peer Support Specialist)</h4>
+                    <p><strong>Requires:</strong> 40 hours training</p>
+                    <p><strong>This training provides:</strong> 21 hours</p>
+                    <p><strong>Next steps:</strong> Complete additional 19 hours through approved provider</p>
                 </div>
 
                 <div class="info-box">
-                    <h4>Phase 2: Guided Practice (Weeks 13-28)</h4>
-                    <ul>
-                        <li>Co-facilitate 2 interventions with mentor supervision</li>
-                        <li>Biweekly group peer consultation calls</li>
-                        <li>Complete Impact Letter reviews and feedback</li>
-                        <li>Develop personal intervention protocols</li>
-                    </ul>
+                    <h4>Ohio PRS (Peer Recovery Supporter)</h4>
+                    <p><strong>Requires:</strong> 40 hours training</p>
+                    <p><strong>This training provides:</strong> 21 hours</p>
+                    <p><strong>Next steps:</strong> Complete additional 19 hours through approved provider</p>
                 </div>
 
                 <div class="info-box">
-                    <h4>Phase 3: Independent Practice (Weeks 29-40)</h4>
-                    <ul>
-                        <li>Lead 1 full intervention case from assessment to completion</li>
-                        <li>Document case in portfolio format</li>
-                        <li>Present case to peer review panel</li>
-                        <li>Receive Core Values Interventionist certification</li>
-                    </ul>
+                    <h4>Texas PRSS (Peer Recovery Support Specialist)</h4>
+                    <p><strong>Requires:</strong> 46 hours training (CORE) + 250 hours supervision</p>
+                    <p><strong>This training provides:</strong> 21 hours</p>
+                    <p><strong>Next steps:</strong> Complete additional 25 hours + supervision requirements</p>
                 </div>
-
-                <p><strong>Certification Requirements:</strong> 100% mentorship participation, 1 successfully completed case, portfolio submission, peer review presentation</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Intervention Tools & Templates</h3>
-
-                <h4>MEETINGS Tools:</h4>
-                <ul>
-                    <li>Planning Meeting Agenda Template</li>
-                    <li>Safety Planning Worksheet & Checklist</li>
-                    <li>Family Meeting Facilitation Guide</li>
-                    <li>Intervention Rehearsal Script</li>
-                </ul>
-
-                <h4>RESOURCE COORDINATION Tools:</h4>
-                <ul>
-                    <li>Treatment Options Research Form</li>
-                    <li>Aftercare Planning Checklist</li>
-                    <li>Core Values Recovery Service Menu</li>
-                    <li>Insurance & Logistics Navigator</li>
-                </ul>
-
-                <h4>TOOLS FOR RECOVERY:</h4>
-                <ul>
-                    <li>Motivational Interviewing Quick Reference (OARS)</li>
-                    <li>Impact Letter Guidelines & Examples</li>
-                    <li>Emergency Response Protocol</li>
-                    <li>One-on-One Engagement Scripts</li>
-                </ul>
-
-                <h4>Cross-Cutting Tools:</h4>
-                <ul>
-                    <li>Family System Mapping Template</li>
-                    <li>Intervention Mode Assessment Checklist (5 modes)</li>
-                    <li>Case Documentation Form</li>
-                    <li>Debrief and Reflection Protocol</li>
-                </ul>
             </div>
 
             <div class="content-card">
@@ -1983,42 +1657,39 @@
 
                 <h4>Books</h4>
                 <ul>
-                    <li><em>Love First: A Family's Guide to Intervention</em> by Jeff Jay & Debra Jay</li>
-                    <li><em>Get Your Loved One Sober</em> by Robert Meyers & Brenda Wolfe</li>
-                    <li><em>It Takes a Family</em> by Debra Jay</li>
-                    <li><em>The Family Recovery Guide</em> by Michael Elkin</li>
+                    <li><em>Co-Active Coaching</em> by Whitworth, Kimsey-House & Sandahl</li>
+                    <li><em>The Heart of Recovery Coaching</em> by Cathy Nugent</li>
+                    <li><em>Motivational Interviewing</em> by Miller & Rollnick</li>
                 </ul>
 
                 <h4>Organizations</h4>
                 <ul>
-                    <li>Association of Intervention Specialists (AIS)</li>
-                    <li>Network of Independent Interventionists (NII)</li>
-                    <li>CRAFT (Community Reinforcement and Family Training)</li>
-                    <li>Al-Anon Family Groups</li>
+                    <li>Connecticut Community for Addiction Recovery (CCAR)</li>
+                    <li>Faces & Voices of Recovery</li>
+                    <li>International Certification & Reciprocity Consortium (IC&RC)</li>
                 </ul>
 
-                <h4>Ongoing Education</h4>
+                <h4>Online Learning</h4>
                 <ul>
-                    <li>Core Values Recovery continuing education webinars</li>
-                    <li>Trauma-informed intervention practices certification</li>
-                    <li>Cultural competency in intervention work</li>
-                    <li>Ethics updates and case consultation groups</li>
+                    <li>Center for Addiction Recovery Training (CART)</li>
+                    <li>Recovery Coach Academy</li>
+                    <li>RI International</li>
                 </ul>
             </div>
 
             <div class="content-card">
-                <h3>Glossary of Intervention Terms</h3>
+                <h3>Glossary</h3>
 
-                <p><strong>Family System</strong> - The interconnected relationships and dynamics within a family unit affected by substance use</p>
-                <p><strong>Impact Letter</strong> - A written statement from family/friends describing how the Pivot Person's substance use has affected them</p>
-                <p><strong>Intervention Continuum</strong> - The 5-mode framework for matching intervention approach to family readiness and situation</p>
-                <p><strong>Interventionist</strong> - A trained professional who guides families through the intervention process</p>
-                <p><strong>Pivot Person</strong> - The individual at the center of the intervention (replaces stigmatizing terms)</p>
-                <p><strong>Healthy Choices</strong> - Actions family members take to care for themselves and maintain wellbeing</p>
-                <p><strong>Relational Capacity</strong> - A family's ability to engage constructively in the intervention process</p>
-                <p><strong>Systems Thinking</strong> - Understanding that addiction affects the entire family, not just the individual</p>
-                <p><strong>Trauma-Informed Care</strong> - Approach that recognizes and responds to trauma's impact on individuals and families</p>
-                <p><strong>Treatment Navigation</strong> - The process of identifying and coordinating appropriate treatment options</p>
+                <p><strong>Active Listening</strong> - Fully present listening focused on understanding, not responding</p>
+                <p><strong>Autonomy</strong> - The right of individuals to make their own decisions</p>
+                <p><strong>Boundaries</strong> - Limits that protect both the coach and the person being coached</p>
+                <p><strong>Coaching</strong> - A collaborative process that helps people align actions with values</p>
+                <p><strong>GROW Model</strong> - A coaching framework: Goal, Reality, Options, Will</p>
+                <p><strong>Mirror</strong> - Reflecting back what you hear without interpretation or judgment</p>
+                <p><strong>Peer Support</strong> - Support provided by someone with lived experience of recovery</p>
+                <p><strong>Recovery Capital</strong> - The sum of resources available to support sustained recovery</p>
+                <p><strong>Scope of Practice</strong> - The boundaries of what a recovery coach can and cannot do</p>
+                <p><strong>Values</strong> - Core beliefs and principles that guide decisions and actions</p>
             </div>
         </section>
 
