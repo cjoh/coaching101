@@ -289,8 +289,55 @@ Based on REVISED_SCHEDULE.md professional analysis
 
 ### 🔧 LUNCH
 **Current:** 1:00-1:30 PM (30 minutes) - TOO SHORT
-**Revised:** 1:00-2:00 PM (60 minutes)
+**Revised:** 1:00-2:00 PM (60 minutes) → THEN 1:15-2:15 PM (60 minutes) ✅ COMPLETED
 **Action:** Update all references to lunch timing
+
+---
+
+### ✨ **NEW SESSION 2.3C: First Call & Assessment Protocol (2:15-3:15 PM) - 60 minutes**
+**Status:** ✅ COMPLETED - Added January 2025
+**Purpose:** Teach ethical two-phase contact model (inquiry call vs. formal assessment)
+
+**Content Added:**
+1. **Part 1: Two-Phase Contact Model** (10 min)
+   - Why separate inquiry from assessment
+   - Ethical foundation: Charging for assessment prevents selling interventions people don't need
+
+2. **Part 2: Initial Inquiry Call** (15 min)
+   - Free consultation structure (15-30 min)
+   - What to listen for (urgency, readiness, relational capacity)
+   - How to transition to paid assessment
+
+3. **Part 3: Formal Assessment** (20 min)
+   - Why charging is ethical and essential (4 reasons: Objectivity, Professionalism, Commitment, Thoroughness)
+   - What information to gather (complete assessment framework)
+   - Three possible outcomes (appropriate, not appropriate, referral)
+
+4. **Part 4: Practice Exercise** (15 min)
+   - Role-play: Inquiry to assessment transition
+   - Debrief questions
+
+**Interactive Elements:**
+- Text areas for ethical reflection (3 fields)
+- Checkboxes for inquiry call listening points (8 items)
+- Script practice exercises
+- Role-play scenario with debrief
+
+**Files Created:**
+- `Session_2.3C_First_Call_Assessment.md` (full facilitator guide)
+- Web app integration: Lines 997-1219 in `index.html`
+- Schedule documentation: `Day2_Schedule_Updated.md`
+
+**Navigation Button Added:**
+- Sub-nav button: "2.3C Assessment" (line 765 in index.html)
+
+**Impact on Schedule:**
+- New session: 2:15-3:15 PM (60 min)
+- New break after: 3:15-3:30 PM (15 min)
+- Pushed Session 2.4 to 3:30-5:00 PM
+- Shortened Session 2.5 to 5:00-5:30 PM
+- Moved Session 2.6 to 5:30-5:45 PM
+- **Day 2 now ends: 5:45 PM** (was 5:15 PM)
 
 ---
 
@@ -298,10 +345,10 @@ Based on REVISED_SCHEDULE.md professional analysis
 **Current:** "Tools of Intervention" - Overview of 11 tools (90m = 8min per tool)
 **Revised:** "Core Intervention Tools - Deep Dive" - 5 essential tools with hands-on practice (90m = 18min per tool)
 
-**Timing:** 2:00-3:30 PM (90 minutes)
+**Timing:** ~~2:00-3:30 PM~~ → **3:30-5:00 PM** (90 minutes) - Moved due to Session 2.3C addition
 
 **Changes Needed:**
-1. Update session header: "Session 2.4: Core Intervention Tools - Deep Dive (2:00-3:30 PM)"
+1. ✅ Update session header: "Session 2.4: Core Intervention Tools - Deep Dive (3:30-5:00 PM)"
 2. Update focus text: "Master 5 essential intervention tools with hands-on practice. Other tools will be introduced in Resources and practiced during mentorship."
 
 3. **KEEP and EXPAND these 5 tools (from current 11):**
@@ -484,11 +531,11 @@ Based on REVISED_SCHEDULE.md professional analysis
 
 ### 🔧 Session 2.5: Case Study Application (3:15-4:30 PM)
 **Current:** 3:15-4:30 PM (75m)
-**Revised:** 3:45-4:45 PM (60m)
+**Revised:** ~~3:45-4:45 PM (60m)~~ → **5:00-5:30 PM (30m)** - Further shortened due to Session 2.3C addition
 
 **Changes Needed:**
-1. Update session header timing: "3:45-4:45 PM"
-2. Update focus: "Apply the 5 core tools to the Martinez family case"
+1. ✅ Update session header timing: "5:00-5:30 PM"
+2. ✅ Update focus: "Brief case study introduction and Day 3 role assignment"
 3. After Martinez family overview, add tool application exercise:
    ```
    <div class="content-card">
@@ -527,14 +574,14 @@ Based on REVISED_SCHEDULE.md professional analysis
 
 ### 🔧 Session 2.6: Day 2 Closing (4:30-5:00 PM)
 **Current:** 4:30-5:00 PM (30m)
-**Revised:** 4:45-5:00 PM (15m) - condensed
+**Revised:** ~~4:45-5:00 PM (15m)~~ → **5:30-5:45 PM (15m)** - Moved due to Session 2.3C addition
 
 **Changes Needed:**
-1. Update session header timing: "4:45-5:00 PM"
+1. ✅ Update session header timing: "5:30-5:45 PM"
 2. Streamline to 3 reflection prompts (remove redundancy):
    ```
    <div class="content-card">
-       <h3>Session 2.6: Day 2 Reflection & Closing (4:45-5:00 PM)</h3>
+       <h3>Session 2.6: Day 2 Reflection & Closing (5:30-5:45 PM)</h3>
        <p><strong>Focus:</strong> Quick integration and Day 3 prep</p>
 
        <div class="form-group">

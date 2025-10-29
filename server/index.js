@@ -1,0 +1,484 @@
+const path = require('path');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const {
+    run,
+    get,
+    all
+} = require('./db');
+const {
+    hashPassword,
+    verifyPassword,
+    signToken,
+    setAuthCookie,
+    clearAuthCookie,
+    authenticate,
+    requireAdmin
+} = require('./auth');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || null;
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map(email => email.trim().toLowerCase())
+    .filter(Boolean);
+
+const normalizeEmail = email => (email || '').trim().toLowerCase();
+const isAdminEmail = email => ADMIN_EMAILS.includes(normalizeEmail(email));
+
+const syncUserRole = async user => {
+    if (!user) return null;
+    if (!ADMIN_EMAILS.length) return user;
+
+    const shouldBeAdmin = isAdminEmail(user.email);
+    const desiredRole = shouldBeAdmin ? 'admin' : 'participant';
+
+    if (user.role !== desiredRole) {
+        await run('UPDATE users SET role = ? WHERE id = ?', [desiredRole, user.id]);
+        return {
+            ...user,
+            role: desiredRole
+        };
+    }
+
+    return user;
+};
+
+app.disable('x-powered-by');
+app.use(express.json({ limit: '5mb' }));
+app.use(cookieParser());
+
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            if (!origin) {
+                return callback(null, true);
+            }
+
+            if (!FRONTEND_ORIGIN) {
+                return callback(null, true);
+            }
+
+            const allowedOrigins = FRONTEND_ORIGIN.split(',').map(url => url.trim());
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+
+            return callback(new Error('Not allowed by CORS'));
+        },
+        credentials: true
+    })
+);
+
+const sanitizeUser = user => {
+    if (!user) return null;
+    const { password_hash, ...rest } = user;
+    return rest;
+};
+
+const ensureModuleExists = async moduleId => {
+    const moduleRow = await get('SELECT id FROM modules WHERE id = ?', [moduleId]);
+    if (!moduleRow) {
+        const error = new Error('Module not found');
+        error.statusCode = 404;
+        throw error;
+    }
+};
+
+app.post('/api/auth/register', async (req, res) => {
+    try {
+        const { email, password, name } = req.body;
+
+        if (!email || !password || !name) {
+            return res.status(400).json({ message: 'Name, email, and password are required' });
+        }
+
+        const normalizedEmail = normalizeEmail(email);
+
+        const existingUser = await get('SELECT id FROM users WHERE email = ?', [normalizedEmail]);
+        if (existingUser) {
+            return res.status(409).json({ message: 'A user with that email already exists' });
+        }
+
+        const userCountRow = await get('SELECT COUNT(*) AS count FROM users');
+        const isFirstUser = userCountRow?.count === 0;
+        const isConfiguredAdmin = isAdminEmail(normalizedEmail);
+        const role = isFirstUser || isConfiguredAdmin ? 'admin' : 'participant';
+
+        const passwordHash = await hashPassword(password);
+
+        await run(
+            'INSERT INTO users (email, password_hash, name, role) VALUES (?, ?, ?, ?)',
+            [normalizedEmail, passwordHash, name.trim(), role]
+        );
+
+        const user = await get(
+            'SELECT id, email, name, role, created_at FROM users WHERE email = ?',
+            [normalizedEmail]
+        );
+
+        const syncedUser = await syncUserRole(user) || user;
+
+        const token = signToken(syncedUser);
+        setAuthCookie(res, token);
+
+        return res.status(201).json({ user: syncedUser });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        return res.status(500).json({ message: 'Failed to register user' });
+    }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const normalizedEmail = normalizeEmail(email);
+        const user = await get('SELECT * FROM users WHERE email = ?', [normalizedEmail]);
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const valid = await verifyPassword(password, user.password_hash);
+        if (!valid) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        let syncedUser = user;
+        if (ADMIN_EMAILS.length) {
+            syncedUser = await syncUserRole({
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                created_at: user.created_at
+            }) || syncedUser;
+        }
+
+        const token = signToken({ ...user, role: syncedUser.role });
+        setAuthCookie(res, token);
+
+        return res.json({ user: sanitizeUser({ ...user, role: syncedUser.role }) });
+    } catch (error) {
+        console.error('Error logging in:', error);
+        return res.status(500).json({ message: 'Failed to login' });
+    }
+});
+
+app.post('/api/auth/logout', authenticate, async (req, res) => {
+    clearAuthCookie(res);
+    try {
+        await run('DELETE FROM active_sessions WHERE user_id = ?', [req.user.id]);
+    } catch (error) {
+        console.warn('Error clearing active session on logout:', error);
+    }
+    return res.json({ message: 'Logged out' });
+});
+
+app.get('/api/auth/me', authenticate, async (req, res) => {
+    try {
+        let user = await get('SELECT id, email, name, role, created_at FROM users WHERE id = ?', [req.user.id]);
+        if (user) {
+            user = await syncUserRole(user) || user;
+        }
+        return res.json({ user });
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return res.status(500).json({ message: 'Failed to fetch user' });
+    }
+});
+
+app.get('/api/modules', authenticate, async (req, res) => {
+    try {
+        const modules = await all('SELECT id, name FROM modules ORDER BY name ASC');
+        return res.json({ modules });
+    } catch (error) {
+        console.error('Error fetching modules:', error);
+        return res.status(500).json({ message: 'Failed to fetch modules' });
+    }
+});
+
+app.get('/api/progress/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        await ensureModuleExists(moduleId);
+
+        const progress = await get(
+            `SELECT state_json, progress, updated_at
+             FROM module_progress
+             WHERE user_id = ? AND module_id = ?`,
+            [req.user.id, moduleId]
+        );
+
+        if (!progress) {
+            return res.json({ state: null, progress: 0, updatedAt: null });
+        }
+
+        return res.json({
+            state: JSON.parse(progress.state_json),
+            progress: progress.progress,
+            updatedAt: progress.updated_at
+        });
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return res.status(404).json({ message: error.message });
+        }
+        console.error('Error loading progress:', error);
+        return res.status(500).json({ message: 'Failed to load progress' });
+    }
+});
+
+app.put('/api/progress/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const { state, progress } = req.body;
+
+        if (!state || typeof state !== 'object') {
+            return res.status(400).json({ message: 'State payload must be an object' });
+        }
+
+        await ensureModuleExists(moduleId);
+
+        await run(`DELETE FROM active_sessions WHERE updated_at < datetime('now', '-1 day')`);
+
+        const normalizedProgress = Number.isFinite(progress)
+            ? Math.min(100, Math.max(0, Math.round(progress)))
+            : 0;
+
+        await run(
+            `INSERT INTO module_progress (user_id, module_id, state_json, progress)
+             VALUES (?, ?, ?, ?)
+             ON CONFLICT(user_id, module_id) DO UPDATE SET
+                state_json = excluded.state_json,
+                progress = excluded.progress,
+                updated_at = CURRENT_TIMESTAMP`,
+            [req.user.id, moduleId, JSON.stringify(state), normalizedProgress]
+        );
+
+        return res.json({ message: 'Progress saved', progress: normalizedProgress });
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return res.status(404).json({ message: error.message });
+        }
+        console.error('Error saving progress:', error);
+        return res.status(500).json({ message: 'Failed to save progress' });
+    }
+});
+
+app.post('/api/engagement/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const { eventType, metadata } = req.body;
+
+        if (!eventType) {
+            return res.status(400).json({ message: 'eventType is required' });
+        }
+
+        await ensureModuleExists(moduleId);
+
+        await run(
+            `INSERT INTO engagement_events (user_id, module_id, event_type, metadata_json)
+             VALUES (?, ?, ?, ?)`,
+            [req.user.id, moduleId, eventType, metadata ? JSON.stringify(metadata) : null]
+        );
+
+        return res.status(201).json({ message: 'Engagement logged' });
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return res.status(404).json({ message: error.message });
+        }
+        console.error('Error logging engagement:', error);
+        return res.status(500).json({ message: 'Failed to record engagement' });
+    }
+});
+
+app.post('/api/session/presence', authenticate, async (req, res) => {
+    try {
+        const {
+            moduleId,
+            sectionId,
+            sectionLabel,
+            subsectionId,
+            subsectionLabel,
+            progress
+        } = req.body;
+
+        if (!moduleId) {
+            return res.status(400).json({ message: 'moduleId is required' });
+        }
+
+        await ensureModuleExists(moduleId);
+
+        const normalizedProgress = Number.isFinite(progress)
+            ? Math.min(100, Math.max(0, Math.round(progress)))
+            : 0;
+
+        await run(
+            `INSERT INTO active_sessions (
+                user_id,
+                module_id,
+                section_id,
+                section_label,
+                subsection_id,
+                subsection_label,
+                progress
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(user_id, module_id) DO UPDATE SET
+                section_id = excluded.section_id,
+                section_label = excluded.section_label,
+                subsection_id = excluded.subsection_id,
+                subsection_label = excluded.subsection_label,
+                progress = excluded.progress,
+                updated_at = CURRENT_TIMESTAMP`,
+            [
+                req.user.id,
+                moduleId,
+                sectionId || null,
+                sectionLabel || null,
+                subsectionId || null,
+                subsectionLabel || null,
+                normalizedProgress
+            ]
+        );
+
+        return res.json({ message: 'Presence updated' });
+    } catch (error) {
+        if (error.statusCode === 404) {
+            return res.status(404).json({ message: error.message });
+        }
+        console.error('Error updating session presence:', error);
+        return res.status(500).json({ message: 'Failed to update presence' });
+    }
+});
+
+app.get('/api/admin/progress', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const rows = await all(
+            `SELECT
+                mp.id,
+                mp.module_id,
+                m.name AS module_name,
+                mp.progress,
+                mp.updated_at,
+                u.id AS user_id,
+                u.email,
+                u.name
+             FROM module_progress mp
+             JOIN users u ON u.id = mp.user_id
+             JOIN modules m ON m.id = mp.module_id
+             ORDER BY mp.updated_at DESC`
+        );
+
+        return res.json({ progress: rows });
+    } catch (error) {
+        console.error('Error fetching progress overview:', error);
+        return res.status(500).json({ message: 'Failed to fetch progress overview' });
+    }
+});
+
+app.get('/api/admin/engagement', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const rows = await all(
+            `SELECT
+                ee.id,
+                ee.module_id,
+                m.name AS module_name,
+                ee.event_type,
+                ee.metadata_json,
+                ee.created_at,
+                u.id AS user_id,
+                u.email,
+                u.name
+             FROM engagement_events ee
+             JOIN users u ON u.id = ee.user_id
+             JOIN modules m ON m.id = ee.module_id
+             ORDER BY ee.created_at DESC
+             LIMIT 200`
+        );
+
+        const formatted = rows.map(row => ({
+            ...row,
+            metadata: row.metadata_json ? JSON.parse(row.metadata_json) : null
+        }));
+
+        return res.json({ events: formatted });
+    } catch (error) {
+        console.error('Error fetching engagement events:', error);
+        return res.status(500).json({ message: 'Failed to fetch engagement events' });
+    }
+});
+
+app.get('/api/admin/active-sessions', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const rows = await all(
+            `SELECT
+                s.id,
+                s.user_id,
+                s.module_id,
+                s.section_id,
+                s.section_label,
+                s.subsection_id,
+                s.subsection_label,
+                s.progress,
+                s.updated_at,
+                u.email,
+                u.name,
+                m.name AS module_name
+             FROM active_sessions s
+             JOIN users u ON u.id = s.user_id
+             JOIN modules m ON m.id = s.module_id
+             WHERE s.updated_at >= datetime('now', '-10 minutes')
+             ORDER BY s.updated_at DESC`
+        );
+
+        return res.json({ sessions: rows });
+    } catch (error) {
+        console.error('Error fetching active sessions:', error);
+        return res.status(500).json({ message: 'Failed to fetch active sessions' });
+    }
+});
+
+const blockedStaticPrefixes = ['/server', '/data', '/node_modules', '/package', '/package-lock'];
+
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        return next();
+    }
+
+    if (blockedStaticPrefixes.some(prefix => req.path.startsWith(prefix))) {
+        return res.status(404).end();
+    }
+
+    return next();
+});
+
+app.use(
+    express.static(path.join(__dirname, '..'), {
+        index: ['index.html']
+    })
+);
+
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        return next();
+    }
+    return res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+app.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return next(err);
+    }
+    const status = err.statusCode || 500;
+    return res.status(status).json({ message: err.message || 'Server error' });
+});
+
+app.listen(PORT, () => {
+    console.log(`Coaching backend listening on http://localhost:${PORT}`);
+});

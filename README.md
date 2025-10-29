@@ -9,71 +9,111 @@
 
 ### Key Features
 
-- **🎨 Digital-First Design** - Modern, responsive web application optimized for all devices
-- **💾 Auto-Save Functionality** - All work is automatically saved to your browser as you type
-- **📊 Progress Tracking** - Visual progress bar shows completion percentage
-- **🎯 Interactive Forms** - All exercises, reflections, and worksheets are digital
-- **🪞 Digital Values Cards** - Interactive card selection replacing physical card sorts
-- **📱 Mobile Responsive** - Works seamlessly on phones, tablets, and desktops
-- **🖨️ Print-Friendly** - Export and print your completed workbook
-- **💾 Import/Export** - Save your work as JSON and restore it later
-- **🎨 Core Values Branding** - Navy (#1D4486) and Gold (#D4AA4C) color scheme
-- **🔒 Privacy-First** - All data stored locally in your browser (no server required)
+- **🔐 Secure Accounts** - Email / password authentication backed by HTTP-only cookies
+- **☁️ Cloud Auto-Sync** - Autosave writes progress to a SQLite database for cross-device access
+- **📊 Real-Time Progress** - Visual completion tracking + admin reporting endpoints
+- **🎯 Interactive Forms** - All exercises, reflections, and worksheets remain fully digital
+- **🪞 Digital Values Cards** - Tap-to-select values deck with engagement logging
+- **📱 Mobile Responsive** - Optimized layouts for phones, tablets, and desktops
+- **🖨️ Print & Export** - JSON export and print-friendly output for offline archives
+- **🎨 Core Values Branding** - Navy (#1D4486) and Gold (#D4AA4C) color system
+- **📈 Engagement Signals** - Server records navigation and key actions for facilitators
+- **📋 Admin Dashboard** - Browser-based progress reporting for admins with module filters
+- **🟢 Live Presence** - Real-time view of who is online, what module they're in, and their current section
 
 ## Quick Start
 
-### Option 1: Open Locally
+### Prerequisites
 
-1. Download all files to your computer
-2. Open `index.html` in any modern web browser
-3. Start your learning journey!
+- Node.js 18+ (or newer)  
+- npm 9+  
+- macOS/Windows/Linux (tested on Apple Silicon macOS)
 
-### Option 2: Deploy to Web Server
+### Run Locally
 
-1. Upload all files to your web hosting
-2. Navigate to the URL in your browser
-3. Share with participants via the URL
+1. Install dependencies  
+   ```bash
+   npm install
+   ```
+2. Start the coaching backend + static server  
+   ```bash
+   npm start
+   ```
+3. Visit `http://localhost:3000` and create an account.  
+   - The very first account automatically gains the `admin` role.  
+   - Subsequent users are registered as `participant`.
+4. Launch any module (`/`, `/families`, `/intervention`) and your progress will auto-sync.
 
-### Option 3: GitHub Pages (Recommended)
+### Production Deployment
 
-1. Fork or clone this repository
-2. Enable GitHub Pages in repository settings
-3. Access via: `https://yourusername.github.io/coaching101`
+- Host the Express server (e.g., Fly.io, Render, Railway, VPS).  
+- Set `JWT_SECRET` to a strong random string in the environment.  
+- Use reverse proxy/HTTPS (nginx, Caddy, etc.).  
+- Persist the `data/` directory so `coaching101.db` survives restarts.  
+- Optional: set `FRONTEND_ORIGIN` with a comma-separated list of allowed origins for CORS.
+
+### Environment Variables
+
+| Variable | Purpose | Example |
+| --- | --- | --- |
+| `JWT_SECRET` | Signing key for auth cookies (required in production) | `JWT_SECRET="super-long-random-string"` |
+| `FRONTEND_ORIGIN` | Comma-separated allowlist of origins for CORS | `FRONTEND_ORIGIN="https://training.corevaluesrecovery.org"` |
+| `ADMIN_EMAILS` | Comma-separated list of emails that should have the `admin` role | `ADMIN_EMAILS="you@example.com, partner@example.org"` |
+
+`ADMIN_EMAILS` overrides the default “first account is admin” rule. Whenever a listed user logs in (or hits `/api/auth/me`), their role is upgraded automatically. Remove an email from the list to demote on next login or session check.
 
 ## File Structure
 
 ```
 coaching101/
-├── index.html          # Main application file (all 3 days + resources)
-├── styles.css          # Core Values Recovery branded styling
-├── app.js             # Navigation, auto-save, and interactive features
-├── content.js         # Content data structure (optional reference)
-├── README.md          # This file
-├── CLAUDE.md          # Project instructions for AI assistance
-├── Participant_Manual.md    # Original markdown source
-├── Facilitator_Manual.md    # Facilitator's guide
-└── Coaching_101_Requirements_Packet.md  # Requirements specification
+├── apiClient.js              # Browser client for authenticated API calls
+├── app.js                    # Front-end logic shared by all modules
+├── content.js                # Structured content reference
+├── data/
+│   └── coaching101.db        # SQLite database (auto-created)
+├── families/
+│   └── index.html            # Family Recovery module
+├── images/                   # Shared image assets (values cards, icons)
+├── index.html                # Coaching 101 module
+├── intervention/
+│   ├── index.html            # Interventionist module
+│   └── styles.css            # Module-specific styling
+├── package.json              # Dependencies + scripts
+├── server/
+│   ├── auth.js               # JWT, bcrypt, session helpers
+│   ├── db.js                 # SQLite schema + helpers
+│   └── index.js              # Express application entry point
+├── styles.css                # Shared branding + layout
+└── README.md                 # Project documentation
 ```
 
 ## How to Use
 
 ### For Participants
 
-1. **Bookmark the Page** - Save the URL or file location for easy access
-2. **Navigate** - Use the top navigation to move between days
-3. **Complete Exercises** - Fill out forms as you progress through training
-4. **Auto-Save** - Your work saves automatically; look for the progress bar
-5. **Export** - Click "Export Workbook" to download your complete responses
-6. **Print** - Click "Print Version" or use your browser's print function
+1. **Create an Account** – Register with your email the first time you log in.
+2. **Pick a Module** – Coaching 101 (`/`), Families (`/families`), or Intervention (`/intervention`).
+3. **Work Normally** – Fill out exercises; progress autosaves every few seconds.
+4. **Watch the Status** – Header badge shows “Saving…” / “Saved” and your name.
+5. **Export or Print** – Use the footer controls to back up or print at any time.
 
 ### For Facilitators
 
-1. Share the workbook URL or file with participants before Day 1
-2. Encourage participants to bookmark and test access
-3. Use the workbook during training sessions as the interactive companion
-4. Participants can complete reflection exercises in real-time
-5. Export functionality allows participants to save their work
-6. Print-friendly design supports backup paper copies if needed
+1. **Claim the Admin Seat** – The first user to register becomes `admin`.
+2. **Enroll Participants** – Share the hosted URL; each participant creates their own login.
+3. **Monitor Progress** – Call `GET /api/admin/progress` for rollover status by user/module.
+4. **Watch Live Sessions** – Visit `/admin/` to see active sessions, current sections, and up-to-the-minute progress. The dashboard auto-refreshes every ~15 seconds while open.
+5. **Track Engagement** – `GET /api/admin/engagement` surfaces recent events (navigation, exports, etc.).
+6. **Query Live Presence** – `GET /api/admin/active-sessions` returns the same data shown in the dashboard table.
+7. **Data Portability** – The SQLite file in `data/coaching101.db` can be backed up or queried directly.
+
+### For Administrators
+
+1. **Open the dashboard** – Visit `/admin/` on the same host as the workbook (e.g., `http://localhost:3000/admin/`).
+2. **Sign in** – Use your Core Values Recovery credentials. Only accounts with the `admin` role can proceed.
+3. **Review snapshots** – Summary cards show total participants, active participants, average progress, and latest updates.
+4. **Filter & search** – Narrow results by module or participant name/email; refresh anytime for the latest autosave data.
+5. **Export raw data** – Use the REST endpoints or query `coaching101.db` for deeper reporting and archival exports.
 
 ## Digital Features Breakdown
 
@@ -117,21 +157,23 @@ coaching101/
 ## Technical Specifications
 
 ### Browser Requirements
-- **Recommended**: Chrome, Firefox, Safari, Edge (latest versions)
-- **Minimum**: Any browser with ES6 JavaScript support and localStorage
+- **Recommended**: Latest Chrome, Edge, Firefox, or Safari
+- **Minimum**: Browsers with ES6, Fetch API, and cookie support
 - **Mobile**: iOS Safari 12+, Chrome Mobile 70+, Samsung Internet 10+
+- **Cookies**: HTTP-only session cookie must remain enabled
 
 ### Storage
-- Uses browser `localStorage` for data persistence
-- No external database required
-- Data stored locally on user's device
-- Typical storage: 50-200KB depending on completion
+- SQLite database stored at `data/coaching101.db`
+- Autosave syncs via authenticated API calls (JSON payloads)
+- Supports concurrent sessions across devices/browsers
+- Typical record size: ~75–250KB per user per module depending on completion
 
 ### Privacy & Security
-- **No tracking** - Zero analytics or tracking scripts
-- **Local-only** - All data stays on participant's device
-- **No server** - Can run entirely offline after initial load
-- **Export control** - Participants control their data export
+- **Hashed passwords** – Stored with bcrypt (`12` rounds) in SQLite.
+- **HTTP-only cookies** – Sessions delivered via signed JWT cookies.
+- **CORS controls** – Optional `FRONTEND_ORIGIN` whitelist for multi-domain deployments.
+- **Participant exports** – Users can export/delete their responses at any time.
+- **Admin-only reports** – Progress/engagement endpoints require `admin` role cookies.
 
 ### Responsive Breakpoints
 - **Desktop**: 1200px+ (full layout)
@@ -161,32 +203,28 @@ The application uses Google Fonts:
 
 ## Deployment Options
 
-### Static Hosting (Recommended)
-- GitHub Pages (free)
-- Netlify (free tier)
-- Vercel (free tier)
-- AWS S3 + CloudFront
-- Any web server (Apache, Nginx)
-
-### No Hosting Required
-- Distribute `index.html`, `styles.css`, and `app.js` as a ZIP
-- Participants open `index.html` locally in their browser
-- Works completely offline
+- Render, Railway, Fly.io, or similar Node hosting with persistent volumes
+- Heroku or Azure App Service (configure `npm start` entry point)
+- Docker container behind nginx/Caddy with HTTPS termination
+- Self-managed VM (Ubuntu/Debian) using PM2 or systemd to run `npm start`
 
 ## Data Management
 
 ### Auto-Save
-- Saves every time a field loses focus (blur event)
-- Saves on every keystroke (input event) with debouncing
-- Visual progress indicator updates every 5 seconds
+- Debounced sync (~1.5 s) after each keystroke/blur
+- Cloud persistence via `PUT /api/progress/:moduleId`
+- Header badge reflects saving state in real time
 
 ### Export Format
 Exports as JSON with the following structure:
 ```json
 {
   "exportDate": "2025-10-27T...",
-  "version": "1.0",
-  "participant": "Coaching 101 Participant",
+  "moduleId": "coaching101",
+  "user": {
+    "id": 1,
+    "email": "person@example.com"
+  },
   "formData": {
     "field-id": "value",
     ...
@@ -195,7 +233,7 @@ Exports as JSON with the following structure:
 ```
 
 ### Import
-Participants can import previously exported JSON files to restore their work.
+Participants can import previously exported JSON files to restore their work. Imports immediately sync to the database.
 
 ## Accessibility
 
@@ -221,21 +259,21 @@ Participants can import previously exported JSON files to restore their work.
 
 - **Browser Dependency**: Data is tied to the browser and device used
 - **No Cloud Sync**: Switching devices requires manual export/import
-- **LocalStorage Limits**: Most browsers limit to 5-10MB (more than enough)
+- **Session Cookies**: Ensure cookies are enabled so autosave requests stay authenticated
 - **Print Formatting**: Some browsers may render print differently
 
 ## Troubleshooting
 
 ### Data Not Saving
-1. Check if browser allows localStorage (some private modes block it)
-2. Clear browser cache and reload
-3. Try a different browser
-4. Export your data as backup
+1. Confirm you are logged in (header should show your name + “Saved” status)
+2. Check network connectivity or VPN/firewall rules blocking `PUT /api/progress`
+3. Review server logs for SQLite permission errors
+4. Export your data as a local backup
 
 ### Progress Not Updating
-1. Refresh the page
-2. Clear browser cache
-3. Check JavaScript console for errors
+1. Refresh the page to re-run calculation
+2. Ensure JavaScript is enabled
+3. Check browser console for validation errors
 
 ### Can't Navigate Between Sections
 1. Ensure JavaScript is enabled

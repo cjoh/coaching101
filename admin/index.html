@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Values Recovery | Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header admin-header">
+        <div class="header-content">
+            <h1>Admin Dashboard</h1>
+            <p class="subtitle">Participant Progress & Engagement Overview</p>
+        </div>
+        <div class="user-status hidden" id="userStatus">
+            <span class="user-name" id="adminName"></span>
+            <button type="button" id="logoutButton">Log out</button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <section id="loginPanel" class="admin-card">
+            <h2>Sign In</h2>
+            <p>Use your Core Values Recovery credentials to access participant data. Only admin accounts can view this page.</p>
+            <form id="loginForm" class="admin-form">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" name="password" type="password" required autocomplete="current-password" placeholder="Password">
+
+                <button type="submit">Log In</button>
+            </form>
+            <p class="admin-hint">Need an account? Create it from the participant workbook first, then contact an existing admin to grant access.</p>
+            <div id="loginError" class="admin-banner error hidden"></div>
+        </section>
+
+        <section id="notAdminPanel" class="admin-card hidden">
+            <h2>Admin Access Required</h2>
+            <p>Your account is active, but it is not marked as an administrator. Ask an existing admin to upgrade your role.</p>
+        </section>
+
+        <section id="dashboard" class="hidden">
+            <div id="dashboardMessage" class="admin-banner hidden"></div>
+
+            <div class="admin-toolbar">
+                <div class="filter-group">
+                    <label for="moduleFilter">Module</label>
+                    <select id="moduleFilter">
+                        <option value="all">All Modules</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="searchInput">Search</label>
+                    <input type="search" id="searchInput" placeholder="Search participants">
+                </div>
+
+                <button type="button" id="refreshButton" class="btn btn-secondary">Refresh</button>
+            </div>
+
+            <div class="admin-summary">
+                <div class="summary-card">
+                    <span class="summary-label">Participants</span>
+                    <span class="summary-value" id="summaryParticipants">0</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-label">Live Sessions</span>
+                    <span class="summary-value" id="summaryLive">0</span>
+                    <span class="summary-subtext" id="summaryLiveDetail">Updated in last 10 minutes</span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-label">Average Progress</span>
+                    <span class="summary-value" id="summaryAverage">0%</span>
+                    <span class="summary-subtext" id="summaryAverageDetail"></span>
+                </div>
+                <div class="summary-card">
+                    <span class="summary-label">Last Updated</span>
+                    <span class="summary-value" id="summaryLastUpdated">—</span>
+                </div>
+            </div>
+
+            <section class="admin-section">
+                <div class="admin-section-header">
+                    <h3>Active Sessions</h3>
+                    <span class="admin-section-subtext">Participants seen within the last 10 minutes.</span>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Participant</th>
+                                <th>Module</th>
+                                <th>Viewing</th>
+                                <th>Progress</th>
+                                <th>Last Seen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activeSessionsTable">
+                            <tr>
+                                <td colspan="5" class="empty-state">No one is active right now.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="admin-section">
+                <div class="admin-section-header">
+                    <h3>Module Progress</h3>
+                    <span class="admin-section-subtext">Latest autosave snapshots for each participant/module.</span>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Participant</th>
+                                <th>Module</th>
+                                <th>Progress</th>
+                                <th>Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody id="progressTable">
+                            <tr>
+                                <td colspan="4" class="empty-state">No progress records yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="../apiClient.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

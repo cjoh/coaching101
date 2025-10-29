@@ -661,6 +661,197 @@ h5 { font-size: 1.25rem; }
 .mb-1 { margin-bottom: 1rem; }
 .mb-2 { margin-bottom: 2rem; }
 
+/* User Status & Save Indicator */
+.app-header {
+    position: relative;
+}
+
+.user-status {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+}
+
+.user-status .user-name {
+    font-weight: 700;
+    color: var(--white);
+}
+
+.user-status button {
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-status .user-admin-link {
+    font-size: 0.78rem;
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.user-status .user-admin-link:hover {
+    opacity: 0.85;
+}
+
+.user-status button:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.save-status {
+    font-size: 0.75rem;
+    color: var(--white);
+    opacity: 0.85;
+}
+
+/* Authentication Overlay */
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(29, 68, 134, 0.92);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1.5rem;
+}
+
+.auth-overlay.hidden {
+    display: none;
+}
+
+.auth-modal {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    width: min(420px, 100%);
+    padding: 2rem;
+    text-align: left;
+    position: relative;
+}
+
+.auth-modal h2 {
+    color: var(--navy);
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.auth-modal p {
+    color: var(--dark-gray);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    background: var(--white);
+    color: var(--navy);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.auth-tab.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+}
+
+.auth-form label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--navy);
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--medium-gray);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    margin-bottom: 1rem;
+}
+
+.auth-form input:focus {
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(29, 68, 134, 0.15);
+    outline: none;
+}
+
+.auth-form button {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, var(--navy), #2a5ba8);
+    color: var(--white);
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 0.5rem;
+}
+
+.auth-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.auth-error {
+    background: rgba(255, 67, 67, 0.12);
+    color: #b30000;
+    border-left: 4px solid #ff4343;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.auth-footer {
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.auth-footer button {
+    background: none;
+    border: none;
+    color: var(--navy);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+}
+
+.auth-footer button:hover {
+    text-decoration: underline;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 768px) {
     .app-header h1 {
