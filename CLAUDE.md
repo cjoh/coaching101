@@ -184,9 +184,143 @@ Include state pathway information in appendices and Day 3 certification briefing
 - Admin dashboard: `apps/admin/`
 
 **Running the application:**
-- Start server: `node apps/server/index.js`
+- Start server: `node apps/server/index.js` or `npm start`
 - Access modules:
   - Coaching 101: http://localhost:3000/
   - Intervention: http://localhost:3000/intervention
   - Families: http://localhost:3000/families
   - Admin: http://localhost:3000/admin
+
+## Adding a New Course
+
+To add a new training course (e.g., "Executive Coaching"), follow these steps:
+
+### 1. Create Directory Structure
+
+Create the following directories:
+
+```bash
+# Application directories
+mkdir -p apps/[course-id]
+mkdir -p apps/[course-id]/content  # if using content modules
+
+# Content directories
+mkdir -p content/[course-id]/manuals
+mkdir -p content/[course-id]/schedules
+mkdir -p content/[course-id]/other
+```
+
+Example for "Executive Coaching" (course-id: `executive`):
+```bash
+mkdir -p apps/executive
+mkdir -p content/executive/{manuals,schedules,other}
+```
+
+### 2. Register Module in Database
+
+Edit `apps/server/db.js` and add your module to the `modules` array (around line 79):
+
+```javascript
+const modules = [
+    { id: 'coaching101', name: 'Coaching 101' },
+    { id: 'families', name: 'Family Recovery Coach Training' },
+    { id: 'intervention', name: 'Intervention Skill Lab' },
+    { id: 'executive', name: 'Executive Recovery Coaching' }  // NEW
+];
+```
+
+### 3. Add Server Route
+
+Edit `apps/server/index.js` and add a route for your module (around line 467):
+
+```javascript
+app.get('/executive', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../executive/index.html'));
+});
+```
+
+### 4. Create Web App Files
+
+Create these files in `apps/[course-id]/`:
+
+**Minimum required:**
+- `index.html` - Main HTML structure
+  - Reference shared CSS: `<link rel="stylesheet" href="../shared/styles.css">`
+  - Reference shared JS: `<script src="../shared/apiClient.js"></script>` and `<script src="../shared/app.js"></script>`
+  - Set moduleId: `window.CORE_VALUES_CONFIG = { moduleId: '[course-id]' };`
+- Optional: `content.js` - Course-specific content
+- Optional: `styles.css` - Course-specific styles
+
+**Copy/modify from existing module:**
+The easiest approach is to copy an existing module's files and modify them:
+```bash
+cp apps/coaching101/index.html apps/executive/index.html
+# Then edit to customize content
+```
+
+### 5. Create Content Files
+
+Add training materials in `content/[course-id]/`:
+
+**Manuals directory:**
+- Facilitator manuals (`.md` or `.docx`)
+- Participant manuals/workbooks
+- If complex like intervention, use subdirectories: `consolidated/`, `modular/`, `guides/`
+
+**Schedules directory:**
+- `Day1_Schedule.md`, `Day2_Schedule.md`, etc.
+- `Quick_Reference_Schedule.md`
+
+**Other directory:**
+- Training overviews
+- Requirements packets
+- Supporting documents
+
+### 6. Update CLAUDE.md (Optional)
+
+Add a section for your new course in CLAUDE.md with:
+- Course description and duration
+- Training structure overview
+- Any course-specific guidelines
+
+### Example: Complete New Course Setup
+
+```bash
+# 1. Create directories
+mkdir -p apps/executive content/executive/{manuals,schedules,other}
+
+# 2. Copy template files from existing course
+cp apps/coaching101/index.html apps/executive/index.html
+
+# 3. Edit apps/executive/index.html
+#    - Change title, heading, moduleId
+#    - Customize content sections
+
+# 4. Add module to apps/server/db.js
+#    Add: { id: 'executive', name: 'Executive Recovery Coaching' }
+
+# 5. Add route to apps/server/index.js
+#    Add: app.get('/executive', (req, res) => {...});
+
+# 6. Create content files
+#    Add manuals, schedules to content/executive/
+
+# 7. Restart server
+npm start
+
+# 8. Access at http://localhost:3000/executive
+```
+
+### Current Limitations & Potential Improvements
+
+**Current system requires manual changes for each new course:**
+1. Hardcoded routes in `apps/server/index.js`
+2. Hardcoded modules in `apps/server/db.js`
+
+**Potential improvements for easier course creation:**
+1. **Dynamic module loading** - Read from a `courses.json` config file
+2. **Course template generator** - Script to scaffold new course structure
+3. **Auto-discovery** - Server automatically detects apps/[course-id] directories
+4. **Module metadata** - Store course info (duration, prerequisites, etc.) in database
+
+If you're planning to add many courses, consider refactoring to use a configuration-driven approach.
