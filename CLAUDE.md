@@ -4,15 +4,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Coaching 101: Core Values Foundations for Recovery Coaches**
+This repository contains both **web applications** and **training content** for three Core Values Recovery professional development programs:
 
-A three-day, 21-hour introductory training program for peer recovery coaches. The project creates training materials through the Core Values Recovery framework, bridging state Peer Support Specialist and CCAR Recovery Coach Academy curricula with an experiential, values-driven approach.
+1. **Coaching 101** - Core Values Foundations for Recovery Coaches (3 days, 21 hours)
+2. **Intervention Training** - Advanced Crisis Intervention Professional Development (3 days + 40-week mentorship)
+3. **Family Recovery Coach Training** - Family Systems Recovery Coaching (3 days)
 
-## Core Deliverables
+All programs use the Core Values Recovery framework, bridging state Peer Support Specialist and CCAR Recovery Coach Academy curricula with an experiential, values-driven approach.
 
-1. **Facilitator Manual** - Complete lesson plans, scripts, and materials for trainers
-2. **Participant Manual (Workbook)** - Learner guide with reflection exercises and case studies
-3. **Three-Day Training Schedule** - Hour-by-hour curriculum across 21 contact hours
+## Repository Structure
+
+```
+coaching101/
+├── apps/                          # Web applications
+│   ├── coaching101/               # Coaching 101 web app
+│   ├── intervention/              # Intervention training web app
+│   ├── families/                  # Family coaching web app
+│   ├── admin/                     # Admin dashboard
+│   ├── server/                    # Backend (Express + SQLite)
+│   └── shared/                    # Shared resources (JS, CSS, images)
+│
+├── content/                       # Training content
+│   ├── coaching101/               # Coaching 101 materials
+│   │   ├── manuals/               # Facilitator & participant manuals
+│   │   ├── schedules/             # Day schedules
+│   │   ├── requirements/          # Requirements packet
+│   │   └── other/                 # Supporting documents
+│   ├── intervention/              # Intervention training materials
+│   │   ├── manuals/               # All manual formats
+│   │   │   ├── consolidated/      # Single-file manuals
+│   │   │   ├── modular/           # Session-by-session breakdowns
+│   │   │   └── guides/            # Day-specific facilitator guides
+│   │   ├── schedules/             # Training schedules
+│   │   ├── case-studies/          # Ethics dilemmas & scenarios
+│   │   ├── assessment-tools/      # Rubrics and assessments
+│   │   └── other/                 # Supporting documents
+│   └── families/                  # Family coaching materials
+│       ├── manuals/               # Family coaching manual
+│       ├── schedules/             # Training schedules
+│       └── other/                 # Supporting documents
+│
+└── scripts/                       # Utility scripts (Python image generators)
+```
+
+### Working with Applications vs Content
+
+**When working on web applications:**
+- All app code is in `apps/` directory
+- Shared resources (CSS, JS, images) are in `apps/shared/`
+- Backend server is in `apps/server/`
+- Module-specific code is in respective app directories
+
+**When working on training content:**
+- All content is in `content/` directory organized by course
+- Manuals are separated from schedules and other materials
+- Use the appropriate subdirectory based on content type
+
+## Core Deliverables (All Programs)
+
+1. **Facilitator Manuals** - Complete lesson plans, scripts, and materials for trainers
+2. **Participant Manuals (Workbooks)** - Learner guides with reflection exercises and case studies
+3. **Training Schedules** - Hour-by-hour curriculum for each program
+4. **Digital Learning Platform** - Interactive web applications for each training program
 
 ## Brand & Design Standards
 
@@ -35,7 +88,7 @@ When creating content, incorporate these Core Values Recovery concepts:
 - **Ethics & Boundaries** - Scope of practice and professional limits
 - **Cultural Humility** - Awareness and language sensitivity
 
-## Training Structure
+## Coaching 101 Training Structure
 
 **Day 1 - Foundations & Identity** (7 hours)
 - Welcome, history, role of coach, Core Values framework, listening & presence
@@ -47,6 +100,19 @@ When creating content, incorporate these Core Values Recovery concepts:
 - Cultural humility, GROW model, coaching triads practicum, certification pathways, action planning
 
 **Facilitation ratio:** 1 trainer per 12 participants (max 20)
+
+## Intervention Training Structure
+
+**3-Day Intensive + 40-Week Mentorship:**
+- Day 1: Awareness (Understanding crisis, intervention continuum, family systems)
+- Day 2: Coordination (First call assessment, family engagement, resistance strategies)
+- Day 3: Care (Aftercare planning, self-care, professional boundaries, integration)
+
+## Family Recovery Coach Training Structure
+
+**3-Day Program:**
+- Focus on family systems, codependency, enabling vs. support, family values alignment
+- 52-week workbook integration for ongoing family coaching
 
 ## Document Format Requirements
 
@@ -86,8 +152,41 @@ Include state pathway information in appendices and Day 3 certification briefing
 
 ## When Creating New Materials
 
-- Reference the requirements packet: `Coaching_101_Requirements_Packet.md`
+**For Coaching 101:**
+- Reference: `content/coaching101/requirements/Coaching_101_Requirements_Packet.md`
+- Manuals location: `content/coaching101/manuals/`
 - Maintain alignment with 21-hour total contact time
+
+**For Intervention Training:**
+- Manuals location: `content/intervention/manuals/`
+- Case studies: `content/intervention/case-studies/`
+- Assessment tools: `content/intervention/assessment-tools/`
+
+**For Family Coaching:**
+- Manuals location: `content/families/manuals/`
+
+**General Guidelines:**
 - Use placeholders for quotes, illustrations, and diagrams when layout isn't final
 - Return drafts in Markdown or Word before final PDF layout
 - Preserve the Core Values Recovery brand voice throughout all materials
+- Images and values cards are in `apps/shared/images/values/`
+
+## When Working on Web Applications
+
+**Server:**
+- Backend: `apps/server/index.js` (Express server)
+- Database: `apps/server/db.js` (SQLite schema)
+- Auth: `apps/server/auth.js` (JWT authentication)
+
+**Frontend:**
+- Shared code: `apps/shared/` (app.js, apiClient.js, styles.css)
+- Module-specific: `apps/[module-name]/` (index.html, content.js, etc.)
+- Admin dashboard: `apps/admin/`
+
+**Running the application:**
+- Start server: `node apps/server/index.js`
+- Access modules:
+  - Coaching 101: http://localhost:3000/
+  - Intervention: http://localhost:3000/intervention
+  - Families: http://localhost:3000/families
+  - Admin: http://localhost:3000/admin
