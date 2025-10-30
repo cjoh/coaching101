@@ -124,8 +124,10 @@
                 body: { moduleId, day, sectionId, sectionLabel, facilitatorGuideFile }
             });
         },
-        async getFacilitatorGuide(moduleId, filename) {
-            return request(`/facilitator-guide/${moduleId}/${filename}`);
+        async getFacilitatorGuide(moduleId, day, section) {
+            const params = new URLSearchParams({ day });
+            if (section) params.append('section', section);
+            return request(`/facilitator-guide/${moduleId}?${params}`);
         },
         async submitQuestion({ moduleId, questionText }) {
             return request('/questions', {

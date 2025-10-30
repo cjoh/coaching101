@@ -517,24 +517,98 @@ app.post('/api/broadcast-position', authenticate, requireAdmin, async (req, res)
     }
 });
 
-app.get('/api/facilitator-guide/:moduleId/:filename', authenticate, requireAdmin, async (req, res) => {
+app.get('/api/facilitator-guide/:moduleId', authenticate, requireAdmin, async (req, res) => {
     try {
-        const { moduleId, filename } = req.params;
+        const { moduleId } = req.params;
+        const { day, section } = req.query;
 
-        const safePath = path.join(__dirname, '../../content', moduleId, 'schedules', filename);
-
-        if (!safePath.startsWith(path.join(__dirname, '../../content'))) {
-            return res.status(403).json({ message: 'Access denied' });
+        if (!day) {
+            return res.status(400).json({ message: 'Day parameter required' });
         }
 
-        const content = await fs.readFile(safePath, 'utf-8');
+        const contentBase = path.join(__dirname, '../../content', moduleId);
+        let possiblePaths = [];
+
+        // For intervention module, try modular session files first
+        if (moduleId === 'intervention') {
+            const modularBase = path.join(contentBase, 'manuals', 'modular', `day${day}`);
+
+            if (section) {
+                // Try various naming patterns for the section
+                const sectionClean = section.trim();
+
+                // Pattern 1: "01 - Session_1.1_..."
+                possiblePaths.push(path.join(modularBase, `*Session*${day}.${sectionClean}*.md`));
+
+                // Pattern 2: Direct section name match (e.g., "Professional_Boundaries")
+                possiblePaths.push(path.join(modularBase, `*${sectionClean.replace(/\s+/g, '_')}*.md`));
+
+                // Pattern 3: Session number (e.g., "01", "02")
+                if (sectionClean.match(/^\d+$/)) {
+                    const paddedSection = sectionClean.padStart(2, '0');
+                    possiblePaths.push(path.join(modularBase, `${paddedSection} - *.md`));
+                }
+            }
+
+            // Fall back to day guide
+            possiblePaths.push(path.join(contentBase, 'manuals', 'guides', `Interventionist_Day${day}_Guide.md`));
+        }
+
+        // For all modules, also try schedules
+        possiblePaths.push(path.join(contentBase, 'schedules', `Day${day}_Schedule.md`));
+
+        // For coaching101/families, try facilitator manual
+        if (moduleId === 'coaching101' || moduleId === 'families') {
+            possiblePaths.push(path.join(contentBase, 'manuals', 'Facilitator_Manual.md'));
+        }
+
+        // Try to read the first file that exists
+        let content = null;
+        let foundPath = null;
+
+        for (const pathPattern of possiblePaths) {
+            try {
+                // Check if path contains glob pattern
+                if (pathPattern.includes('*')) {
+                    const glob = require('glob');
+                    const matches = glob.sync(pathPattern);
+                    if (matches.length > 0) {
+                        // Take the first match
+                        foundPath = matches[0];
+                        content = await fs.readFile(foundPath, 'utf-8');
+                        break;
+                    }
+                } else {
+                    // Direct path check
+                    if (!pathPattern.startsWith(path.join(__dirname, '../../content'))) {
+                        continue; // Skip unsafe paths
+                    }
+                    content = await fs.readFile(pathPattern, 'utf-8');
+                    foundPath = pathPattern;
+                    break;
+                }
+            } catch (error) {
+                // File doesn't exist, try next option
+                continue;
+            }
+        }
+
+        if (!content) {
+            return res.status(404).json({
+                message: 'Facilitator guide not found',
+                searched: possiblePaths
+            });
+        }
+
         const html = marked(content);
+        const fileName = path.basename(foundPath);
 
-        return res.json({ markdown: content, html });
+        return res.json({
+            markdown: content,
+            html,
+            fileName
+        });
     } catch (error) {
-        if (error.code === 'ENOENT') {
-            return res.status(404).json({ message: 'Facilitator guide not found' });
-        }
         console.error('Error reading facilitator guide:', error);
         return res.status(500).json({ message: 'Failed to read facilitator guide' });
     }

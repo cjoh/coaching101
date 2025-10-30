@@ -778,21 +778,20 @@ async function handleBroadcast() {
     showBanner('Broadcasting position...', 'info');
 
     try {
-        const facilitatorGuideFile = `Day${day}_Schedule.md`;
-
         await ApiClient.broadcastPosition({
             moduleId,
             day: parseInt(day, 10),
             sectionId: sectionLabel ? `day${day}-${sectionLabel.toLowerCase().replace(/\s+/g, '-')}` : null,
             sectionLabel: sectionLabel || null,
-            facilitatorGuideFile
+            facilitatorGuideFile: null // No longer needed
         });
 
         showBanner('Position broadcast to all students!', 'success', 3000);
 
         await loadCurrentPosition();
 
-        await loadFacilitatorGuide(moduleId, facilitatorGuideFile);
+        // Load the session-specific guide
+        await loadFacilitatorGuide(moduleId, day, sectionLabel);
     } catch (error) {
         console.error('Error broadcasting position:', error);
         showBanner(error.message || 'Failed to broadcast position', 'error', 5000);
@@ -801,19 +800,29 @@ async function handleBroadcast() {
     }
 }
 
-async function loadFacilitatorGuide(moduleId, filename) {
-    if (!filename) return;
+async function loadFacilitatorGuide(moduleId, day, section) {
+    if (!day) return;
 
     try {
-        const response = await ApiClient.getFacilitatorGuide(moduleId, filename);
+        const response = await ApiClient.getFacilitatorGuide(moduleId, day, section);
 
         if (response && response.html) {
-            dom.guideContent.innerHTML = response.html;
+            // Add filename as header if available
+            let content = '';
+            if (response.fileName) {
+                content = `<div class="guide-file-name"><strong>Guide:</strong> ${response.fileName}</div>`;
+            }
+            content += response.html;
+
+            dom.guideContent.innerHTML = content;
             dom.facilitatorGuide?.classList.remove('hidden');
         }
     } catch (error) {
         console.warn('Error loading facilitator guide:', error);
-        dom.guideContent.innerHTML = '<p class="error-text">Facilitator guide not available for this section.</p>';
+        const errorMsg = error.data?.searched
+            ? `<p class="error-text">Facilitator guide not found for Day ${day}${section ? ' - ' + section : ''}</p><details><summary>Searched locations</summary><ul>${error.data.searched.map(p => `<li>${p}</li>`).join('')}</ul></details>`
+            : '<p class="error-text">Facilitator guide not available for this section.</p>';
+        dom.guideContent.innerHTML = errorMsg;
         dom.facilitatorGuide?.classList.remove('hidden');
     }
 }
