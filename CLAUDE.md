@@ -183,6 +183,15 @@ Include state pathway information in appendices and Day 3 certification briefing
 - Module-specific: `apps/[module-name]/` (index.html, content.js, etc.)
 - Admin dashboard: `apps/admin/`
 
+**Database:**
+- Content Management System: 5 tables for courses, days, sessions, content, and user access
+  - `courses`: Course metadata (id, name, description, duration_days)
+  - `course_days`: Days within courses with schedules
+  - `course_sessions`: Sessions within days with duration and order
+  - `session_content`: Three-part content (facilitator_guide, coaches_manual, worksheet)
+  - `user_course_access`: User permissions for specific courses
+- Migration script: `scripts/migrate-content.js` (imports filesystem content to database)
+
 **Running the application:**
 - Start server: `node apps/server/index.js` or `npm start`
 - Access modules:
@@ -190,6 +199,152 @@ Include state pathway information in appendices and Day 3 certification briefing
   - Intervention: http://localhost:3000/intervention
   - Families: http://localhost:3000/families
   - Admin: http://localhost:3000/admin
+
+## Admin Dashboard
+
+The admin interface provides comprehensive content management, user management, and live facilitation tools.
+
+### Three-Tab Interface
+
+**Content Tab:**
+- Tree navigation: Courses → Days → Sessions
+- Course editor: Create/edit course metadata (name, description, duration)
+- Day editor: Edit day details and schedules (markdown support)
+- Session editor: Three-part content editing with markdown support
+  - Facilitator Guide: Trainer-facing lesson plans and scripts
+  - Coaches Manual: Participant-facing learning content
+  - Worksheet: Interactive exercises and reflection activities
+- Add/delete functionality for courses, days, and sessions
+
+**Users Tab:**
+- View all registered users with filtering
+- Manage user roles (admin/participant)
+- Reset user passwords
+- Grant/revoke course access per user
+- Real-time search and filtering
+
+**Live Tab:**
+- Questions: Real-time Q&A queue from participants
+  - Answer questions inline
+  - Mark questions as answered
+  - Auto-updates via WebSocket
+- This Session: Facilitator view during training
+  - Select active course, day, and session
+  - Broadcast position to all participants
+  - View all three content types (facilitator guide, coaches manual, worksheet)
+  - Markdown rendering for easy reading
+
+### Document Generation
+
+Generate professionally formatted DOCX manuals from database content:
+
+**Command Line:**
+```bash
+node scripts/generate-manual.js <course-id>
+node scripts/generate-manual.js coaching101
+node scripts/generate-manual.js intervention
+node scripts/generate-manual.js families
+```
+
+**From Admin UI:**
+- Click "Generate Manual" button in course editor
+- Downloads complete coaches manual as DOCX file
+- Includes: Title page, table of contents, day schedules, session content
+- Core Values Recovery branding (navy #1D4486, gold #D4AA4C)
+
+**Manual Contents:**
+- Branded title page with course name and description
+- Table of contents (auto-generated when opened in Word)
+- Day-by-day breakdown with schedules
+- Session-by-session coaches manual content
+- Proper formatting: headings, lists, quotes, code blocks
+- Output directory: `output/[course-id]_coaches_manual_[date].docx`
+
+### Content Migration
+
+Import existing filesystem content into the database:
+
+```bash
+node scripts/migrate-content.js
+```
+
+This script:
+- Creates all necessary database tables
+- Imports courses from `content/` directory
+- Parses markdown files into structured content
+- Migrates intervention, coaching101, and families courses
+- Handles modular and consolidated manual formats
+- Creates three content types per session (facilitator_guide, coaches_manual, worksheet)
+
+### Database Structure
+
+**courses table:**
+- `id`: Unique course identifier (coaching101, intervention, families)
+- `name`: Display name
+- `description`: Course description
+- `duration_days`: Number of training days
+- `is_active`: Active status flag
+
+**course_days table:**
+- `id`: Auto-increment ID
+- `course_id`: Foreign key to courses
+- `day_number`: Day number (1, 2, 3)
+- `title`: Day title
+- `description`: Day description
+- `schedule_markdown`: Day schedule in markdown format
+
+**course_sessions table:**
+- `id`: Auto-increment ID
+- `course_id`: Foreign key to courses
+- `day_id`: Foreign key to course_days
+- `session_number`: Session number (1.1, 1.2, 2.1, etc.)
+- `title`: Session title
+- `duration_minutes`: Session duration
+- `sort_order`: Display order
+
+**session_content table:**
+- `id`: Auto-increment ID
+- `session_id`: Foreign key to course_sessions
+- `content_type`: One of: facilitator_guide, coaches_manual, worksheet
+- `markdown_content`: Full markdown content
+- `version`: Content version number
+- `updated_by`: User ID who last updated
+
+**user_course_access table:**
+- `user_id`: Foreign key to users
+- `course_id`: Foreign key to courses
+- `granted_at`: Timestamp of access grant
+- `granted_by`: Admin user ID who granted access
+- `expires_at`: Optional expiration date
+
+### Admin API Endpoints
+
+**Content Management:**
+- `GET /api/admin/courses` - List all courses
+- `POST /api/admin/courses` - Create new course
+- `PUT /api/admin/courses/:id` - Update course
+- `DELETE /api/admin/courses/:id` - Delete course
+- `GET /api/admin/courses/:courseId/days` - Get days for course
+- `PUT /api/admin/days/:id` - Update day
+- `GET /api/admin/days/:dayId/sessions` - Get sessions for day
+- `POST /api/admin/days/:dayId/sessions` - Create new session
+- `PUT /api/admin/sessions/:id` - Update session
+- `DELETE /api/admin/sessions/:id` - Delete session
+- `GET /api/admin/sessions/:sessionId/content/:type` - Get session content (type: facilitator_guide, coaches_manual, worksheet)
+- `PUT /api/admin/sessions/:sessionId/content/:type` - Update session content
+
+**User Management:**
+- `GET /api/admin/users` - List all users
+- `PUT /api/admin/users/:id` - Update user details
+- `POST /api/admin/users/:id/reset-password` - Reset user password
+- `PUT /api/admin/users/:id/role` - Change user role
+- `GET /api/admin/users/:id/courses` - Get user's course access
+- `PUT /api/admin/users/:id/courses` - Update user's course access
+
+**Document Generation:**
+- `POST /api/admin/courses/:courseId/generate-manual` - Generate and download DOCX manual
+
+All admin endpoints require authentication and admin role.
 
 ## Adding a New Course
 
