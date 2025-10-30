@@ -1298,7 +1298,7 @@ app.use(
     })
 );
 
-app.get('/', (req, res) => {
+app.get('/coaching101', (req, res) => {
     return res.sendFile(path.join(__dirname, '../coaching101/index.html'));
 });
 
