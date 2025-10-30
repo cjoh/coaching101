@@ -62,6 +62,23 @@
     }
 
     const api = {
+        baseUrl: API_BASE,
+
+        // Generic HTTP methods
+        async get(path) {
+            return request(path, { method: 'GET' });
+        },
+        async post(path, body) {
+            return request(path, { method: 'POST', body });
+        },
+        async put(path, body) {
+            return request(path, { method: 'PUT', body });
+        },
+        async delete(path) {
+            return request(path, { method: 'DELETE' });
+        },
+
+        // Auth methods
         async register({ name, email, password }) {
             return request('/auth/register', {
                 method: 'POST',
@@ -80,6 +97,9 @@
             });
         },
         async me() {
+            return request('/auth/me');
+        },
+        async getCurrentUser() {
             return request('/auth/me');
         },
         async listModules() {
