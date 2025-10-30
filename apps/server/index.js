@@ -715,6 +715,526 @@ app.put('/api/questions/:id/answer', authenticate, requireAdmin, async (req, res
     }
 });
 
+// ============================================================================
+// CONTENT MANAGEMENT API ROUTES
+// ============================================================================
+
+// Courses
+app.get('/api/admin/courses', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const courses = await all(`
+            SELECT c.*, COUNT(DISTINCT cd.id) as day_count, COUNT(DISTINCT cs.id) as session_count
+            FROM courses c
+            LEFT JOIN course_days cd ON c.id = cd.course_id
+            LEFT JOIN course_sessions cs ON c.id = cs.course_id
+            GROUP BY c.id
+            ORDER BY c.created_at DESC
+        `);
+        return res.json(courses);
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        return res.status(500).json({ message: 'Failed to fetch courses' });
+    }
+});
+
+app.get('/api/admin/courses/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await get('SELECT * FROM courses WHERE id = ?', [id]);
+
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        return res.json(course);
+    } catch (error) {
+        console.error('Error fetching course:', error);
+        return res.status(500).json({ message: 'Failed to fetch course' });
+    }
+});
+
+app.post('/api/admin/courses', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id, name, description, duration_days } = req.body;
+
+        if (!id || !name) {
+            return res.status(400).json({ message: 'Course ID and name are required' });
+        }
+
+        // Check if course ID already exists
+        const existing = await get('SELECT id FROM courses WHERE id = ?', [id]);
+        if (existing) {
+            return res.status(409).json({ message: 'Course ID already exists' });
+        }
+
+        await run(
+            'INSERT INTO courses (id, name, description, duration_days, created_by) VALUES (?, ?, ?, ?, ?)',
+            [id, name, description || '', duration_days || 3, req.user.id]
+        );
+
+        // Auto-create days based on duration
+        const days = duration_days || 3;
+        for (let i = 1; i <= days; i++) {
+            await run(
+                'INSERT INTO course_days (course_id, day_number, title, description) VALUES (?, ?, ?, ?)',
+                [id, i, `Day ${i}`, '']
+            );
+        }
+
+        const course = await get('SELECT * FROM courses WHERE id = ?', [id]);
+        return res.status(201).json(course);
+    } catch (error) {
+        console.error('Error creating course:', error);
+        return res.status(500).json({ message: 'Failed to create course' });
+    }
+});
+
+app.put('/api/admin/courses/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, description, duration_days, is_active } = req.body;
+
+        const course = await get('SELECT * FROM courses WHERE id = ?', [id]);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        await run(
+            `UPDATE courses
+             SET name = ?, description = ?, duration_days = ?, is_active = ?, updated_at = CURRENT_TIMESTAMP
+             WHERE id = ?`,
+            [name, description, duration_days, is_active !== undefined ? (is_active ? 1 : 0) : course.is_active, id]
+        );
+
+        const updated = await get('SELECT * FROM courses WHERE id = ?', [id]);
+        return res.json(updated);
+    } catch (error) {
+        console.error('Error updating course:', error);
+        return res.status(500).json({ message: 'Failed to update course' });
+    }
+});
+
+app.delete('/api/admin/courses/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const course = await get('SELECT * FROM courses WHERE id = ?', [id]);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        await run('DELETE FROM courses WHERE id = ?', [id]);
+        return res.json({ message: 'Course deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting course:', error);
+        return res.status(500).json({ message: 'Failed to delete course' });
+    }
+});
+
+// Days
+app.get('/api/admin/courses/:courseId/days', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { courseId } = req.params;
+
+        const days = await all(`
+            SELECT cd.*, COUNT(cs.id) as session_count
+            FROM course_days cd
+            LEFT JOIN course_sessions cs ON cd.id = cs.day_id
+            WHERE cd.course_id = ?
+            GROUP BY cd.id
+            ORDER BY cd.day_number ASC
+        `, [courseId]);
+
+        return res.json(days);
+    } catch (error) {
+        console.error('Error fetching days:', error);
+        return res.status(500).json({ message: 'Failed to fetch days' });
+    }
+});
+
+app.get('/api/admin/days/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const day = await get('SELECT * FROM course_days WHERE id = ?', [id]);
+
+        if (!day) {
+            return res.status(404).json({ message: 'Day not found' });
+        }
+
+        return res.json(day);
+    } catch (error) {
+        console.error('Error fetching day:', error);
+        return res.status(500).json({ message: 'Failed to fetch day' });
+    }
+});
+
+app.put('/api/admin/days/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, schedule_markdown } = req.body;
+
+        const day = await get('SELECT * FROM course_days WHERE id = ?', [id]);
+        if (!day) {
+            return res.status(404).json({ message: 'Day not found' });
+        }
+
+        await run(
+            `UPDATE course_days
+             SET title = ?, description = ?, schedule_markdown = ?, updated_at = CURRENT_TIMESTAMP
+             WHERE id = ?`,
+            [title, description, schedule_markdown, id]
+        );
+
+        const updated = await get('SELECT * FROM course_days WHERE id = ?', [id]);
+        return res.json(updated);
+    } catch (error) {
+        console.error('Error updating day:', error);
+        return res.status(500).json({ message: 'Failed to update day' });
+    }
+});
+
+// Sessions
+app.get('/api/admin/days/:dayId/sessions', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { dayId } = req.params;
+
+        const sessions = await all(
+            `SELECT * FROM course_sessions
+             WHERE day_id = ?
+             ORDER BY sort_order ASC, session_number ASC`,
+            [dayId]
+        );
+
+        return res.json(sessions);
+    } catch (error) {
+        console.error('Error fetching sessions:', error);
+        return res.status(500).json({ message: 'Failed to fetch sessions' });
+    }
+});
+
+app.get('/api/admin/sessions/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const session = await get('SELECT * FROM course_sessions WHERE id = ?', [id]);
+
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found' });
+        }
+
+        return res.json(session);
+    } catch (error) {
+        console.error('Error fetching session:', error);
+        return res.status(500).json({ message: 'Failed to fetch session' });
+    }
+});
+
+app.post('/api/admin/days/:dayId/sessions', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { dayId } = req.params;
+        const { session_number, title, duration_minutes } = req.body;
+
+        if (!session_number || !title) {
+            return res.status(400).json({ message: 'Session number and title are required' });
+        }
+
+        const day = await get('SELECT * FROM course_days WHERE id = ?', [dayId]);
+        if (!day) {
+            return res.status(404).json({ message: 'Day not found' });
+        }
+
+        // Get next sort order
+        const lastSession = await get(
+            'SELECT MAX(sort_order) as max_order FROM course_sessions WHERE day_id = ?',
+            [dayId]
+        );
+        const sortOrder = (lastSession?.max_order ?? -1) + 1;
+
+        const result = await run(
+            `INSERT INTO course_sessions
+             (course_id, day_id, session_number, title, duration_minutes, sort_order)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [day.course_id, dayId, session_number, title, duration_minutes || 60, sortOrder]
+        );
+
+        const sessionId = result.lastID;
+
+        // Create empty content placeholders
+        for (const contentType of ['facilitator_guide', 'coaches_manual', 'worksheet']) {
+            await run(
+                'INSERT INTO session_content (session_id, content_type, markdown_content) VALUES (?, ?, ?)',
+                [sessionId, contentType, '']
+            );
+        }
+
+        const session = await get('SELECT * FROM course_sessions WHERE id = ?', [sessionId]);
+        return res.status(201).json(session);
+    } catch (error) {
+        console.error('Error creating session:', error);
+        return res.status(500).json({ message: 'Failed to create session' });
+    }
+});
+
+app.put('/api/admin/sessions/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { session_number, title, duration_minutes, sort_order } = req.body;
+
+        const session = await get('SELECT * FROM course_sessions WHERE id = ?', [id]);
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found' });
+        }
+
+        await run(
+            `UPDATE course_sessions
+             SET session_number = ?, title = ?, duration_minutes = ?, sort_order = ?, updated_at = CURRENT_TIMESTAMP
+             WHERE id = ?`,
+            [session_number, title, duration_minutes, sort_order !== undefined ? sort_order : session.sort_order, id]
+        );
+
+        const updated = await get('SELECT * FROM course_sessions WHERE id = ?', [id]);
+        return res.json(updated);
+    } catch (error) {
+        console.error('Error updating session:', error);
+        return res.status(500).json({ message: 'Failed to update session' });
+    }
+});
+
+app.delete('/api/admin/sessions/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const session = await get('SELECT * FROM course_sessions WHERE id = ?', [id]);
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found' });
+        }
+
+        await run('DELETE FROM course_sessions WHERE id = ?', [id]);
+        return res.json({ message: 'Session deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting session:', error);
+        return res.status(500).json({ message: 'Failed to delete session' });
+    }
+});
+
+// Session Content
+app.get('/api/admin/sessions/:sessionId/content/:type', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { sessionId, type } = req.params;
+
+        if (!['facilitator_guide', 'coaches_manual', 'worksheet'].includes(type)) {
+            return res.status(400).json({ message: 'Invalid content type' });
+        }
+
+        const content = await get(
+            'SELECT * FROM session_content WHERE session_id = ? AND content_type = ?',
+            [sessionId, type]
+        );
+
+        if (!content) {
+            return res.status(404).json({ message: 'Content not found' });
+        }
+
+        return res.json(content);
+    } catch (error) {
+        console.error('Error fetching content:', error);
+        return res.status(500).json({ message: 'Failed to fetch content' });
+    }
+});
+
+app.put('/api/admin/sessions/:sessionId/content/:type', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { sessionId, type } = req.params;
+        const { markdown_content } = req.body;
+
+        if (!['facilitator_guide', 'coaches_manual', 'worksheet'].includes(type)) {
+            return res.status(400).json({ message: 'Invalid content type' });
+        }
+
+        await run(
+            `UPDATE session_content
+             SET markdown_content = ?, updated_at = CURRENT_TIMESTAMP, updated_by = ?
+             WHERE session_id = ? AND content_type = ?`,
+            [markdown_content || '', req.user.id, sessionId, type]
+        );
+
+        const content = await get(
+            'SELECT * FROM session_content WHERE session_id = ? AND content_type = ?',
+            [sessionId, type]
+        );
+
+        return res.json(content);
+    } catch (error) {
+        console.error('Error updating content:', error);
+        return res.status(500).json({ message: 'Failed to update content' });
+    }
+});
+
+// ============================================================================
+// USER MANAGEMENT API ROUTES
+// ============================================================================
+
+app.get('/api/admin/users', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const users = await all(`
+            SELECT
+                u.id, u.email, u.name, u.role, u.created_at,
+                (SELECT MAX(updated_at) FROM active_sessions WHERE user_id = u.id) as last_seen
+            FROM users u
+            ORDER BY u.created_at DESC
+        `);
+
+        return res.json(users.map(sanitizeUser));
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        return res.status(500).json({ message: 'Failed to fetch users' });
+    }
+});
+
+app.put('/api/admin/users/:id', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email } = req.body;
+
+        const user = await get('SELECT * FROM users WHERE id = ?', [id]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if email is already taken by another user
+        if (email !== user.email) {
+            const existing = await get('SELECT id FROM users WHERE email = ? AND id != ?', [email, id]);
+            if (existing) {
+                return res.status(409).json({ message: 'Email already in use' });
+            }
+        }
+
+        await run(
+            'UPDATE users SET name = ?, email = ? WHERE id = ?',
+            [name, email, id]
+        );
+
+        const updated = await get('SELECT * FROM users WHERE id = ?', [id]);
+        return res.json(sanitizeUser(updated));
+    } catch (error) {
+        console.error('Error updating user:', error);
+        return res.status(500).json({ message: 'Failed to update user' });
+    }
+});
+
+app.post('/api/admin/users/:id/reset-password', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const user = await get('SELECT * FROM users WHERE id = ?', [id]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate a temporary password
+        const tempPassword = Math.random().toString(36).slice(-10);
+        const passwordHash = await hashPassword(tempPassword);
+
+        await run('UPDATE users SET password_hash = ? WHERE id = ?', [passwordHash, id]);
+
+        return res.json({
+            message: 'Password reset successfully',
+            tempPassword: tempPassword
+        });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        return res.status(500).json({ message: 'Failed to reset password' });
+    }
+});
+
+app.put('/api/admin/users/:id/role', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+
+        if (!['admin', 'participant'].includes(role)) {
+            return res.status(400).json({ message: 'Invalid role' });
+        }
+
+        const user = await get('SELECT * FROM users WHERE id = ?', [id]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Don't allow changing your own role
+        if (parseInt(id) === req.user.id) {
+            return res.status(403).json({ message: 'Cannot change your own role' });
+        }
+
+        await run('UPDATE users SET role = ? WHERE id = ?', [role, id]);
+
+        const updated = await get('SELECT * FROM users WHERE id = ?', [id]);
+        return res.json(sanitizeUser(updated));
+    } catch (error) {
+        console.error('Error updating role:', error);
+        return res.status(500).json({ message: 'Failed to update role' });
+    }
+});
+
+app.get('/api/admin/users/:id/courses', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const user = await get('SELECT * FROM users WHERE id = ?', [id]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const access = await all(
+            `SELECT uca.*, c.name as course_name
+             FROM user_course_access uca
+             JOIN courses c ON uca.course_id = c.id
+             WHERE uca.user_id = ?`,
+            [id]
+        );
+
+        return res.json(access);
+    } catch (error) {
+        console.error('Error fetching user courses:', error);
+        return res.status(500).json({ message: 'Failed to fetch user courses' });
+    }
+});
+
+app.put('/api/admin/users/:id/courses', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { courseIds } = req.body;
+
+        const user = await get('SELECT * FROM users WHERE id = ?', [id]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Remove existing access
+        await run('DELETE FROM user_course_access WHERE user_id = ?', [id]);
+
+        // Add new access
+        for (const courseId of courseIds) {
+            await run(
+                'INSERT INTO user_course_access (user_id, course_id, granted_by) VALUES (?, ?, ?)',
+                [id, courseId, req.user.id]
+            );
+        }
+
+        const access = await all(
+            `SELECT uca.*, c.name as course_name
+             FROM user_course_access uca
+             JOIN courses c ON uca.course_id = c.id
+             WHERE uca.user_id = ?`,
+            [id]
+        );
+
+        return res.json(access);
+    } catch (error) {
+        console.error('Error updating user courses:', error);
+        return res.status(500).json({ message: 'Failed to update user courses' });
+    }
+});
+
 const blockedStaticPrefixes = ['/server', '/data', '/node_modules', '/package', '/package-lock'];
 
 app.use((req, res, next) => {
