@@ -181,7 +181,8 @@ async function handleLoginSubmit(e) {
 
     try {
         dom.loginError.classList.add('hidden');
-        const user = await ApiClient.login({ email, password });
+        const response = await ApiClient.login({ email, password });
+        const user = response.user;
 
         if (user.role !== 'admin') {
             showNotAdminPanel();
