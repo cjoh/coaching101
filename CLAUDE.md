@@ -193,7 +193,35 @@ Include state pathway information in appendices and Day 3 certification briefing
 
 ## Adding a New Course
 
-To add a new training course (e.g., "Executive Coaching"), follow these steps:
+### Quick Method: Use the Script
+
+The easiest way to add a new course is to use the automated script:
+
+```bash
+./scripts/create-course.sh <course-id> "<course-name>"
+```
+
+**Example:**
+```bash
+./scripts/create-course.sh executive "Executive Recovery Coaching"
+```
+
+This script will:
+- ✅ Create all necessary directories (apps and content)
+- ✅ Generate a basic web app template
+- ✅ Register the module in the database
+- ✅ Add the server route
+- ✅ Create placeholder README files for content
+
+After running the script:
+1. Restart the server: `npm start`
+2. Visit your new course at: `http://localhost:3000/<course-id>`
+3. Customize the web app in `apps/<course-id>/index.html`
+4. Add training materials to `content/<course-id>/`
+
+### Manual Method: Step-by-Step
+
+If you prefer to add a new training course manually (e.g., "Executive Coaching"), follow these steps:
 
 ### 1. Create Directory Structure
 
