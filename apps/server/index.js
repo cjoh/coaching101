@@ -529,38 +529,43 @@ app.get('/api/facilitator-guide/:moduleId', authenticate, requireAdmin, async (r
         const contentBase = path.join(__dirname, '../../content', moduleId);
         let possiblePaths = [];
 
-        // For intervention module, try modular session files first
-        if (moduleId === 'intervention') {
+        // Universal search pattern for all modules:
+        // 1. Session-specific guides (if section provided)
+        // 2. Day-specific guides
+        // 3. Day schedules
+        // 4. Facilitator manuals
+
+        if (section) {
+            // Try to find session-specific guides in modular directory
             const modularBase = path.join(contentBase, 'manuals', 'modular', `day${day}`);
+            const sectionClean = section.trim();
 
-            if (section) {
-                // Try various naming patterns for the section
-                const sectionClean = section.trim();
+            // Pattern 1: Session number like "1.1" matches "Session_1.1_..."
+            possiblePaths.push(path.join(modularBase, `*Session*${day}.${sectionClean}*.md`));
 
-                // Pattern 1: "01 - Session_1.1_..."
-                possiblePaths.push(path.join(modularBase, `*Session*${day}.${sectionClean}*.md`));
+            // Pattern 2: Topic name like "Professional Boundaries"
+            possiblePaths.push(path.join(modularBase, `*${sectionClean.replace(/\s+/g, '_')}*.md`));
 
-                // Pattern 2: Direct section name match (e.g., "Professional_Boundaries")
-                possiblePaths.push(path.join(modularBase, `*${sectionClean.replace(/\s+/g, '_')}*.md`));
-
-                // Pattern 3: Session number (e.g., "01", "02")
-                if (sectionClean.match(/^\d+$/)) {
-                    const paddedSection = sectionClean.padStart(2, '0');
-                    possiblePaths.push(path.join(modularBase, `${paddedSection} - *.md`));
-                }
+            // Pattern 3: Numeric index like "01", "02"
+            if (sectionClean.match(/^\d+$/)) {
+                const paddedSection = sectionClean.padStart(2, '0');
+                possiblePaths.push(path.join(modularBase, `${paddedSection} - *.md`));
+                possiblePaths.push(path.join(modularBase, `${paddedSection}*.md`));
             }
-
-            // Fall back to day guide
-            possiblePaths.push(path.join(contentBase, 'manuals', 'guides', `Interventionist_Day${day}_Guide.md`));
         }
 
-        // For all modules, also try schedules
+        // Fallback 1: Day-specific guides in manuals/guides/
+        // Try multiple naming patterns to support different modules
+        const guidesDir = path.join(contentBase, 'manuals', 'guides');
+        possiblePaths.push(path.join(guidesDir, `*Day${day}_Guide.md`));
+        possiblePaths.push(path.join(guidesDir, `*Day_${day}*.md`));
+
+        // Fallback 2: Day schedules
         possiblePaths.push(path.join(contentBase, 'schedules', `Day${day}_Schedule.md`));
 
-        // For coaching101/families, try facilitator manual
-        if (moduleId === 'coaching101' || moduleId === 'families') {
-            possiblePaths.push(path.join(contentBase, 'manuals', 'Facilitator_Manual.md'));
-        }
+        // Fallback 3: General facilitator manual
+        possiblePaths.push(path.join(contentBase, 'manuals', 'Facilitator_Manual.md'));
+        possiblePaths.push(path.join(contentBase, 'manuals', '*manual.md'));
 
         // Try to read the first file that exists
         let content = null;
