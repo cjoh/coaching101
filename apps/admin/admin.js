@@ -112,7 +112,14 @@ function attachEventListeners() {
 
     if (dom.broadcastModule) {
         dom.broadcastModule.addEventListener('change', () => {
+            populateSectionDropdown();
             loadCurrentPosition();
+        });
+    }
+
+    if (dom.broadcastDay) {
+        dom.broadcastDay.addEventListener('change', () => {
+            populateSectionDropdown();
         });
     }
 
@@ -762,7 +769,7 @@ function displayCurrentPosition(position) {
 async function handleBroadcast() {
     const moduleId = dom.broadcastModule.value;
     const day = dom.broadcastDay.value;
-    const sectionLabel = dom.broadcastSection.value.trim();
+    const sectionId = dom.broadcastSection.value.trim();
 
     if (!moduleId) {
         showBanner('Please select a module', 'error', 3000);
@@ -778,11 +785,24 @@ async function handleBroadcast() {
     showBanner('Broadcasting position...', 'info');
 
     try {
+        // Get the section label from the dropdown's selected option text
+        let sectionLabel = null;
+        if (sectionId) {
+            const selectedOption = dom.broadcastSection.options[dom.broadcastSection.selectedIndex];
+            if (selectedOption) {
+                // Extract label from option text (format: "1.1 - Welcome & Orientation")
+                sectionLabel = selectedOption.textContent.split(' - ').slice(1).join(' - ').trim();
+                if (!sectionLabel) {
+                    sectionLabel = selectedOption.textContent.trim();
+                }
+            }
+        }
+
         await ApiClient.broadcastPosition({
             moduleId,
             day: parseInt(day, 10),
-            sectionId: sectionLabel ? `day${day}-${sectionLabel.toLowerCase().replace(/\s+/g, '-')}` : null,
-            sectionLabel: sectionLabel || null,
+            sectionId: sectionId ? `day${day}-${sectionId.toLowerCase().replace(/\./g, '-')}` : null,
+            sectionLabel: sectionLabel || sectionId || null,
             facilitatorGuideFile: null // No longer needed
         });
 
@@ -791,7 +811,7 @@ async function handleBroadcast() {
         await loadCurrentPosition();
 
         // Load the session-specific guide
-        await loadFacilitatorGuide(moduleId, day, sectionLabel);
+        await loadFacilitatorGuide(moduleId, day, sectionId);
     } catch (error) {
         console.error('Error broadcasting position:', error);
         showBanner(error.message || 'Failed to broadcast position', 'error', 5000);
@@ -824,6 +844,48 @@ async function loadFacilitatorGuide(moduleId, day, section) {
             : '<p class="error-text">Facilitator guide not available for this section.</p>';
         dom.guideContent.innerHTML = errorMsg;
         dom.facilitatorGuide?.classList.remove('hidden');
+    }
+}
+
+async function populateSectionDropdown() {
+    const moduleId = dom.broadcastModule?.value;
+    const day = dom.broadcastDay?.value;
+
+    if (!dom.broadcastSection) return;
+
+    // Clear existing options
+    dom.broadcastSection.innerHTML = '<option value="">Select section...</option>';
+
+    // If module or day not selected, disable section dropdown
+    if (!moduleId || !day) {
+        dom.broadcastSection.disabled = true;
+        return;
+    }
+
+    // Disable while loading
+    dom.broadcastSection.disabled = true;
+
+    try {
+        // Fetch sections from API
+        const response = await ApiClient.getSections(moduleId, parseInt(day, 10));
+        const sections = response?.sections || [];
+
+        if (sections.length === 0) {
+            // No sections found for this module/day - leave disabled
+            return;
+        }
+
+        // Enable and populate dropdown
+        dom.broadcastSection.disabled = false;
+        sections.forEach(section => {
+            const option = document.createElement('option');
+            option.value = section.id;
+            option.textContent = `${section.id} - ${section.label}`;
+            dom.broadcastSection.appendChild(option);
+        });
+    } catch (error) {
+        console.warn('Error loading sections:', error);
+        // Leave dropdown disabled on error
     }
 }
 
@@ -936,4 +998,10 @@ function populateBroadcastModules() {
         option2.textContent = module.name;
         dom.questionsModuleFilter.appendChild(option2);
     });
+
+    // Initialize section dropdown as disabled until module+day are selected
+    if (dom.broadcastSection) {
+        dom.broadcastSection.disabled = true;
+        dom.broadcastSection.innerHTML = '<option value="">Select section...</option>';
+    }
 }

@@ -20,6 +20,7 @@ const {
     authenticate,
     requireAdmin
 } = require('./auth');
+const { getSections, getAllSections } = require('./sectionParser');
 
 const app = express();
 const server = http.createServer(app);
@@ -215,6 +216,28 @@ app.get('/api/modules', authenticate, async (req, res) => {
     }
 });
 
+app.get('/api/modules/:moduleId/sections', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const { day } = req.query;
+
+        await ensureModuleExists(moduleId);
+
+        if (day) {
+            // Get sections for a specific day
+            const sections = await getSections(moduleId, parseInt(day, 10));
+            return res.json({ day: parseInt(day, 10), sections });
+        } else {
+            // Get all sections for all days
+            const allSections = await getAllSections(moduleId);
+            return res.json({ sections: allSections });
+        }
+    } catch (error) {
+        console.error('Error fetching sections:', error);
+        return res.status(500).json({ message: 'Failed to fetch sections' });
+    }
+});
+
 app.get('/api/progress/:moduleId', authenticate, async (req, res) => {
     try {
         const { moduleId } = req.params;
@@ -362,6 +385,11 @@ app.post('/api/session/presence', authenticate, async (req, res) => {
     } catch (error) {
         if (error.statusCode === 404) {
             return res.status(404).json({ message: error.message });
+        }
+        // Handle foreign key constraint (likely invalid user_id from stale token)
+        if (error.code === 'SQLITE_CONSTRAINT' && error.errno === 19) {
+            console.warn('Foreign key constraint failed - likely stale auth token');
+            return res.status(401).json({ message: 'Session invalid, please login again' });
         }
         console.error('Error updating session presence:', error);
         return res.status(500).json({ message: 'Failed to update presence' });
@@ -702,7 +730,7 @@ app.use((req, res, next) => {
 });
 
 app.use(
-    express.static(path.join(__dirname, '../..'), {
+    express.static(path.join(__dirname, '..'), {
         index: false
     })
 );

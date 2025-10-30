@@ -108,6 +108,83 @@ db.serialize(() => {
         )
     `);
 
+    // Content Management Tables
+    db.run(`
+        CREATE TABLE IF NOT EXISTS courses (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            description TEXT,
+            duration_days INTEGER NOT NULL DEFAULT 3,
+            is_active INTEGER DEFAULT 1,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            created_by INTEGER,
+            FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS course_days (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            course_id TEXT NOT NULL,
+            day_number INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT,
+            schedule_markdown TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+            UNIQUE (course_id, day_number)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS course_sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            course_id TEXT NOT NULL,
+            day_id INTEGER NOT NULL,
+            session_number TEXT NOT NULL,
+            title TEXT NOT NULL,
+            duration_minutes INTEGER DEFAULT 60,
+            sort_order INTEGER NOT NULL DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+            FOREIGN KEY (day_id) REFERENCES course_days(id) ON DELETE CASCADE,
+            UNIQUE (course_id, session_number)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS session_content (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            session_id INTEGER NOT NULL,
+            content_type TEXT NOT NULL CHECK(content_type IN ('facilitator_guide', 'coaches_manual', 'worksheet')),
+            markdown_content TEXT NOT NULL DEFAULT '',
+            version INTEGER NOT NULL DEFAULT 1,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_by INTEGER,
+            FOREIGN KEY (session_id) REFERENCES course_sessions(id) ON DELETE CASCADE,
+            FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL,
+            UNIQUE (session_id, content_type)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS user_course_access (
+            user_id INTEGER NOT NULL,
+            course_id TEXT NOT NULL,
+            granted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            granted_by INTEGER,
+            expires_at DATETIME,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+            FOREIGN KEY (granted_by) REFERENCES users(id) ON DELETE SET NULL,
+            PRIMARY KEY (user_id, course_id)
+        )
+    `);
+
     const modules = [
         { id: 'coaching101', name: 'Coaching 101' },
         { id: 'families', name: 'Family Recovery Coach Training' },

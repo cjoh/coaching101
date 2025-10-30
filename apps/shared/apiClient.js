@@ -85,6 +85,10 @@
         async listModules() {
             return request('/modules');
         },
+        async getSections(moduleId, day) {
+            const params = day ? `?day=${day}` : '';
+            return request(`/modules/${moduleId}/sections${params}`);
+        },
         async fetchProgress(moduleId) {
             return request(`/progress/${moduleId}`);
         },
