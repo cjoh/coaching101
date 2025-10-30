@@ -59,6 +59,10 @@ let presenceInFlight = false;
 let queuedPresencePayload = null;
 let presenceHeartbeatId = null;
 
+let socket = null;
+let positionBannerElement = null;
+let questionFormElement = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     initApp().catch(error => {
         console.error('Failed to initialize workbook:', error);
@@ -92,6 +96,11 @@ async function initApp() {
     startPresenceHeartbeat();
 
     await recordEngagement('module_opened', { moduleId: MODULE_ID });
+
+    createPositionBanner();
+    createQuestionForm();
+    initializeSocket();
+    loadCurrentPosition();
 
     console.log('Workbook ready for use ✅');
 }
@@ -1060,5 +1069,188 @@ window.exportWorkbook = exportWorkbook;
 window.printWorkbook = printWorkbook;
 window.clearAllData = clearAllData;
 window.importWorkbook = importWorkbook;
+
+// ========================================
+// Position Banner & Questions
+// ========================================
+
+function createPositionBanner() {
+    if (positionBannerElement) return;
+
+    positionBannerElement = document.createElement('div');
+    positionBannerElement.id = 'positionBanner';
+    positionBannerElement.className = 'position-banner hidden';
+    positionBannerElement.innerHTML = `
+        <div class="banner-content">
+            <span class="banner-icon">📍</span>
+            <div class="banner-text">
+                <strong>Class is currently on:</strong>
+                <span id="bannerPositionText">—</span>
+            </div>
+            <button type="button" id="bannerGoButton" class="banner-go-button">Go There</button>
+            <button type="button" id="bannerCloseButton" class="banner-close-button" title="Dismiss">&times;</button>
+        </div>
+    `;
+
+    document.body.appendChild(positionBannerElement);
+
+    const goButton = document.getElementById('bannerGoButton');
+    const closeButton = document.getElementById('bannerCloseButton');
+
+    if (goButton) {
+        goButton.addEventListener('click', () => {
+            const position = positionBannerElement.dataset.position;
+            if (position) {
+                try {
+                    const pos = JSON.parse(position);
+                    if (pos.section_id) {
+                        navigateToSection(`day${pos.day}`);
+                    }
+                } catch (error) {
+                    console.error('Error parsing position:', error);
+                }
+            }
+            positionBannerElement.classList.add('hidden');
+        });
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            positionBannerElement.classList.add('hidden');
+        });
+    }
+}
+
+function createQuestionForm() {
+    if (questionFormElement) return;
+
+    questionFormElement = document.createElement('div');
+    questionFormElement.id = 'questionForm';
+    questionFormElement.className = 'question-form-container';
+    questionFormElement.innerHTML = `
+        <button type="button" id="questionToggleButton" class="question-toggle-button" title="Ask a question">?</button>
+        <div id="questionFormPanel" class="question-form-panel hidden">
+            <div class="question-form-header">
+                <h4>Ask a Question</h4>
+                <button type="button" id="questionFormCloseButton" class="question-form-close">&times;</button>
+            </div>
+            <div class="question-form-body">
+                <textarea id="questionTextarea" placeholder="Type your question here..." rows="3"></textarea>
+                <button type="button" id="questionSubmitButton" class="question-submit-button">Submit Question</button>
+                <p id="questionFormStatus" class="question-form-status hidden"></p>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(questionFormElement);
+
+    const toggleButton = document.getElementById('questionToggleButton');
+    const formPanel = document.getElementById('questionFormPanel');
+    const closeButton = document.getElementById('questionFormCloseButton');
+    const submitButton = document.getElementById('questionSubmitButton');
+    const textarea = document.getElementById('questionTextarea');
+    const status = document.getElementById('questionFormStatus');
+
+    if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+            formPanel.classList.toggle('hidden');
+            if (!formPanel.classList.contains('hidden')) {
+                textarea.focus();
+            }
+        });
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            formPanel.classList.add('hidden');
+        });
+    }
+
+    if (submitButton) {
+        submitButton.addEventListener('click', async () => {
+            const questionText = textarea.value.trim();
+            if (!questionText) {
+                showQuestionStatus('Please enter a question', 'error');
+                return;
+            }
+
+            submitButton.disabled = true;
+            showQuestionStatus('Submitting...', 'info');
+
+            try {
+                await ApiClient.submitQuestion({
+                    moduleId: MODULE_ID,
+                    questionText
+                });
+
+                showQuestionStatus('Question submitted!', 'success');
+                textarea.value = '';
+                setTimeout(() => {
+                    formPanel.classList.add('hidden');
+                    status.classList.add('hidden');
+                }, 2000);
+            } catch (error) {
+                console.error('Error submitting question:', error);
+                showQuestionStatus(error.message || 'Failed to submit question', 'error');
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    }
+}
+
+function showQuestionStatus(message, type) {
+    const status = document.getElementById('questionFormStatus');
+    if (!status) return;
+
+    status.textContent = message;
+    status.className = `question-form-status ${type}`;
+    status.classList.remove('hidden');
+}
+
+function initializeSocket() {
+    if (!window.io || socket) return;
+
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('WebSocket connected');
+    });
+
+    socket.on('position-update', (data) => {
+        console.log('Position update received:', data);
+        if (data.moduleId === MODULE_ID && data.position) {
+            displayPositionBanner(data.position);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('WebSocket disconnected');
+    });
+}
+
+async function loadCurrentPosition() {
+    try {
+        const response = await ApiClient.getBroadcastPosition(MODULE_ID);
+        if (response?.position) {
+            displayPositionBanner(response.position);
+        }
+    } catch (error) {
+        console.warn('Error loading current position:', error);
+    }
+}
+
+function displayPositionBanner(position) {
+    if (!positionBannerElement || !position) return;
+
+    const text = `Day ${position.day}${position.section_label ? ` - ${position.section_label}` : ''}`;
+    const textElement = document.getElementById('bannerPositionText');
+    if (textElement) {
+        textElement.textContent = text;
+    }
+
+    positionBannerElement.dataset.position = JSON.stringify(position);
+    positionBannerElement.classList.remove('hidden');
+}
 
 console.log('Client scripts loaded for module:', MODULE_ID);

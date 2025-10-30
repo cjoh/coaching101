@@ -1,5 +1,9 @@
 const path = require('path');
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const fs = require('fs').promises;
+const { marked } = require('marked');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const {
@@ -18,6 +22,13 @@ const {
 } = require('./auth');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: process.env.FRONTEND_ORIGIN ? process.env.FRONTEND_ORIGIN.split(',').map(url => url.trim()) : '*',
+        credentials: true
+    }
+});
 const PORT = process.env.PORT || 3000;
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || null;
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || '')
@@ -444,6 +455,159 @@ app.get('/api/admin/active-sessions', authenticate, requireAdmin, async (req, re
     }
 });
 
+app.get('/api/broadcast-position/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const position = await get(
+            `SELECT bp.*, u.name as updated_by_name
+             FROM broadcast_position bp
+             LEFT JOIN users u ON u.id = bp.updated_by
+             WHERE bp.module_id = ?`,
+            [moduleId]
+        );
+
+        if (!position) {
+            return res.json({ position: null });
+        }
+
+        return res.json({ position });
+    } catch (error) {
+        console.error('Error fetching broadcast position:', error);
+        return res.status(500).json({ message: 'Failed to fetch broadcast position' });
+    }
+});
+
+app.post('/api/broadcast-position', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { moduleId, day, sectionId, sectionLabel, facilitatorGuideFile } = req.body;
+
+        if (!moduleId || !day) {
+            return res.status(400).json({ message: 'moduleId and day are required' });
+        }
+
+        await ensureModuleExists(moduleId);
+
+        await run(
+            `INSERT INTO broadcast_position (module_id, day, section_id, section_label, facilitator_guide_file, updated_by)
+             VALUES (?, ?, ?, ?, ?, ?)
+             ON CONFLICT(module_id) DO UPDATE SET
+                day = excluded.day,
+                section_id = excluded.section_id,
+                section_label = excluded.section_label,
+                facilitator_guide_file = excluded.facilitator_guide_file,
+                updated_by = excluded.updated_by,
+                updated_at = CURRENT_TIMESTAMP`,
+            [moduleId, day, sectionId, sectionLabel, facilitatorGuideFile, req.user.id]
+        );
+
+        const position = await get(
+            `SELECT bp.*, u.name as updated_by_name
+             FROM broadcast_position bp
+             LEFT JOIN users u ON u.id = bp.updated_by
+             WHERE bp.module_id = ?`,
+            [moduleId]
+        );
+
+        io.emit('position-update', { moduleId, position });
+
+        return res.json({ message: 'Position broadcast', position });
+    } catch (error) {
+        console.error('Error broadcasting position:', error);
+        return res.status(500).json({ message: 'Failed to broadcast position' });
+    }
+});
+
+app.get('/api/facilitator-guide/:moduleId/:filename', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { moduleId, filename } = req.params;
+
+        const safePath = path.join(__dirname, '../../content', moduleId, 'schedules', filename);
+
+        if (!safePath.startsWith(path.join(__dirname, '../../content'))) {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        const content = await fs.readFile(safePath, 'utf-8');
+        const html = marked(content);
+
+        return res.json({ markdown: content, html });
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).json({ message: 'Facilitator guide not found' });
+        }
+        console.error('Error reading facilitator guide:', error);
+        return res.status(500).json({ message: 'Failed to read facilitator guide' });
+    }
+});
+
+app.post('/api/questions', authenticate, async (req, res) => {
+    try {
+        const { moduleId, questionText } = req.body;
+
+        if (!moduleId || !questionText || !questionText.trim()) {
+            return res.status(400).json({ message: 'moduleId and questionText are required' });
+        }
+
+        await ensureModuleExists(moduleId);
+
+        await run(
+            `INSERT INTO student_questions (user_id, user_name, module_id, question_text)
+             VALUES (?, ?, ?, ?)`,
+            [req.user.id, req.user.name, moduleId, questionText.trim()]
+        );
+
+        const question = await get(
+            `SELECT * FROM student_questions WHERE id = last_insert_rowid()`
+        );
+
+        io.emit('new-question', { moduleId, question });
+
+        return res.status(201).json({ message: 'Question submitted', question });
+    } catch (error) {
+        console.error('Error submitting question:', error);
+        return res.status(500).json({ message: 'Failed to submit question' });
+    }
+});
+
+app.get('/api/questions/:moduleId', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const questions = await all(
+            `SELECT * FROM student_questions
+             WHERE module_id = ?
+             ORDER BY created_at DESC`,
+            [moduleId]
+        );
+
+        return res.json({ questions });
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        return res.status(500).json({ message: 'Failed to fetch questions' });
+    }
+});
+
+app.put('/api/questions/:id/answer', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { answerText } = req.body;
+
+        await run(
+            `UPDATE student_questions
+             SET is_answered = 1, answered_at = CURRENT_TIMESTAMP, answer_text = ?
+             WHERE id = ?`,
+            [answerText, id]
+        );
+
+        const question = await get(`SELECT * FROM student_questions WHERE id = ?`, [id]);
+        io.emit('question-answered', { question });
+
+        return res.json({ message: 'Question answered', question });
+    } catch (error) {
+        console.error('Error answering question:', error);
+        return res.status(500).json({ message: 'Failed to answer question' });
+    }
+});
+
 const blockedStaticPrefixes = ['/server', '/data', '/node_modules', '/package', '/package-lock'];
 
 app.use((req, res, next) => {
@@ -495,6 +659,15 @@ app.use((err, req, res, next) => {
     return res.status(status).json({ message: err.message || 'Server error' });
 });
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+    });
+});
+
+server.listen(PORT, () => {
     console.log(`Coaching backend listening on http://localhost:${PORT}`);
+    console.log('WebSocket server ready for real-time updates');
 });
