@@ -152,7 +152,8 @@ function attachEventListeners() {
 
 async function initializeDashboard() {
     try {
-        const user = await ApiClient.getCurrentUser();
+        const response = await ApiClient.getCurrentUser();
+        const user = response?.user;
         if (!user) {
             showLoginPanel();
             return;
