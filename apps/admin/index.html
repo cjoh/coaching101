@@ -9,12 +9,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- EasyMDE for markdown editing -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
 </head>
 <body>
     <header class="app-header admin-header">
         <div class="header-content">
             <h1>Admin Dashboard</h1>
-            <p class="subtitle">Participant Progress & Engagement Overview</p>
+            <p class="subtitle">Content Management & Live Facilitation</p>
         </div>
         <div class="user-status hidden" id="userStatus">
             <span class="user-name" id="adminName"></span>
@@ -23,9 +26,10 @@
     </header>
 
     <main class="admin-container">
+        <!-- Login Panel -->
         <section id="loginPanel" class="admin-card">
             <h2>Sign In</h2>
-            <p>Use your Core Values Recovery credentials to access participant data. Only admin accounts can view this page.</p>
+            <p>Use your Core Values Recovery credentials to access the admin dashboard. Only admin accounts can view this page.</p>
             <form id="loginForm" class="admin-form">
                 <label for="loginEmail">Email</label>
                 <input id="loginEmail" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
@@ -39,162 +43,407 @@
             <div id="loginError" class="admin-banner error hidden"></div>
         </section>
 
+        <!-- Not Admin Panel -->
         <section id="notAdminPanel" class="admin-card hidden">
             <h2>Admin Access Required</h2>
             <p>Your account is active, but it is not marked as an administrator. Ask an existing admin to upgrade your role.</p>
         </section>
 
+        <!-- Main Dashboard with Tabs -->
         <section id="dashboard" class="hidden">
             <div id="dashboardMessage" class="admin-banner hidden"></div>
 
-            <div class="admin-toolbar">
-                <div class="filter-group">
-                    <label for="moduleFilter">Module</label>
-                    <select id="moduleFilter">
-                        <option value="all">All Modules</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="searchInput">Search</label>
-                    <input type="search" id="searchInput" placeholder="Search participants">
-                </div>
-
-                <button type="button" id="refreshButton" class="btn btn-secondary">Refresh</button>
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="content">📁 Content</button>
+                <button class="tab-button" data-tab="users">👥 Users</button>
+                <button class="tab-button" data-tab="live">🎯 Live</button>
             </div>
 
-            <section class="admin-section broadcast-section">
-                <div class="admin-section-header">
-                    <h3>Broadcast Class Position</h3>
-                    <span class="admin-section-subtext">Set where the class is currently working. Students will see this and can navigate to it.</span>
-                </div>
-                <div class="broadcast-controls">
-                    <div class="broadcast-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="broadcastModule">Module</label>
-                                <select id="broadcastModule">
-                                    <option value="">Select module...</option>
-                                </select>
+            <!-- Content Tab -->
+            <div id="contentTab" class="tab-content active">
+                <div class="content-layout">
+                    <!-- Left Sidebar: Tree View -->
+                    <div class="content-sidebar">
+                        <div class="sidebar-header">
+                            <h3>Courses</h3>
+                            <button type="button" id="createCourseBtn" class="btn btn-sm btn-primary" title="Create New Course">+ New Course</button>
+                        </div>
+                        <div id="courseTree" class="course-tree"></div>
+                    </div>
+
+                    <!-- Main Content Area -->
+                    <div class="content-main">
+                        <div id="contentWelcome" class="content-welcome">
+                            <h2>Content Management</h2>
+                            <p>Select a course, day, or session from the sidebar to begin editing.</p>
+                            <p>You can create new courses, manage schedules, and edit session content including facilitator guides, coaches manuals, and worksheets.</p>
+                        </div>
+
+                        <!-- Course Editor -->
+                        <div id="courseEditor" class="editor-panel hidden">
+                            <div class="editor-header">
+                                <h2 id="courseEditorTitle"></h2>
+                                <div class="editor-actions">
+                                    <button type="button" id="saveCourseBtn" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" id="deleteCourseBtn" class="btn btn-danger">Delete Course</button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="broadcastDay">Day</label>
-                                <select id="broadcastDay">
-                                    <option value="">Select day...</option>
-                                    <option value="1">Day 1</option>
-                                    <option value="2">Day 2</option>
-                                    <option value="3">Day 3</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="broadcastSection">Section (Optional)</label>
-                                <select id="broadcastSection">
-                                    <option value="">Select section...</option>
-                                </select>
-                                <span class="field-hint">Select the specific session, or leave blank for day overview.</span>
+                            <div class="editor-body">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <input type="text" id="courseName" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="courseDescription">Description</label>
+                                    <textarea id="courseDescription" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="courseDuration">Duration (Days)</label>
+                                    <input type="number" id="courseDuration" class="form-control" min="1" max="10">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="courseActive">
+                                        Course is active
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                        <button type="button" id="broadcastButton" class="btn btn-primary">Broadcast Position</button>
-                    </div>
-                    <div id="currentPosition" class="current-position hidden">
-                        <strong>Current:</strong> <span id="currentPositionText">—</span>
-                    </div>
-                </div>
-                <div id="facilitatorGuide" class="facilitator-guide hidden">
-                    <div class="guide-header">
-                        <h4>Facilitator Guide</h4>
-                        <button type="button" id="closeGuide" class="btn-icon" title="Close guide">&times;</button>
-                    </div>
-                    <div id="guideContent" class="guide-content"></div>
-                </div>
-            </section>
 
-            <section class="admin-section questions-section">
-                <div class="admin-section-header">
-                    <h3>Student Questions</h3>
-                    <span class="admin-section-subtext">Real-time questions from participants. New questions appear automatically.</span>
-                </div>
-                <div class="questions-filter">
-                    <select id="questionsModuleFilter">
-                        <option value="all">All Modules</option>
-                    </select>
-                </div>
-                <div id="questionsList" class="questions-list">
-                    <div class="empty-state">No questions yet.</div>
-                </div>
-            </section>
+                        <!-- Day Editor -->
+                        <div id="dayEditor" class="editor-panel hidden">
+                            <div class="editor-header">
+                                <h2 id="dayEditorTitle"></h2>
+                                <div class="editor-actions">
+                                    <button type="button" id="addSessionBtn" class="btn btn-secondary">+ Add Session</button>
+                                    <button type="button" id="saveDayBtn" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                            <div class="editor-body">
+                                <div class="split-view">
+                                    <div class="split-left">
+                                        <h3>Schedule</h3>
+                                        <div class="form-group">
+                                            <label for="dayTitle">Day Title</label>
+                                            <input type="text" id="dayTitle" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dayDescription">Description</label>
+                                            <textarea id="dayDescription" class="form-control" rows="2"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Schedule (Markdown)</label>
+                                            <textarea id="daySchedule" class="markdown-editor"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="split-right">
+                                        <h3>Sessions</h3>
+                                        <div id="sessionsList" class="sessions-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="admin-summary">
-                <div class="summary-card">
-                    <span class="summary-label">Participants</span>
-                    <span class="summary-value" id="summaryParticipants">0</span>
-                </div>
-                <div class="summary-card">
-                    <span class="summary-label">Live Sessions</span>
-                    <span class="summary-value" id="summaryLive">0</span>
-                    <span class="summary-subtext" id="summaryLiveDetail">Updated in last 10 minutes</span>
-                </div>
-                <div class="summary-card">
-                    <span class="summary-label">Average Progress</span>
-                    <span class="summary-value" id="summaryAverage">0%</span>
-                    <span class="summary-subtext" id="summaryAverageDetail"></span>
-                </div>
-                <div class="summary-card">
-                    <span class="summary-label">Last Updated</span>
-                    <span class="summary-value" id="summaryLastUpdated">—</span>
+                        <!-- Session Editor -->
+                        <div id="sessionEditor" class="editor-panel hidden">
+                            <div class="editor-header">
+                                <h2 id="sessionEditorTitle"></h2>
+                                <div class="editor-actions">
+                                    <button type="button" id="saveSessionBtn" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" id="deleteSessionBtn" class="btn btn-danger">Delete Session</button>
+                                </div>
+                            </div>
+                            <div class="editor-body">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="sessionNumber">Session Number</label>
+                                        <input type="text" id="sessionNumber" class="form-control" placeholder="1.1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sessionTitle">Session Title</label>
+                                        <input type="text" id="sessionTitle" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sessionDuration">Duration (minutes)</label>
+                                        <input type="number" id="sessionDuration" class="form-control" min="5" step="5">
+                                    </div>
+                                </div>
+
+                                <!-- Three-Part Content Editor -->
+                                <div class="content-tabs">
+                                    <button class="content-tab-btn active" data-content="facilitator_guide">Facilitator Guide</button>
+                                    <button class="content-tab-btn" data-content="coaches_manual">Coaches Manual</button>
+                                    <button class="content-tab-btn" data-content="worksheet">Worksheet</button>
+                                </div>
+
+                                <div class="content-editors">
+                                    <div id="facilitatorGuideEditor" class="content-editor-panel active">
+                                        <textarea id="facilitatorGuideContent" class="markdown-editor"></textarea>
+                                    </div>
+                                    <div id="coachesManualEditor" class="content-editor-panel hidden">
+                                        <textarea id="coachesManualContent" class="markdown-editor"></textarea>
+                                    </div>
+                                    <div id="worksheetEditor" class="content-editor-panel hidden">
+                                        <textarea id="worksheetContent" class="markdown-editor"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <section class="admin-section">
-                <div class="admin-section-header">
-                    <h3>Active Sessions</h3>
-                    <span class="admin-section-subtext">Participants seen within the last 10 minutes.</span>
+            <!-- Users Tab -->
+            <div id="usersTab" class="tab-content hidden">
+                <div class="users-header">
+                    <h2>User Management</h2>
+                    <div class="users-toolbar">
+                        <input type="search" id="usersSearch" placeholder="Search users..." class="form-control">
+                        <select id="usersRoleFilter" class="form-control">
+                            <option value="all">All Roles</option>
+                            <option value="admin">Admins</option>
+                            <option value="participant">Participants</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="admin-table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Participant</th>
-                                <th>Module</th>
-                                <th>Viewing</th>
-                                <th>Progress</th>
-                                <th>Last Seen</th>
-                            </tr>
-                        </thead>
-                        <tbody id="activeSessionsTable">
-                            <tr>
-                                <td colspan="5" class="empty-state">No one is active right now.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
-            <section class="admin-section">
-                <div class="admin-section-header">
-                    <h3>Module Progress</h3>
-                    <span class="admin-section-subtext">Latest autosave snapshots for each participant/module.</span>
-                </div>
-                <div class="admin-table-wrapper">
+                <div class="users-table-wrapper">
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Participant</th>
-                                <th>Module</th>
-                                <th>Progress</th>
-                                <th>Updated</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Courses</th>
+                                <th>Last Seen</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="progressTable">
+                        <tbody id="usersTable">
                             <tr>
-                                <td colspan="4" class="empty-state">No progress records yet.</td>
+                                <td colspan="6" class="empty-state">Loading users...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
+
+            <!-- Live Tab -->
+            <div id="liveTab" class="tab-content hidden">
+                <div class="live-tabs">
+                    <button class="live-tab-btn active" data-live-tab="questions">Questions</button>
+                    <button class="live-tab-btn" data-live-tab="session">This Session</button>
+                </div>
+
+                <!-- Questions Sub-Tab -->
+                <div id="questionsSubTab" class="live-sub-tab active">
+                    <section class="admin-section questions-section">
+                        <div class="admin-section-header">
+                            <h3>Student Questions</h3>
+                            <span class="admin-section-subtext">Real-time questions from participants. New questions appear automatically.</span>
+                        </div>
+                        <div class="questions-filter">
+                            <select id="questionsModuleFilter">
+                                <option value="all">All Modules</option>
+                            </select>
+                        </div>
+                        <div id="questionsList" class="questions-list">
+                            <div class="empty-state">No questions yet.</div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- This Session Sub-Tab -->
+                <div id="sessionSubTab" class="live-sub-tab hidden">
+                    <div class="session-layout">
+                        <!-- Left Panel: Session Control -->
+                        <div class="session-control">
+                            <h3>Session Control</h3>
+
+                            <div class="form-group">
+                                <label for="liveModule">Course</label>
+                                <select id="liveModule" class="form-control">
+                                    <option value="">Select course...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="liveDay">Day</label>
+                                <select id="liveDay" class="form-control">
+                                    <option value="">Select day...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="liveSession">Session</label>
+                                <select id="liveSession" class="form-control">
+                                    <option value="">Select session...</option>
+                                </select>
+                            </div>
+
+                            <button type="button" id="broadcastSessionBtn" class="btn btn-primary btn-block">Broadcast to Participants</button>
+
+                            <div id="currentBroadcast" class="broadcast-status hidden">
+                                <strong>Currently Broadcasting:</strong>
+                                <div id="currentBroadcastText"></div>
+                            </div>
+
+                            <div class="participants-list">
+                                <h4>Active Participants (<span id="activeCount">0</span>)</h4>
+                                <div id="activeParticipants"></div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Content Display -->
+                        <div class="session-content">
+                            <div class="session-content-tabs">
+                                <button class="session-content-tab-btn active" data-session-content="facilitator">Facilitator Guide</button>
+                                <button class="session-content-tab-btn" data-session-content="manual">Coaches Manual</button>
+                                <button class="session-content-tab-btn" data-session-content="worksheet">Worksheet</button>
+                            </div>
+
+                            <div class="session-content-display">
+                                <div id="sessionFacilitatorContent" class="session-content-panel active">
+                                    <div class="content-header">
+                                        <h3>Facilitator Guide</h3>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="window.print()">Print</button>
+                                    </div>
+                                    <div id="facilitatorDisplay" class="markdown-display">
+                                        <p class="empty-state">Select a session to view content</p>
+                                    </div>
+                                </div>
+
+                                <div id="sessionManualContent" class="session-content-panel hidden">
+                                    <div class="content-header">
+                                        <h3>Coaches Manual</h3>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="window.print()">Print</button>
+                                    </div>
+                                    <div id="manualDisplay" class="markdown-display">
+                                        <p class="empty-state">Select a session to view content</p>
+                                    </div>
+                                </div>
+
+                                <div id="sessionWorksheetContent" class="session-content-panel hidden">
+                                    <div class="content-header">
+                                        <h3>Worksheet</h3>
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="window.print()">Print</button>
+                                    </div>
+                                    <div id="worksheetDisplay" class="markdown-display">
+                                        <p class="empty-state">Select a session to view content</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
+
+    <!-- Modals -->
+    <!-- Create Course Modal -->
+    <div id="createCourseModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Course</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newCourseId">Course ID</label>
+                    <input type="text" id="newCourseId" class="form-control" placeholder="e.g., executive-coaching" pattern="[a-z0-9-]+" required>
+                    <small>Lowercase letters, numbers, and hyphens only</small>
+                </div>
+                <div class="form-group">
+                    <label for="newCourseName">Course Name</label>
+                    <input type="text" id="newCourseName" class="form-control" placeholder="e.g., Executive Recovery Coaching" required>
+                </div>
+                <div class="form-group">
+                    <label for="newCourseDescription">Description</label>
+                    <textarea id="newCourseDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newCourseDuration">Duration (Days)</label>
+                    <input type="number" id="newCourseDuration" class="form-control" value="3" min="1" max="10">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('createCourseModal')">Cancel</button>
+                <button type="button" id="confirmCreateCourse" class="btn btn-primary">Create Course</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Session Modal -->
+    <div id="addSessionModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Session</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newSessionNumber">Session Number</label>
+                    <input type="text" id="newSessionNumber" class="form-control" placeholder="1.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="newSessionTitle">Session Title</label>
+                    <input type="text" id="newSessionTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="newSessionDuration">Duration (minutes)</label>
+                    <input type="number" id="newSessionDuration" class="form-control" value="60" min="5" step="5">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('addSessionModal')">Cancel</button>
+                <button type="button" id="confirmAddSession" class="btn btn-primary">Add Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit User</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editUserName">Name</label>
+                    <input type="text" id="editUserName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserEmail">Email</label>
+                    <input type="email" id="editUserEmail" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('editUserModal')">Cancel</button>
+                <button type="button" id="confirmEditUser" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage User Courses Modal -->
+    <div id="userCoursesModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Manage Course Access</h3>
+                <button type="button" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select which courses <strong id="userCoursesName"></strong> can access:</p>
+                <div id="userCoursesList" class="checkbox-list"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('userCoursesModal')">Cancel</button>
+                <button type="button" id="confirmUserCourses" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="../shared/apiClient.js"></script>
