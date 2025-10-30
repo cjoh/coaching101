@@ -357,9 +357,12 @@ async function renderCourseTree() {
     }
 
     const html = state.courses.map(course => `
-        <div class="tree-item tree-item-course ${state.selectedCourse?.id === course.id ? 'active expanded' : 'collapsed'}" data-course-id="${course.id}">
-            <span class="tree-toggle"></span>
-            ${course.name}
+        <div class="tree-node ${state.selectedCourse?.id === course.id ? 'expanded' : 'collapsed'}" data-course-id="${course.id}">
+            <div class="tree-item tree-item-course ${state.selectedCourse?.id === course.id ? 'active' : ''}">
+                <span class="tree-toggle">${icons.chevronRight}</span>
+                <span class="tree-icon">${icons.book}</span>
+                <span class="tree-label">${course.name}</span>
+            </div>
             <div class="tree-children" id="tree-course-${course.id}"></div>
         </div>
     `).join('');
@@ -367,23 +370,21 @@ async function renderCourseTree() {
     dom.courseTree.innerHTML = html;
 
     // Attach click handlers
-    dom.courseTree.querySelectorAll('.tree-item-course').forEach(item => {
-        const courseId = item.dataset.courseId;
+    dom.courseTree.querySelectorAll('.tree-node').forEach(node => {
+        const courseId = node.dataset.courseId;
+        const item = node.querySelector('.tree-item');
         const toggle = item.querySelector('.tree-toggle');
-        const content = item.cloneNode(true);
-        content.querySelector('.tree-toggle')?.remove();
-        content.querySelector('.tree-children')?.remove();
 
         toggle?.addEventListener('click', (e) => {
             e.stopPropagation();
-            item.classList.toggle('expanded');
-            item.classList.toggle('collapsed');
-            if (item.classList.contains('expanded')) {
+            node.classList.toggle('expanded');
+            node.classList.toggle('collapsed');
+            if (node.classList.contains('expanded')) {
                 loadCourseDays(courseId);
             }
         });
 
-        content.addEventListener('click', () => selectCourse(courseId));
+        item.addEventListener('click', () => selectCourse(courseId));
     });
 
     // Auto-expand selected course
@@ -400,9 +401,12 @@ async function loadCourseDays(courseId) {
         const days = await ApiClient.get(`/api/admin/courses/${courseId}/days`);
 
         const html = days.map(day => `
-            <div class="tree-item tree-item-day ${state.selectedDay?.id === day.id ? 'active expanded' : 'collapsed'}" data-day-id="${day.id}">
-                <span class="tree-toggle"></span>
-                ${day.title}
+            <div class="tree-node ${state.selectedDay?.id === day.id ? 'expanded' : 'collapsed'}" data-day-id="${day.id}">
+                <div class="tree-item tree-item-day ${state.selectedDay?.id === day.id ? 'active' : ''}">
+                    <span class="tree-toggle">${icons.chevronRight}</span>
+                    <span class="tree-icon">${icons.calendar}</span>
+                    <span class="tree-label">${day.title}</span>
+                </div>
                 <div class="tree-children" id="tree-day-${day.id}"></div>
             </div>
         `).join('');
@@ -410,23 +414,21 @@ async function loadCourseDays(courseId) {
         container.innerHTML = html;
 
         // Attach day click handlers
-        container.querySelectorAll('.tree-item-day').forEach(item => {
-            const dayId = item.dataset.dayId;
+        container.querySelectorAll('.tree-node').forEach(node => {
+            const dayId = node.dataset.dayId;
+            const item = node.querySelector('.tree-item');
             const toggle = item.querySelector('.tree-toggle');
-            const content = item.cloneNode(true);
-            content.querySelector('.tree-toggle')?.remove();
-            content.querySelector('.tree-children')?.remove();
 
             toggle?.addEventListener('click', (e) => {
                 e.stopPropagation();
-                item.classList.toggle('expanded');
-                item.classList.toggle('collapsed');
-                if (item.classList.contains('expanded')) {
+                node.classList.toggle('expanded');
+                node.classList.toggle('collapsed');
+                if (node.classList.contains('expanded')) {
                     loadDaySessions(dayId);
                 }
             });
 
-            content.addEventListener('click', () => selectDay(dayId));
+            item.addEventListener('click', () => selectDay(dayId));
         });
 
         // Auto-expand selected day
@@ -447,16 +449,20 @@ async function loadDaySessions(dayId) {
         const sessions = await ApiClient.get(`/api/admin/days/${dayId}/sessions`);
 
         const html = sessions.map(session => `
-            <div class="tree-item tree-item-session ${state.selectedSession?.id === session.id ? 'active' : ''}" data-session-id="${session.id}">
-                ${session.session_number}: ${session.title}
+            <div class="tree-node" data-session-id="${session.id}">
+                <div class="tree-item tree-item-session ${state.selectedSession?.id === session.id ? 'active' : ''}">
+                    <span class="tree-icon">${icons.document}</span>
+                    <span class="tree-label">${session.session_number}: ${session.title}</span>
+                </div>
             </div>
         `).join('');
 
         container.innerHTML = html || '<div class="empty-state" style="margin-left: 2rem; font-size: 0.8rem;">No sessions</div>';
 
         // Attach session click handlers
-        container.querySelectorAll('.tree-item-session').forEach(item => {
-            item.addEventListener('click', () => selectSession(item.dataset.sessionId));
+        container.querySelectorAll('.tree-node').forEach(node => {
+            const item = node.querySelector('.tree-item');
+            item.addEventListener('click', () => selectSession(node.dataset.sessionId));
         });
     } catch (error) {
         console.error('Failed to load sessions:', error);
