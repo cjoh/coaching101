@@ -14,7 +14,9 @@ const state = {
     markdownEditors: {},
     liveModule: null,
     liveDay: null,
-    liveSession: null
+    liveSession: null,
+    expandedCourses: new Set(), // Track which courses are expanded
+    expandedDays: new Set()      // Track which days are expanded
 };
 
 const dom = {};
@@ -356,16 +358,19 @@ async function renderCourseTree() {
         return;
     }
 
-    const html = state.courses.map(course => `
-        <div class="tree-node ${state.selectedCourse?.id === course.id ? 'expanded' : 'collapsed'}" data-course-id="${course.id}">
-            <div class="tree-item tree-item-course ${state.selectedCourse?.id === course.id ? 'active' : ''}">
-                <span class="tree-toggle">${icons.chevronRight}</span>
-                <span class="tree-icon">${icons.book}</span>
-                <span class="tree-label">${course.name}</span>
+    const html = state.courses.map(course => {
+        const isExpanded = state.expandedCourses.has(course.id);
+        return `
+            <div class="tree-node ${isExpanded ? 'expanded' : 'collapsed'}" data-course-id="${course.id}">
+                <div class="tree-item tree-item-course ${state.selectedCourse?.id === course.id ? 'active' : ''}">
+                    <span class="tree-toggle">${icons.chevronRight}</span>
+                    <span class="tree-icon">${icons.book}</span>
+                    <span class="tree-label">${course.name}</span>
+                </div>
+                <div class="tree-children" id="tree-course-${course.id}"></div>
             </div>
-            <div class="tree-children" id="tree-course-${course.id}"></div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     dom.courseTree.innerHTML = html;
 
@@ -377,9 +382,18 @@ async function renderCourseTree() {
 
         toggle?.addEventListener('click', (e) => {
             e.stopPropagation();
-            node.classList.toggle('expanded');
-            node.classList.toggle('collapsed');
-            if (node.classList.contains('expanded')) {
+            const isExpanded = node.classList.contains('expanded');
+
+            if (isExpanded) {
+                // Collapse
+                node.classList.remove('expanded');
+                node.classList.add('collapsed');
+                state.expandedCourses.delete(courseId);
+            } else {
+                // Expand
+                node.classList.remove('collapsed');
+                node.classList.add('expanded');
+                state.expandedCourses.add(courseId);
                 loadCourseDays(courseId);
             }
         });
@@ -387,10 +401,10 @@ async function renderCourseTree() {
         item.addEventListener('click', () => selectCourse(courseId));
     });
 
-    // Auto-expand selected course
-    if (state.selectedCourse) {
-        loadCourseDays(state.selectedCourse.id);
-    }
+    // Auto-load days for expanded courses
+    state.expandedCourses.forEach(courseId => {
+        loadCourseDays(courseId);
+    });
 }
 
 async function loadCourseDays(courseId) {
@@ -400,16 +414,19 @@ async function loadCourseDays(courseId) {
     try {
         const days = await ApiClient.get(`/api/admin/courses/${courseId}/days`);
 
-        const html = days.map(day => `
-            <div class="tree-node ${state.selectedDay?.id === day.id ? 'expanded' : 'collapsed'}" data-day-id="${day.id}">
-                <div class="tree-item tree-item-day ${state.selectedDay?.id === day.id ? 'active' : ''}">
-                    <span class="tree-toggle">${icons.chevronRight}</span>
-                    <span class="tree-icon">${icons.calendar}</span>
-                    <span class="tree-label">${day.title}</span>
+        const html = days.map(day => {
+            const isExpanded = state.expandedDays.has(day.id);
+            return `
+                <div class="tree-node ${isExpanded ? 'expanded' : 'collapsed'}" data-day-id="${day.id}">
+                    <div class="tree-item tree-item-day ${state.selectedDay?.id === day.id ? 'active' : ''}">
+                        <span class="tree-toggle">${icons.chevronRight}</span>
+                        <span class="tree-icon">${icons.calendar}</span>
+                        <span class="tree-label">${day.title}</span>
+                    </div>
+                    <div class="tree-children" id="tree-day-${day.id}"></div>
                 </div>
-                <div class="tree-children" id="tree-day-${day.id}"></div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         container.innerHTML = html;
 
@@ -421,9 +438,18 @@ async function loadCourseDays(courseId) {
 
             toggle?.addEventListener('click', (e) => {
                 e.stopPropagation();
-                node.classList.toggle('expanded');
-                node.classList.toggle('collapsed');
-                if (node.classList.contains('expanded')) {
+                const isExpanded = node.classList.contains('expanded');
+
+                if (isExpanded) {
+                    // Collapse
+                    node.classList.remove('expanded');
+                    node.classList.add('collapsed');
+                    state.expandedDays.delete(dayId);
+                } else {
+                    // Expand
+                    node.classList.remove('collapsed');
+                    node.classList.add('expanded');
+                    state.expandedDays.add(dayId);
                     loadDaySessions(dayId);
                 }
             });
@@ -431,10 +457,12 @@ async function loadCourseDays(courseId) {
             item.addEventListener('click', () => selectDay(dayId));
         });
 
-        // Auto-expand selected day
-        if (state.selectedDay && days.find(d => d.id === state.selectedDay.id)) {
-            loadDaySessions(state.selectedDay.id);
-        }
+        // Auto-load sessions for expanded days
+        state.expandedDays.forEach(dayId => {
+            if (days.find(d => d.id === dayId)) {
+                loadDaySessions(dayId);
+            }
+        });
     } catch (error) {
         console.error('Failed to load days:', error);
         container.innerHTML = '<div class="empty-state">Failed to load days</div>';
@@ -480,6 +508,9 @@ async function selectCourse(courseId) {
         state.selectedDay = null;
         state.selectedSession = null;
 
+        // Auto-expand selected course
+        state.expandedCourses.add(courseId);
+
         hideAllEditors();
         showCourseEditor();
         renderCourseTree(); // Update tree selection
@@ -494,6 +525,12 @@ async function selectDay(dayId) {
         state.selectedDay = await ApiClient.get(`/api/admin/days/${dayId}`);
         state.selectedSession = null;
 
+        // Auto-expand selected day and its parent course
+        if (state.selectedDay.course_id) {
+            state.expandedCourses.add(state.selectedDay.course_id);
+        }
+        state.expandedDays.add(dayId);
+
         hideAllEditors();
         await showDayEditor();
         renderCourseTree(); // Update tree selection
@@ -506,6 +543,17 @@ async function selectDay(dayId) {
 async function selectSession(sessionId) {
     try {
         state.selectedSession = await ApiClient.get(`/api/admin/sessions/${sessionId}`);
+
+        // Auto-expand selected session's parent day and course
+        if (state.selectedSession.day_id) {
+            state.expandedDays.add(state.selectedSession.day_id);
+
+            // Also need to expand the parent course
+            const day = await ApiClient.get(`/api/admin/days/${state.selectedSession.day_id}`);
+            if (day.course_id) {
+                state.expandedCourses.add(day.course_id);
+            }
+        }
 
         hideAllEditors();
         await showSessionEditor();
