@@ -677,6 +677,20 @@ app.post('/api/questions', authenticate, async (req, res) => {
     }
 });
 
+app.get('/api/questions/all', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const questions = await all(
+            `SELECT * FROM student_questions
+             ORDER BY created_at DESC`
+        );
+
+        return res.json(questions);
+    } catch (error) {
+        console.error('Error fetching all questions:', error);
+        return res.status(500).json({ message: 'Failed to fetch questions' });
+    }
+});
+
 app.get('/api/questions/:moduleId', authenticate, requireAdmin, async (req, res) => {
     try {
         const { moduleId } = req.params;

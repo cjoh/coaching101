@@ -9,6 +9,10 @@
         if (path.startsWith('http')) {
             return path;
         }
+        // Don't add /api prefix if path already starts with it
+        if (path.startsWith('/api')) {
+            return path;
+        }
         return `${API_BASE}${path.startsWith('/') ? path : `/${path}`}`;
     }
 
