@@ -21,6 +21,7 @@ const {
     requireAdmin
 } = require('./auth');
 const { getSections, getAllSections } = require('./sectionParser');
+const { generateManual } = require('../../scripts/generate-manual');
 
 const app = express();
 const server = http.createServer(app);
@@ -1232,6 +1233,34 @@ app.put('/api/admin/users/:id/courses', authenticate, requireAdmin, async (req, 
     } catch (error) {
         console.error('Error updating user courses:', error);
         return res.status(500).json({ message: 'Failed to update user courses' });
+    }
+});
+
+// Admin API - Generate coaches manual
+app.post('/api/admin/courses/:courseId/generate-manual', authenticate, requireAdmin, async (req, res) => {
+    try {
+        const { courseId } = req.params;
+
+        const course = await get('SELECT * FROM courses WHERE id = ?', [courseId]);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        // Generate the manual
+        const filepath = await generateManual(courseId);
+
+        // Send the file
+        return res.download(filepath, path.basename(filepath), (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                if (!res.headersSent) {
+                    return res.status(500).json({ message: 'Failed to download manual' });
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error generating manual:', error);
+        return res.status(500).json({ message: 'Failed to generate manual', error: error.message });
     }
 });
 

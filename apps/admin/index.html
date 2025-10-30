@@ -12,6 +12,8 @@
     <!-- EasyMDE for markdown editing -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
 </head>
 <body>
     <header class="app-header admin-header">
@@ -85,6 +87,7 @@
                             <div class="editor-header">
                                 <h2 id="courseEditorTitle"></h2>
                                 <div class="editor-actions">
+                                    <button type="button" id="generateManualBtn" class="btn btn-secondary">📄 Generate Manual</button>
                                     <button type="button" id="saveCourseBtn" class="btn btn-primary">Save Changes</button>
                                     <button type="button" id="deleteCourseBtn" class="btn btn-danger">Delete Course</button>
                                 </div>
