@@ -114,6 +114,35 @@
         },
         async adminEngagement() {
             return request('/admin/engagement');
+        },
+        async getBroadcastPosition(moduleId) {
+            return request(`/broadcast-position/${moduleId}`);
+        },
+        async broadcastPosition({ moduleId, day, sectionId, sectionLabel, facilitatorGuideFile }) {
+            return request('/broadcast-position', {
+                method: 'POST',
+                body: { moduleId, day, sectionId, sectionLabel, facilitatorGuideFile }
+            });
+        },
+        async getFacilitatorGuide(moduleId, day, section) {
+            const params = new URLSearchParams({ day });
+            if (section) params.append('section', section);
+            return request(`/facilitator-guide/${moduleId}?${params}`);
+        },
+        async submitQuestion({ moduleId, questionText }) {
+            return request('/questions', {
+                method: 'POST',
+                body: { moduleId, questionText }
+            });
+        },
+        async getQuestions(moduleId) {
+            return request(`/questions/${moduleId}`);
+        },
+        async answerQuestion(questionId, answerText) {
+            return request(`/questions/${questionId}/answer`, {
+                method: 'PUT',
+                body: { answerText }
+            });
         }
     };
 

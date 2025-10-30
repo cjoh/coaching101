@@ -4,7 +4,11 @@ const state = {
     rows: [],
     activeSessions: [],
     filter: 'all',
-    search: ''
+    search: '',
+    questions: [],
+    questionsFilter: 'all',
+    socket: null,
+    currentPosition: null
 };
 
 const dom = {};
@@ -44,6 +48,18 @@ function cacheElements() {
     dom.userStatus = document.getElementById('userStatus');
     dom.adminName = document.getElementById('adminName');
     dom.logoutButton = document.getElementById('logoutButton');
+
+    dom.broadcastModule = document.getElementById('broadcastModule');
+    dom.broadcastDay = document.getElementById('broadcastDay');
+    dom.broadcastSection = document.getElementById('broadcastSection');
+    dom.broadcastButton = document.getElementById('broadcastButton');
+    dom.currentPosition = document.getElementById('currentPosition');
+    dom.currentPositionText = document.getElementById('currentPositionText');
+    dom.facilitatorGuide = document.getElementById('facilitatorGuide');
+    dom.guideContent = document.getElementById('guideContent');
+    dom.closeGuide = document.getElementById('closeGuide');
+    dom.questionsModuleFilter = document.getElementById('questionsModuleFilter');
+    dom.questionsList = document.getElementById('questionsList');
 }
 
 function attachEventListeners() {
@@ -87,6 +103,29 @@ function attachEventListeners() {
     if (dom.refreshButton) {
         dom.refreshButton.addEventListener('click', () => {
             loadDashboardData({ showSuccess: true });
+        });
+    }
+
+    if (dom.broadcastButton) {
+        dom.broadcastButton.addEventListener('click', handleBroadcast);
+    }
+
+    if (dom.broadcastModule) {
+        dom.broadcastModule.addEventListener('change', () => {
+            loadCurrentPosition();
+        });
+    }
+
+    if (dom.closeGuide) {
+        dom.closeGuide.addEventListener('click', () => {
+            dom.facilitatorGuide?.classList.add('hidden');
+        });
+    }
+
+    if (dom.questionsModuleFilter) {
+        dom.questionsModuleFilter.addEventListener('change', (event) => {
+            state.questionsFilter = event.target.value;
+            renderQuestions();
         });
     }
 }
@@ -231,10 +270,13 @@ async function loadDashboardData(options = {}) {
 
         mergeModulesFromData();
         populateModuleFilter();
+        populateBroadcastModules();
         revealDashboard();
         renderSummary();
         renderTable();
         renderActiveSessions();
+        initializeSocket();
+        loadQuestions();
         startPolling();
 
         if (showSuccess && !silent) {
@@ -647,4 +689,251 @@ document.addEventListener('visibilitychange', () => {
 
 window.addEventListener('beforeunload', () => {
     stopPolling();
+    if (state.socket) {
+        state.socket.disconnect();
+    }
 });
+
+function initializeSocket() {
+    if (state.socket) return;
+
+    state.socket = io();
+
+    state.socket.on('connect', () => {
+        console.log('WebSocket connected');
+    });
+
+    state.socket.on('position-update', (data) => {
+        console.log('Position update received:', data);
+        if (data.moduleId && data.position) {
+            if (dom.broadcastModule.value === data.moduleId) {
+                state.currentPosition = data.position;
+                displayCurrentPosition(data.position);
+            }
+        }
+    });
+
+    state.socket.on('new-question', (data) => {
+        console.log('New question received:', data);
+        if (data.question) {
+            state.questions.unshift(data.question);
+            renderQuestions();
+        }
+    });
+
+    state.socket.on('question-answered', (data) => {
+        console.log('Question answered:', data);
+        if (data.question) {
+            const index = state.questions.findIndex(q => q.id === data.question.id);
+            if (index !== -1) {
+                state.questions[index] = data.question;
+                renderQuestions();
+            }
+        }
+    });
+}
+
+async function loadCurrentPosition() {
+    const moduleId = dom.broadcastModule.value;
+    if (!moduleId) return;
+
+    try {
+        const response = await ApiClient.getBroadcastPosition(moduleId);
+        state.currentPosition = response?.position || null;
+
+        if (state.currentPosition) {
+            displayCurrentPosition(state.currentPosition);
+        } else {
+            dom.currentPosition?.classList.add('hidden');
+        }
+    } catch (error) {
+        console.error('Error loading current position:', error);
+    }
+}
+
+function displayCurrentPosition(position) {
+    if (!position || !dom.currentPositionText) return;
+
+    const text = `Day ${position.day}${position.section_label ? ` - ${position.section_label}` : ''}`;
+    dom.currentPositionText.textContent = text;
+    dom.currentPosition?.classList.remove('hidden');
+}
+
+async function handleBroadcast() {
+    const moduleId = dom.broadcastModule.value;
+    const day = dom.broadcastDay.value;
+    const sectionLabel = dom.broadcastSection.value.trim();
+
+    if (!moduleId) {
+        showBanner('Please select a module', 'error', 3000);
+        return;
+    }
+
+    if (!day) {
+        showBanner('Please select a day', 'error', 3000);
+        return;
+    }
+
+    dom.broadcastButton.disabled = true;
+    showBanner('Broadcasting position...', 'info');
+
+    try {
+        await ApiClient.broadcastPosition({
+            moduleId,
+            day: parseInt(day, 10),
+            sectionId: sectionLabel ? `day${day}-${sectionLabel.toLowerCase().replace(/\s+/g, '-')}` : null,
+            sectionLabel: sectionLabel || null,
+            facilitatorGuideFile: null // No longer needed
+        });
+
+        showBanner('Position broadcast to all students!', 'success', 3000);
+
+        await loadCurrentPosition();
+
+        // Load the session-specific guide
+        await loadFacilitatorGuide(moduleId, day, sectionLabel);
+    } catch (error) {
+        console.error('Error broadcasting position:', error);
+        showBanner(error.message || 'Failed to broadcast position', 'error', 5000);
+    } finally {
+        dom.broadcastButton.disabled = false;
+    }
+}
+
+async function loadFacilitatorGuide(moduleId, day, section) {
+    if (!day) return;
+
+    try {
+        const response = await ApiClient.getFacilitatorGuide(moduleId, day, section);
+
+        if (response && response.html) {
+            // Add filename as header if available
+            let content = '';
+            if (response.fileName) {
+                content = `<div class="guide-file-name"><strong>Guide:</strong> ${response.fileName}</div>`;
+            }
+            content += response.html;
+
+            dom.guideContent.innerHTML = content;
+            dom.facilitatorGuide?.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.warn('Error loading facilitator guide:', error);
+        const errorMsg = error.data?.searched
+            ? `<p class="error-text">Facilitator guide not found for Day ${day}${section ? ' - ' + section : ''}</p><details><summary>Searched locations</summary><ul>${error.data.searched.map(p => `<li>${p}</li>`).join('')}</ul></details>`
+            : '<p class="error-text">Facilitator guide not available for this section.</p>';
+        dom.guideContent.innerHTML = errorMsg;
+        dom.facilitatorGuide?.classList.remove('hidden');
+    }
+}
+
+async function loadQuestions() {
+    const moduleId = state.questionsFilter === 'all' ? null : state.questionsFilter;
+
+    try {
+        const allQuestions = [];
+
+        if (moduleId) {
+            const response = await ApiClient.getQuestions(moduleId);
+            allQuestions.push(...(response?.questions || []));
+        } else {
+            for (const module of state.modules) {
+                const response = await ApiClient.getQuestions(module.id);
+                allQuestions.push(...(response?.questions || []));
+            }
+        }
+
+        state.questions = allQuestions.sort((a, b) =>
+            new Date(b.created_at) - new Date(a.created_at)
+        );
+
+        renderQuestions();
+    } catch (error) {
+        console.error('Error loading questions:', error);
+    }
+}
+
+function renderQuestions() {
+    if (!dom.questionsList) return;
+
+    dom.questionsList.innerHTML = '';
+
+    let questions = state.questions;
+
+    if (state.questionsFilter !== 'all') {
+        questions = questions.filter(q => q.module_id === state.questionsFilter);
+    }
+
+    if (!questions.length) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty-state';
+        emptyDiv.textContent = 'No questions yet.';
+        dom.questionsList.appendChild(emptyDiv);
+        return;
+    }
+
+    questions.forEach(question => {
+        const card = document.createElement('div');
+        card.className = `question-card ${question.is_answered ? 'answered' : ''}`;
+
+        const header = document.createElement('div');
+        header.className = 'question-header';
+
+        const userInfo = document.createElement('div');
+        userInfo.className = 'question-user';
+        userInfo.innerHTML = `<strong>${escapeHtml(question.user_name)}</strong> <span class="question-module">${getModuleName(question.module_id)}</span>`;
+
+        const time = document.createElement('div');
+        time.className = 'question-time';
+        time.textContent = formatUpdatedDate(question.created_at);
+
+        header.appendChild(userInfo);
+        header.appendChild(time);
+
+        const text = document.createElement('div');
+        text.className = 'question-text';
+        text.textContent = question.question_text;
+
+        card.appendChild(header);
+        card.appendChild(text);
+
+        if (question.is_answered && question.answer_text) {
+            const answer = document.createElement('div');
+            answer.className = 'question-answer';
+            answer.innerHTML = `<strong>Answer:</strong> ${escapeHtml(question.answer_text)}`;
+            card.appendChild(answer);
+        }
+
+        dom.questionsList.appendChild(card);
+    });
+}
+
+function getModuleName(moduleId) {
+    const module = state.modules.find(m => m.id === moduleId);
+    return module ? module.name : moduleId;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function populateBroadcastModules() {
+    if (!dom.broadcastModule || !dom.questionsModuleFilter) return;
+
+    dom.broadcastModule.innerHTML = '<option value="">Select module...</option>';
+    dom.questionsModuleFilter.innerHTML = '<option value="all">All Modules</option>';
+
+    state.modules.forEach(module => {
+        const option1 = document.createElement('option');
+        option1.value = module.id;
+        option1.textContent = module.name;
+        dom.broadcastModule.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = module.id;
+        option2.textContent = module.name;
+        dom.questionsModuleFilter.appendChild(option2);
+    });
+}

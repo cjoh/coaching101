@@ -63,6 +63,65 @@
                 <button type="button" id="refreshButton" class="btn btn-secondary">Refresh</button>
             </div>
 
+            <section class="admin-section broadcast-section">
+                <div class="admin-section-header">
+                    <h3>Broadcast Class Position</h3>
+                    <span class="admin-section-subtext">Set where the class is currently working. Students will see this and can navigate to it.</span>
+                </div>
+                <div class="broadcast-controls">
+                    <div class="broadcast-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="broadcastModule">Module</label>
+                                <select id="broadcastModule">
+                                    <option value="">Select module...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="broadcastDay">Day</label>
+                                <select id="broadcastDay">
+                                    <option value="">Select day...</option>
+                                    <option value="1">Day 1</option>
+                                    <option value="2">Day 2</option>
+                                    <option value="3">Day 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="broadcastSection">Section (Optional)</label>
+                                <input type="text" id="broadcastSection" placeholder="e.g., 1.1, Professional Boundaries, 01">
+                                <span class="field-hint">Enter session number, topic name, or leave blank. System will load the most specific guide available.</span>
+                            </div>
+                        </div>
+                        <button type="button" id="broadcastButton" class="btn btn-primary">Broadcast Position</button>
+                    </div>
+                    <div id="currentPosition" class="current-position hidden">
+                        <strong>Current:</strong> <span id="currentPositionText">—</span>
+                    </div>
+                </div>
+                <div id="facilitatorGuide" class="facilitator-guide hidden">
+                    <div class="guide-header">
+                        <h4>Facilitator Guide</h4>
+                        <button type="button" id="closeGuide" class="btn-icon" title="Close guide">&times;</button>
+                    </div>
+                    <div id="guideContent" class="guide-content"></div>
+                </div>
+            </section>
+
+            <section class="admin-section questions-section">
+                <div class="admin-section-header">
+                    <h3>Student Questions</h3>
+                    <span class="admin-section-subtext">Real-time questions from participants. New questions appear automatically.</span>
+                </div>
+                <div class="questions-filter">
+                    <select id="questionsModuleFilter">
+                        <option value="all">All Modules</option>
+                    </select>
+                </div>
+                <div id="questionsList" class="questions-list">
+                    <div class="empty-state">No questions yet.</div>
+                </div>
+            </section>
+
             <div class="admin-summary">
                 <div class="summary-card">
                     <span class="summary-label">Participants</span>
@@ -135,6 +194,7 @@
         </section>
     </main>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script src="../shared/apiClient.js"></script>
     <script src="admin.js"></script>
 </body>

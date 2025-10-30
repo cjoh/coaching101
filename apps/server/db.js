@@ -76,6 +76,38 @@ db.serialize(() => {
         )
     `);
 
+    db.run(`
+        CREATE TABLE IF NOT EXISTS broadcast_position (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            module_id TEXT NOT NULL,
+            day INTEGER NOT NULL,
+            section_id TEXT,
+            section_label TEXT,
+            facilitator_guide_file TEXT,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_by INTEGER,
+            FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE,
+            FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL,
+            UNIQUE (module_id)
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS student_questions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            user_name TEXT NOT NULL,
+            module_id TEXT NOT NULL,
+            question_text TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            is_answered INTEGER DEFAULT 0,
+            answered_at DATETIME,
+            answer_text TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+        )
+    `);
+
     const modules = [
         { id: 'coaching101', name: 'Coaching 101' },
         { id: 'families', name: 'Family Recovery Coach Training' },
