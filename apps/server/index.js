@@ -459,16 +459,32 @@ app.use((req, res, next) => {
 });
 
 app.use(
-    express.static(path.join(__dirname, '..'), {
-        index: ['index.html']
+    express.static(path.join(__dirname, '../..'), {
+        index: false
     })
 );
+
+app.get('/', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../coaching101/index.html'));
+});
+
+app.get('/intervention', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../intervention/index.html'));
+});
+
+app.get('/families', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../families/index.html'));
+});
+
+app.get('/admin', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../admin/index.html'));
+});
 
 app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api')) {
         return next();
     }
-    return res.sendFile(path.join(__dirname, '..', 'index.html'));
+    return res.sendFile(path.join(__dirname, '../coaching101/index.html'));
 });
 
 app.use((err, req, res, next) => {
